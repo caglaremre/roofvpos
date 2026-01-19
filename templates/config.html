@@ -1,0 +1,51 @@
+<!-- config update toast start -->
+<div class="toast-container top-0 start-50 translate-middle-x" id="toast">
+	<div class="toast bg-success" id="toast_success" role="alert">
+		<div class="toast-header">
+			<strong class="me-auto">success</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+		</div>
+		<div class="d-flex">
+			<div class="toast-body">
+				<span>client token and secret key updated</span>
+			</div>
+		</div>
+	</div>
+	<div class="toast bg-danger" id="toast_failure" role="alert">
+		<div class="toast-header">
+			<strong class="me-auto">fail</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+		</div>
+		<div class="d-flex">
+			<div class="toast-body">
+				<span id="toast_failure_message"></span>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- config update toast end -->
+<div class="container text-center" style="margin-top: 2%" id="body">
+	<!-- config update start -->
+	<div class="row" id="config">
+		<table class="table align-middle">
+			<tr>
+				<td>
+					<label for="clientToken">client token</label>
+				</td>
+				<td>
+					<input type="text" class="form-control" placeholder="enter client token" id="clientToken"
+								 name="clientToken" value="{{.clientToken}}" tabindex="0">
+				</td>
+				<td rowspan="2">
+					<button class="btn btn-primary" id="configUpdate">update</button>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="secretKey">secret key</label></td>
+				<td><input type="text" class="form-control" placeholder="enter secret key" id="secretKey"
+									 name="secretKey" value="{{.secretKey}}" tabindex="1"></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!-- config update toast end -->
