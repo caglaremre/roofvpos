@@ -1,30 +1,38 @@
+body {
+	--bs-border-color: royalblue !important;
+}
+
 .offcanvas {
 	--bs-offcanvas-height: 80vh;
 	font-size: small !important;
 }
 
 .btn-primary {
-	--bs-btn-font-weight: 600;
-	--bs-btn-color: white;
-	--bs-btn-bg: darkviolet;
-	--bs-btn-border-color: darkviolet;
-	--bs-btn-hover-color: white;
-	--bs-btn-hover-bg: rgba(148, 0, 211, 0.5);
-	--bs-btn-hover-border-color: rgba(148, 0, 211, 0.5);
-	--bs-btn-focus-shadow-rgb: darkviolet;
-	--bs-btn-active-color: white;
-	--bs-btn-active-bg: rgba(148, 0, 211, 0.7);
-	--bs-btn-active-border-color: rgba(148, 0, 211, 0.7);
+	--bs-btn-bg: var(--bs-body-bg);
+	--bs-btn-border-color: royalblue;
+	--bs-btn-hover-bg: royalblue;
+	--bs-btn-hover-border-color: royalblue;
+	--bs-btn-focus-shadow-rgb: royalblue;
+	--bs-btn-active-bg: royalblue;
+	--bs-btn-active-border-color: royalblue;
+}
+
+input {
+	--bs-border-color: grey !important;
+}
+
+.input-group-text {
+	flex: 0 0 20%;
 }
 
 h1, h2, h3, h4, h5, h6 {
 	--bs-text-opacity: .5 !important;
-	color: darkviolet !important;
+	color: royalblue !important;
 }
 
 .list-group-item:hover {
 	/*color: black !important;*/
-	background-color: darkviolet !important;
+	background-color: royalblue !important;
 }
 
 /*bootstrap last item radius fix*/
