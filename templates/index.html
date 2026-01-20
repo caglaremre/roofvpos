@@ -14,116 +14,14 @@
 						data-bs-target="#refundoffcanvas">refund
 		</button>
 	</div>
-	<!-- sale canvas -->
-	<div class="offcanvas offcanvas-bottom" tabindex="-1" id="saleoffcanvas" data-bs-backdrop="static">
-		<div class="offcanvas-header">
-			<h5 class="offcanvas-title">sale</h5>
-			<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-		</div>
-		<div class="offcanvas-body">
-			<form action="/sale" method="post">
-				<table class="table table-borderless align-middle table-sm text-start">
-					<tr>
-						<td colspan="2" class="text-center">
-							<input type="submit" class="btn btn-primary" value="submit">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-order-id" class="form-label">order id</label></td>
-						<td><input type="text" class="form-control" id="sale-order-id" name="sale-order-id"
-											 value="{{.saleReq.OrderID}}">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-card-no" class="form-label">card number</label></td>
-						<td><input type="text" class="form-control" id="sale-card-no" name="sale-card-no"
-											 value="9792100005476586">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-expiry" class="form-label">expiry</label></td>
-						<td><input type="text" class="form-control" id="sale-expiry" name="sale-expiry" value="2505">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-cvv" class="form-label">cvv</label></td>
-						<td><input type="text" class="form-control" id="sale-cvv" name="sale-cvv" value="017">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-amount" class="form-label">amount</label></td>
-						<td><input type="text" class="form-control" id="sale-amount" name="sale-amount" value="10000">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-point" class="form-label">point amount</label></td>
-						<td><input type="text" class="form-control" id="sale-point" name="sale-point" value="0">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-currency" class="form-label">currency</label></td>
-						<td><input type="text" class="form-control" id="sale-currency" name="sale-currency" value="949">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-ecommerce-txn-type" class="form-label">ecommerce txn type</label></td>
-						<td><input type="text" class="form-control" id="sale-ecommerce-txn-type" name="sale-ecommerce-txn-type"
-											 value="0">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-txn-initiation-type" class="form-label">txn initiation type</label></td>
-						<td><input type="text" class="form-control" id="sale-txn-initiation-type" name="sale-txn-initiation-type"
-											 value="0">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-installment-count" class="form-label">installment count</label></td>
-						<td><input type="text" class="form-control" id="sale-installment-count" name="sale-installment-count"
-											 value="1">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-cardholder-ip" class="form-label">cardholder ip</label></td>
-						<td><input type="text" class="form-control" id="sale-cardholder-ip" name="sale-cardholder-ip">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-merchant-ip" class="form-label">merchant ip</label></td>
-						<td><input type="text" class="form-control" id="sale-merchant-ip" name="sale-merchant-ip">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-submerchant-ip" class="form-label">submerchant ip</label></td>
-						<td><input type="text" class="form-control" id="sale-submerchant-ip" name="sale-submerchant-ip">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-lang" class="form-label">lang</label></td>
-						<td><input type="text" class="form-control" id="sale-lang" name="sale-lang" value="tr">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-additional-info" class="form-label">additional info</label></td>
-						<td><input type="text" class="form-control" id="sale-additional-info" name="sale-additional-info">
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sale-invoice-info" class="form-label">invoice info</label></td>
-						<td><input type="text" class="form-control" id="sale-invoice-info" name="sale-invoice-info">
-						</td>
-					</tr>
-				</table>
-			</form>
-		</div>
-	</div>
+	{{template "sale.html" .}}
 	<!-- void canvas -->
-	<div class="offcanvas offcanvas-bottom" tabindex="-1" id="voidoffcanvas" data-bs-backdrop="static">
+	<div class="offcanvas offcanvas-bottom" tabindex="-1" id="voidoffcanvas">
 		<div class="offcanvas-header">
 			<h5 class="offcanvas-title">void</h5>
 			<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
 		</div>
-		<div class="offcanvas-body">
+		<div class="offcanvas-body container">
 			<form>
 				<table class="table align-middle">
 					<tr>
@@ -131,8 +29,12 @@
 							<label for="void-order-id" class="form-label">order id</label>
 						</td>
 						<td>
-							<input type="text" class="form-control" id="void-order-id" name="sale-order-id"
-										 placeholder="enter order id">
+							<input list="void-order-id-list" id="void-order-id" class="form-control" placeholder="enter order id">
+							<datalist id="void-order-id-list">
+								{{range .transactions}}
+								<option label="{{.OrderID}}">{{.OrderID}}</option>
+								{{end}}
+							</datalist>
 						</td>
 						<td>
 						</td>
@@ -149,7 +51,7 @@
 	<div class="list-group">
 		{{range .transactions}}
 		<button type="button" class="list-group-item" data-bs-toggle="offcanvas"
-						data-bs-target="#{{.OrderID}}">{{.OrderID}}
+						data-bs-target="#{{.OrderID}}">{{.OrderID}} - {{.LogDate}}
 		</button>
 		<div class="offcanvas offcanvas-bottom" tabindex="-1" id="{{.OrderID}}">
 			<div class="offcanvas-header">
