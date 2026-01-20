@@ -24,28 +24,26 @@
 	</div>
 </div>
 <!-- config update toast end -->
-<div class="container text-center" style="margin-top: 2%" id="body">
-	<!-- config update start -->
-	<div class="row" id="config">
-		<table class="table align-middle">
-			<tr>
-				<td>
-					<label for="clientToken">client token</label>
-				</td>
-				<td>
-					<input type="text" class="form-control" placeholder="enter client token" id="clientToken"
-								 name="clientToken" value="{{.clientToken}}" tabindex="0">
-				</td>
-				<td rowspan="2">
-					<button class="btn btn-primary" id="configUpdate">update</button>
-				</td>
-			</tr>
-			<tr>
-				<td><label for="secretKey">secret key</label></td>
-				<td><input type="text" class="form-control" placeholder="enter secret key" id="secretKey"
-									 name="secretKey" value="{{.secretKey}}" tabindex="1"></td>
-			</tr>
-		</table>
-	</div>
+<!-- config update start -->
+<div class="row" id="config">
+	<table class="table align-middle">
+		<tr>
+			<td>
+				<label for="clientToken">client token</label>
+			</td>
+			<td>
+				<input type="text" class="form-control" placeholder="enter client token" id="clientToken"
+							 name="clientToken" value="{{.clientToken}}" tabindex="1">
+			</td>
+			<td rowspan="2">
+				<button class="btn btn-primary" id="configUpdate">update</button>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="secretKey">secret key</label></td>
+			<td><input type="text" class="form-control" placeholder="enter secret key" id="secretKey"
+								 name="secretKey" value="{{.secretKey}}" tabindex="2"></td>
+		</tr>
+	</table>
 </div>
 <!-- config update toast end -->
