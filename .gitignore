@@ -37,3 +37,4 @@ http/
 
 # bbolt file
 *.db
+.DS_Store
