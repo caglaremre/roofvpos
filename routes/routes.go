@@ -21,6 +21,9 @@ func RegisterRoutes(bolt *repository.Bolt, server *gin.Engine) {
 	server.POST("/sale", func(c *gin.Context) {
 		nonsecure.Sale(c, bolt)
 	})
+	server.GET("/result", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "result.html", nil)
+	})
 }
 
 func home(c *gin.Context, bolt *repository.Bolt) {
@@ -28,7 +31,7 @@ func home(c *gin.Context, bolt *repository.Bolt) {
 	transactions := bolt.TransactionRepo.GetAllTransactions()
 	orderID, _ := uuid.NewUUID()
 	saleReq := models.SaleRequest{OrderID: orderID.String()}
-	c.HTML(http.StatusOK, "index.html", gin.H{
+	c.HTML(http.StatusOK, "home.html", gin.H{
 		"clientToken":  clientToken,
 		"secretKey":    secretKey,
 		"transactions": transactions,
