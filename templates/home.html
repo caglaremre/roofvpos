@@ -1,7 +1,7 @@
 {{template "header.html"}}
 {{template "config.html" .}}
 <!-- transaction buttons start -->
-<div class="row" style="margin-bottom: 3%; margin-top: 3%" id="transaction">
+<div class="row mt-4 mb-5" id="transaction">
 	<h3>non-secure transactions</h3>
 	<div class="list-group list-group-horizontal">
 		<button type="button" class="list-group-item flex-fill" data-bs-toggle="offcanvas"
@@ -29,7 +29,7 @@
 		<div class="offcanvas offcanvas-bottom" tabindex="-1" id="{{.OrderID}}">
 			<div class="offcanvas-header">
 				<h5 class="offcanvas-title">{{.OrderID}} - {{.LogDate}}</h5>
-				<form name="order-void" style="margin-left: 4%">
+				<form name="order-void" class="ms-4">
 				<input type="hidden" name="orderID" value="{{.OrderID}}">
 				<input type="hidden" name="processID" value="{{.SaleProcessID}}">
 				<button class="btn btn-primary">void</button>

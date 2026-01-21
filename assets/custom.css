@@ -17,6 +17,10 @@ body {
 	--bs-btn-active-border-color: royalblue;
 }
 
+.progress {
+	--bs-progress-bar-bg: royalblue;
+}
+
 input {
 	--bs-border-color: grey !important;
 }
