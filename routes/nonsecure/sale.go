@@ -63,6 +63,6 @@ func Sale(c *gin.Context, bolt *repository.Bolt) {
 	var response models.Response
 	_ = json.Unmarshal(resBody, &response)
 	err = bolt.TransactionRepo.LogRequest("sale", "response", saleReq.OrderID, response.Result, resp.Header)
-	c.JSON(http.StatusOK, response.Result)
-
+	result, _ := json.MarshalIndent(response, "", "  ")
+	c.HTML(http.StatusOK, "result.html", gin.H{"state": response.State, "result": string(result)})
 }
