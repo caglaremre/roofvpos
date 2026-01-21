@@ -51,6 +51,7 @@ func (t *TransactionRepository) GetAllTransactions() []models.Transaction {
 			transaction.SaleResponse = saleResponseBody
 			saleResponseBodyJson, _ := json.MarshalIndent(saleResponseBody, "", "	")
 			transaction.SaleResponseBody = string(saleResponseBodyJson)
+			transaction.SaleProcessID = saleResponseBody.ProcessID
 
 			saleResponseHeaders := http.Header{}
 			_ = json.Unmarshal(responseBucket.Get([]byte("headers")), &saleResponseHeaders)

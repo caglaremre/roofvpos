@@ -13,4 +13,5 @@ type Transaction struct {
 	SaleResponse        SaleResponse
 	SaleResponseBody    string
 	SaleResponseHeaders http.Header
+	SaleProcessID       string
 }
