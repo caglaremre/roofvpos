@@ -7,42 +7,15 @@
 		<button type="button" class="list-group-item flex-fill" data-bs-toggle="offcanvas"
 						data-bs-target="#saleoffcanvas">sale
 		</button>
-		<button type="button" class="list-group-item flex-fill" data-bs-toggle="offcanvas"
+		<button type="button" class="list-group-item flex-fill" id="void-offcanvas-button" data-bs-toggle="offcanvas"
 						data-bs-target="#voidoffcanvas">void
 		</button>
-		<button type="button" class="list-group-item flex-fill" data-bs-toggle="offcanvas"
+		<button type="button" class="list-group-item flex-fill" id="refund-offcanvas-button" data-bs-toggle="offcanvas"
 						data-bs-target="#refundoffcanvas">refund
 		</button>
 	</div>
 	{{template "sale.html" .}}
-	<!-- void canvas -->
-	<div class="offcanvas offcanvas-bottom" tabindex="-1" id="voidoffcanvas">
-		<div class="offcanvas-header">
-			<h5 class="offcanvas-title">void</h5>
-			<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-		</div>
-		<div class="offcanvas-body container">
-			<form>
-				<table class="table align-middle">
-					<tr>
-						<td>
-							<label for="void-order-id" class="form-label">order id</label>
-						</td>
-						<td>
-							<input list="void-order-id-list" id="void-order-id" class="form-control" placeholder="enter order id">
-							<datalist id="void-order-id-list">
-								{{range .transactions}}
-								<option label="{{.OrderID}}">{{.OrderID}}</option>
-								{{end}}
-							</datalist>
-						</td>
-						<td>
-						</td>
-					</tr>
-				</table>
-			</form>
-		</div>
-	</div>
+	{{template "void.html" .}}
 </div>
 <!-- transaction buttons end -->
 <!-- transactions list start -->
@@ -56,6 +29,11 @@
 		<div class="offcanvas offcanvas-bottom" tabindex="-1" id="{{.OrderID}}">
 			<div class="offcanvas-header">
 				<h5 class="offcanvas-title">{{.OrderID}} - {{.LogDate}}</h5>
+				<form name="order-void" style="margin-left: 4%">
+				<input type="hidden" name="orderID" value="{{.OrderID}}">
+				<input type="hidden" name="processID" value="{{.SaleProcessID}}">
+				<button class="btn btn-primary">void</button>
+				</form>
 				<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
 			</div>
 			<div class="offcanvas-body">
