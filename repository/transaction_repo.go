@@ -15,7 +15,7 @@ type TransactionRepository struct {
 	DB *bbolt.DB
 }
 
-// todo seperata the transactions and its details to different methods
+// TODO seperata the transactions and its details to different methods
 func (t *TransactionRepository) GetAllTransactions() []models.Transaction {
 	var transactions []models.Transaction
 	err := t.DB.View(func(tx *bbolt.Tx) error {
