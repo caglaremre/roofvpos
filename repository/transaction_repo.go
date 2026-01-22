@@ -95,15 +95,15 @@ func (t *TransactionRepository) LogRequest(transactionType, action, orderID stri
 			_ = saleActionBucket.Put([]byte("headers"), headerBytes)
 			_ = saleActionBucket.Put([]byte("body"), request)
 		case "refund":
-			refundBucket, _ := orderIDBucket.CreateBucket([]byte("refund"))
-			refundRequestBucket, _ := refundBucket.CreateBucket([]byte(action))
-			_ = refundRequestBucket.Put([]byte("headers"), headerBytes)
-			_ = refundRequestBucket.Put([]byte("body"), request)
+			refundBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte("refund"))
+			refundActionBucket, _ := refundBucket.CreateBucketIfNotExists([]byte(action))
+			_ = refundActionBucket.Put([]byte("headers"), headerBytes)
+			_ = refundActionBucket.Put([]byte("body"), request)
 		case "void":
-			voidBucket, _ := orderIDBucket.CreateBucket([]byte("void"))
-			voidRequestBucket, _ := voidBucket.CreateBucket([]byte(action))
-			_ = voidRequestBucket.Put([]byte("headers"), headerBytes)
-			_ = voidRequestBucket.Put([]byte("body"), request)
+			voidBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte("void"))
+			voidActionBucket, _ := voidBucket.CreateBucketIfNotExists([]byte(action))
+			_ = voidActionBucket.Put([]byte("headers"), headerBytes)
+			_ = voidActionBucket.Put([]byte("body"), request)
 		}
 
 		return nil
