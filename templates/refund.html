@@ -1,0 +1,67 @@
+<!-- refund canvas -->
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="refundoffcanvas">
+	<div class="offcanvas-header">
+		<h5 class="offcanvas-title">refund</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+	</div>
+	<div class="offcanvas-body container">
+		<form action="/refund" method="post">
+			<table class="table align-middle table-borderless table-sm text-start">
+				<tr>
+					<td>
+						<div class="input-group"><label for="refund-process-id" class="input-group-text">process id</label>
+							<input type="text" class="form-control" id="refund-process-id" name="refund-process-id">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="refund-order-id" class="input-group-text">order id</label>
+							<input type="text" class="form-control" id="refund-order-id" name="refund-order-id">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="refund-lang" class="input-group-text">lang</label>
+							<input type="text" class="form-control" id="refund-lang" name="refund-lang" value="tr">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="refund-amount" class="input-group-text">amount</label>
+							<input type="text" class="form-control" id="refund-amount" name="refund-amount">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="refund-point-amount" class="input-group-text">point amount</label>
+							<input type="text" class="form-control" id="refund-point-amount" name="refund-point-amount">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="refund-additional-info" class="input-group-text">additional info</label>
+							<input type="text" class="form-control" id="refund-additional-info" name="refund-additional-info">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="refund-invoice-info" class="input-group-text">invoice info</label>
+							<input type="text" class="form-control" id="refund-invoice-info" name="refund-invoice-info">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" class="text-center">
+						<input type="submit" class="btn btn-primary" value="submit">
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>

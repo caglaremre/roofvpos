@@ -14,4 +14,6 @@ type Transaction struct {
 	SaleResponseBody    string
 	SaleResponseHeaders http.Header
 	SaleProcessID       string
+	SaleAmount          int
+	SalePointAmount     int
 }

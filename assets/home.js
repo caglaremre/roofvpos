@@ -52,3 +52,16 @@ document.getElementById('transaction-list').addEventListener('submit', async fun
 		document.getElementById('void-offcanvas-button').click()
 	}
 })
+
+document.getElementById('transaction-list').addEventListener('submit', async function (e) {
+	if (e.target.name === 'order-refund') {
+		e.preventDefault();
+		const form = e.target
+		const orderID = form.querySelector('input[name="orderID"]').value;
+		const processID = form.querySelector('input[name="processID"]').value;
+		console.log("passing values to refund canvas:", orderID, "Process:", processID);
+		document.getElementById('refund-order-id').value = orderID;
+		document.getElementById('refund-process-id').value = processID;
+		document.getElementById('refund-offcanvas-button').click()
+	}
+})

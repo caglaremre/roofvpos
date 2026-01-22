@@ -15,7 +15,8 @@
 		</button>
 	</div>
 	{{template "sale.html" .}}
-	{{template "void.html" .}}
+	{{template "void.html"}}
+	{{template "refund.html"}}
 </div>
 <!-- transaction buttons end -->
 <!-- transactions list start -->
@@ -33,6 +34,11 @@
 				<input type="hidden" name="orderID" value="{{.OrderID}}">
 				<input type="hidden" name="processID" value="{{.SaleProcessID}}">
 				<button class="btn btn-primary">void</button>
+				</form>
+				<form name="order-refund" class="ms-4">
+					<input type="hidden" name="orderID" value="{{.OrderID}}">
+					<input type="hidden" name="processID" value="{{.SaleProcessID}}">
+					<button class="btn btn-primary">refund</button>
 				</form>
 				<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
 			</div>
