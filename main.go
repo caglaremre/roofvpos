@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"roof/vpos/repository"
 	"roof/vpos/routes"
 
@@ -9,7 +10,7 @@ import (
 
 func main() {
 
-	bolt, err := repository.InitBolt()
+	bolt, err := repository.InitBolt("./bolt.db")
 	if err != nil {
 		panic(err)
 	}
@@ -24,16 +25,15 @@ func main() {
 
 	router.StaticFile("/favicon.ico", "./assets/favicon.ico")
 	router.Static("/assets", "./assets")
+	router.LoadHTMLGlob("templates/*")
+
+	routes.RegisterRoutes(bolt, router)
+
 	router.Use(func(context *gin.Context) {
 		context.Writer.Header().Add("Access-Control-Allow-Origin", "*")
 		context.Writer.Header().Add("Access-Control-Allow-Headers", "Content-Type")
 		context.Next()
 	})
 
-	router.LoadHTMLGlob("templates/*")
-
-	routes.RegisterRoutes(bolt, router)
-	_ = router.SetTrustedProxies(nil)
-
-	_ = router.Run("localhost:8080")
+	log.Fatal(router.Run("localhost:8080"))
 }

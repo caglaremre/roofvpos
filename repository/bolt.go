@@ -15,13 +15,13 @@ type Bolt struct {
 
 func check(err error) error {
 	if err != nil {
-		log.Fatal(err)
+		log.Panic(err)
 	}
 	return nil
 }
 
-func InitBolt() (*Bolt, error) {
-	db, err := bbolt.Open("./bolt.db", 0600, &bbolt.Options{Timeout: 2 * time.Second})
+func InitBolt(file string) (*Bolt, error) {
+	db, err := bbolt.Open(file, 0600, &bbolt.Options{Timeout: 2 * time.Second})
 
 	return &Bolt{
 		ConfigRepo:      &ConfigRepository{DB: db},
