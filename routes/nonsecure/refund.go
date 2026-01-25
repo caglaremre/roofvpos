@@ -39,7 +39,7 @@ func Refund(c *gin.Context, bolt *repository.Bolt) {
 
 	err = bolt.TransactionRepo.LogRequest("refund", "request", refundReq.OrderID, refundReqJson, req.Header)
 	if err != nil {
-		log.Fatal(err)
+		log.Panic(err)
 	}
 
 	client := &http.Client{
@@ -47,13 +47,13 @@ func Refund(c *gin.Context, bolt *repository.Bolt) {
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatalf("There is an error: %s", err)
+		log.Panicf("There is an error: %s", err)
 	}
 
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-			log.Fatal(err)
+			log.Panic(err)
 		}
 	}(resp.Body)
 	resBody, err := io.ReadAll(resp.Body)

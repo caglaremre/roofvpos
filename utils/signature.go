@@ -14,7 +14,7 @@ import (
 func CalculateSignature(body string, bolt *repository.Bolt) http.Header {
 	nonce, err := uuid.NewV7()
 	if err != nil {
-		log.Fatalf("Couldn't create uuid: %s", err)
+		log.Panicf("Couldn't create uuid: %s", err)
 	}
 
 	clientToken, secretKey := bolt.ConfigRepo.GetClientAndSecretKey()
