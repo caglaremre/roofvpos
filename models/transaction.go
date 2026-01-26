@@ -1,16 +1,20 @@
 package models
 
-import (
-	"net/http"
-)
-
 type Transaction struct {
-	OrderID             string
-	LogDate             string
+	OrderID string
+	LogDate string
+
 	SaleRequest         SaleRequest
 	SaleRequestBody     string
-	SaleRequestsHeaders http.Header
+	SaleRequestHeaders  string
 	SaleResponse        SaleResponse
 	SaleResponseBody    string
-	SaleResponseHeaders http.Header
+	SaleResponseHeaders string
+
+	VoidRequest         VoidRequest
+	VoidRequestBody     string
+	VoidRequestHeaders  string
+	VoidResponse        VoidResponse
+	VoidResponseBody    string
+	VoidResponseHeaders string
 }
