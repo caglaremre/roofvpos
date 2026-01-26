@@ -19,53 +19,6 @@
 	{{template "refund.html"}}
 </div>
 <!-- transaction buttons end -->
-<!-- transactions list start -->
-<div class="row" id="transaction-list">
-	<h3>transaction list</h3>
-	<div class="list-group">
-		{{range .transactions}}
-		<button type="button" class="list-group-item" data-bs-toggle="offcanvas"
-						data-bs-target="#{{.OrderID}}">{{.OrderID}} - {{.LogDate}}
-		</button>
-		<div class="offcanvas offcanvas-bottom" tabindex="-1" id="{{.OrderID}}">
-			<div class="offcanvas-header">
-				<h5 class="offcanvas-title">{{.OrderID}} - {{.LogDate}}</h5>
-				<form name="order-void" class="ms-4">
-				<input type="hidden" name="orderID" value="{{.OrderID}}">
-				<input type="hidden" name="processID" value="{{.SaleProcessID}}">
-				<button class="btn btn-primary">void</button>
-				</form>
-				<form name="order-refund" class="ms-4">
-					<input type="hidden" name="orderID" value="{{.OrderID}}">
-					<input type="hidden" name="processID" value="{{.SaleProcessID}}">
-					<button class="btn btn-primary">refund</button>
-				</form>
-				<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-			</div>
-			<div class="offcanvas-body">
-				<table class="table">
-					<tr>
-						<td>
-							Sale Request
-						</td>
-						<td>
-							<pre><code class="language-json">{{.SaleRequestBody}}</code></pre>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							Sale Response
-						</td>
-						<td>
-							<pre><code class="language-json">{{.SaleResponseBody}}</code></pre>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-		{{end}}
-	</div>
-</div>
-<!-- transactions list end -->
+{{template "transactions.html" .}}
 <script src="/assets/home.js"></script>
 {{template "footer.html"}}

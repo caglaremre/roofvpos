@@ -1,0 +1,128 @@
+<!-- transactions list start -->
+<div class="row" id="transaction-list">
+	<h3>transaction list</h3>
+	<div class="list-group">
+		{{if .transactions}}
+		{{$first := index .transactions 0}}
+		<script> console.log("{{$first.SaleRequest.OrderID}}")</script>
+		{{end}}
+		{{range $index, $transaction := .transactions}}
+		<button type="button" class="list-group-item" data-bs-toggle="offcanvas"
+						data-bs-target="#{{$transaction.OrderID}}">{{$transaction.OrderID}} - {{$transaction.LogDate}}
+		</button>
+		<div class="offcanvas offcanvas-bottom" tabindex="-1" id="{{$transaction.OrderID}}">
+			<div class="offcanvas-header pb-0">
+				<h5 class="offcanvas-title ms-auto">{{$transaction.OrderID}} - {{$transaction.LogDate}}</h5>
+				<form name="order-void" class="ms-4">
+					<input type="hidden" name="orderID" value="{{$transaction.OrderID}}">
+					<input type="hidden" name="processID" value="{{$transaction.SaleResponse.ProcessID}}">
+					<button class="btn btn-primary">void</button>
+				</form>
+				<form name="order-refund" class="ms-4">
+					<input type="hidden" name="orderID" value="{{$transaction.OrderID}}">
+					<input type="hidden" name="processID" value="{{$transaction.SaleResponse.ProcessID}}">
+					<button class="btn btn-primary">refund</button>
+				</form>
+				<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+			</div>
+			<div class="offcanvas-body pt-1">
+				<div class="accordion accordion-flush" id="accordion{{$index}}">
+					{{if .SaleRequestBody}}
+					<div class="accordion-item">
+						<h2 class="accordion-header text-center">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapse-sale-{{$index}}">
+								sale
+							</button>
+						</h2>
+						<div id="collapse-sale-{{$index}}" class="accordion-collapse collapse"
+								 data-bs-parent="#accordion{{$index}}">
+							<div class="accordion-body">
+								<table class="table">
+									<tr>
+										<td>
+											sale request
+										</td>
+										<td>
+											sale response
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<pre><code
+													class="language-json font-monospace text-break">{{$transaction.SaleRequestHeaders}}</code></pre>
+										</td>
+										<td>
+											<pre><code
+													class="language-json font-monospace text-break">{{$transaction.SaleResponseHeaders}}</code></pre>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<pre><code class="language-json font-monospace text-break">{{$transaction.SaleRequestBody}}</code></pre>
+										</td>
+										<td>
+											<pre><code
+													class="language-json font-monospace text-break">{{$transaction.SaleResponseBody}}</code></pre>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+					{{end}}
+
+					{{if .VoidRequestBody}}
+					<div class="accordion-item">
+						<h2 class="accordion-header text-center">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapse-void-{{$index}}">
+								void
+							</button>
+						</h2>
+						<div id="collapse-void-{{$index}}" class="accordion-collapse collapse"
+								 data-bs-parent="#accordion{{$index}}">
+							<div class="accordion-body">
+								<table class="table">
+									<tr>
+										<td>
+											void request
+										</td>
+										<td>
+											void response
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<pre><code
+													class="language-json font-monospace text-break">{{$transaction.VoidRequestHeaders}}</code></pre>
+										</td>
+										<td>
+											<pre><code
+													class="language-json font-monospace text-break">{{$transaction.VoidResponseHeaders}}</code></pre>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<pre><code class="language-json font-monospace text-break">{{$transaction.VoidRequestBody}}</code></pre>
+										</td>
+										<td>
+											<pre><code
+													class="language-json font-monospace text-break">{{$transaction.VoidResponseBody}}</code></pre>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+					{{end}}
+					<!-- TODO add refund -->
+
+
+				</div>
+			</div>
+		</div>
+		{{end}}
+	</div>
+</div>
+<!-- transactions list end -->
