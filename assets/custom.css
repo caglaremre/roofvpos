@@ -3,7 +3,7 @@ body {
 }
 
 .offcanvas {
-	--bs-offcanvas-height: 80vh;
+	--bs-offcanvas-height: 90vh;
 	font-size: small !important;
 }
 
@@ -15,6 +15,10 @@ body {
 	--bs-btn-focus-shadow-rgb: royalblue;
 	--bs-btn-active-bg: royalblue;
 	--bs-btn-active-border-color: royalblue;
+}
+
+.accordion-button:focus{
+	box-shadow: none !important;
 }
 
 .progress {
@@ -43,4 +47,11 @@ h1, h2, h3, h4, h5, h6 {
 .list-group-item:last-of-type {
 	border-bottom-left-radius: inherit;
 	border-bottom-right-radius: inherit;
+}
+
+pre[class*="language-" ],
+code[class*="language-"] {
+	white-space: pre-wrap !important;
+	overflow: auto;
+	word-break: break-word !important;
 }
