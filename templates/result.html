@@ -46,11 +46,11 @@
 				let percentage = (timeLeft / totalSeconds) * 100;
 
 				if (timeLeft < 0) {
-					window.location.replace("/")
 					clearInterval(timer);
 					progressBar.style.width = '0%';
 					timerText.innerText = "goodbye!";
 					progressBar.classList.remove('progress-bar-animated');
+					window.location.replace("/")
 				} else {
 					progressBar.style.width = percentage + '%';
 					timerText.innerText = `${timeLeft.toFixed(1)}s`;

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"roof/vpos/models"
 	"slices"
+	"strings"
 	"time"
 
 	"go.etcd.io/bbolt"
@@ -54,45 +55,62 @@ func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt
 			requestBucket := actionBucket.Bucket([]byte("request"))
 			requestHeaders := http.Header{}
 			_ = json.Unmarshal(requestBucket.Get([]byte("headers")), &requestHeaders)
-			requestHeadersJson, _ := json.MarshalIndent(requestHeaders, "", "  ")
 
 			responseBucket := actionBucket.Bucket([]byte("response"))
 			responseHeaders := http.Header{}
 			_ = json.Unmarshal(responseBucket.Get([]byte("headers")), &responseHeaders)
-			responseHeadersJson, _ := json.MarshalIndent(responseHeaders, "", "  ")
 
 			switch action {
 			case "sale":
-				transaction.SaleRequestHeaders = string(requestHeadersJson)
-				transaction.SaleResponseHeaders = string(responseHeadersJson)
+				transaction.SaleRequestHeaders = requestHeaders
+				transaction.SaleResponseHeaders = responseHeaders
+				for key, _ := range responseHeaders {
+					if !strings.HasPrefix(key, "X") {
+						responseHeaders.Del(key)
+					}
+				}
 
 				saleRequestBody := models.SaleRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &saleRequestBody)
 				transaction.SaleRequest = saleRequestBody
-				saleRequestBodyJson, _ := json.MarshalIndent(saleRequestBody, "", "	")
-				transaction.SaleRequestBody = string(saleRequestBodyJson)
 
 				saleResponseBody := models.SaleResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &saleResponseBody)
 				transaction.SaleResponse = saleResponseBody
-				saleResponseBodyJson, _ := json.MarshalIndent(saleResponseBody, "", "	")
-				transaction.SaleResponseBody = string(saleResponseBodyJson)
+
 			case "void":
-				transaction.VoidRequestHeaders = string(requestHeadersJson)
-				transaction.VoidResponseHeaders = string(responseHeadersJson)
+				transaction.VoidRequestHeaders = requestHeaders
+				transaction.VoidResponseHeaders = responseHeaders
+				for key, _ := range responseHeaders {
+					if !strings.HasPrefix(key, "X") {
+						responseHeaders.Del(key)
+					}
+				}
 
 				voidRequestBody := models.VoidRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &voidRequestBody)
 				transaction.VoidRequest = voidRequestBody
-				voidRequestBodyJson, _ := json.MarshalIndent(voidRequestBody, "", "	")
-				transaction.VoidRequestBody = string(voidRequestBodyJson)
 
 				voidResponseBody := models.VoidResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &voidResponseBody)
 				transaction.VoidResponse = voidResponseBody
-				voidResponseBodyJson, _ := json.MarshalIndent(voidResponseBody, "", "	")
-				transaction.VoidResponseBody = string(voidResponseBodyJson)
-				//TODO add refund
+
+			case "refund":
+				transaction.RefundRequestHeaders = requestHeaders
+				transaction.RefundResponseHeaders = responseHeaders
+				for key, _ := range responseHeaders {
+					if !strings.HasPrefix(key, "X") {
+						responseHeaders.Del(key)
+					}
+				}
+
+				RefundRequestBody := models.RefundRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &RefundRequestBody)
+				transaction.RefundRequest = RefundRequestBody
+
+				RefundResponseBody := models.RefundResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &RefundResponseBody)
+				transaction.RefundResponse = RefundResponseBody
 			}
 
 		}
