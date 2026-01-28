@@ -45,7 +45,7 @@
 										</div>
 									</div>
 
-									<div class="row border-top">
+									<div class="row border mt-1">
 										<h5>headers</h5>
 										<div class="col-6">
 											{{range $hkey, $hvalue := $transaction.SaleRequestHeaders}}
@@ -74,7 +74,7 @@
 										</div>
 									</div>
 
-									<div class="row border-top">
+									<div class="row border mt-1">
 										<h5>body</h5>
 										<div class="col-6">
 											<div class="row"><div class="col text-end">order id</div><div class="col text-start">{{$transaction.SaleRequest.OrderID}}</div></div>
@@ -144,7 +144,7 @@
 											void response
 										</div>
 									</div>
-									<div class="row border-top">
+									<div class="row border mt-1">
 										<h5>headers</h5>
 										<div class="col-6">
 											{{range $hkey, $hvalue := $transaction.VoidRequestHeaders}}
@@ -171,7 +171,7 @@
 											{{end}}
 										</div>
 									</div>
-									<div class="row border-top">
+									<div class="row border mt-1">
 										<h5>body</h5>
 											<div class="col-6">
 												<div class="row"><div class="col text-end">process id</div><div class="col text-start">{{$transaction.VoidRequest.ProcessID}}</div></div>
@@ -230,7 +230,7 @@
 											refund response
 										</div>
 									</div>
-									<div class="row border-top">
+									<div class="row border mt-1">
 										<h5>headers</h5>
 										<div class="col-6">
 											{{range $hkey, $hvalue := $transaction.RefundRequestHeaders}}
@@ -257,7 +257,7 @@
 											{{end}}
 										</div>
 									</div>
-									<div class="row border-top">
+									<div class="row border mt-1">
 										<h5>body</h5>
 										<div class="col-6">
 											<div class="row"><div class="col text-end">process id</div><div class="col text-start">{{$transaction.RefundRequest.ProcessID}}</div></div>
