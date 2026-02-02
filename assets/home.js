@@ -59,9 +59,28 @@ document.getElementById('transaction-list').addEventListener('submit', async fun
 		const form = e.target
 		const orderID = form.querySelector('input[name="orderID"]').value;
 		const processID = form.querySelector('input[name="processID"]').value;
-		console.log("passing values to refund canvas:", orderID, "Process:", processID);
+		const amount = form.querySelector('input[name="amount"]').value;
+		const pointAmount = form.querySelector('input[name="pointAmount"]').value;
+		console.log("passing values to refund canvas:", orderID, "Process:", processID, "Amount", amount, "PointAmount", pointAmount);
 		document.getElementById('refund-order-id').value = orderID;
 		document.getElementById('refund-process-id').value = processID;
+		document.getElementById('refund-amount').value = amount;
+		document.getElementById('refund-point-amount').value = pointAmount;
 		document.getElementById('refund-offcanvas-button').click()
+	}
+})
+
+document.getElementById('transaction-list').addEventListener('submit', async function (e) {
+	if (e.target.name === 'order-postsale') {
+		e.preventDefault();
+		const form = e.target
+		const orderID = form.querySelector('input[name="orderID"]').value;
+		const processID = form.querySelector('input[name="processID"]').value;
+		const amount = form.querySelector('input[name="amount"]').value;
+		console.log("passing values to postsale canvas:", orderID, "Process:", processID, "Amount", amount);
+		document.getElementById('postsale-order-id').value = orderID;
+		document.getElementById('postsale-process-id').value = processID;
+		document.getElementById('postsale-amount').value = amount;
+		document.getElementById('postsale-offcanvas-button').click()
 	}
 })

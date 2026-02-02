@@ -4,8 +4,10 @@
 <div class="row mt-4 mb-5" id="transaction">
 	<h3>non-secure transactions</h3>
 	<div class="list-group list-group-horizontal">
-		<button type="button" class="list-group-item flex-fill" data-bs-toggle="offcanvas"
-						data-bs-target="#saleoffcanvas">sale
+		<button type="button" class="list-group-item flex-fill" id="sale-offcanvas-button" data-bs-toggle="offcanvas"
+						data-bs-target="#saleoffcanvas">sale</button>
+		<button type="button" class="list-group-item flex-fill" id="postsale-offcanvas-button" data-bs-toggle="offcanvas"
+						data-bs-target="#postsaleoffcanvas">postsale
 		</button>
 		<button type="button" class="list-group-item flex-fill" id="void-offcanvas-button" data-bs-toggle="offcanvas"
 						data-bs-target="#voidoffcanvas">void
@@ -13,10 +15,15 @@
 		<button type="button" class="list-group-item flex-fill" id="refund-offcanvas-button" data-bs-toggle="offcanvas"
 						data-bs-target="#refundoffcanvas">refund
 		</button>
+		<button type="button" class="list-group-item flex-fill" id="point-offcanvas-button" data-bs-toggle="offcanvas"
+						data-bs-target="#pointoffcanvas">point
+		</button>
 	</div>
 	{{template "sale.html" .}}
+	{{template "postsale.html"}}
 	{{template "void.html"}}
 	{{template "refund.html"}}
+	{{template "point.html" .}}
 </div>
 <!-- transaction buttons end -->
 {{template "transactions.html" .}}

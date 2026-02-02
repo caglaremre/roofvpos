@@ -11,6 +11,11 @@ type Transaction struct {
 	SaleResponse        SaleResponse
 	SaleResponseHeaders http.Header
 
+	PostSaleRequest         PostSaleRequest
+	PostSaleRequestHeaders  http.Header
+	PostSaleResponse        PostSaleResponse
+	PostSaleResponseHeaders http.Header
+
 	VoidRequest         VoidRequest
 	VoidRequestHeaders  http.Header
 	VoidResponse        VoidResponse
@@ -20,4 +25,9 @@ type Transaction struct {
 	RefundRequestHeaders  http.Header
 	RefundResponse        RefundResponse
 	RefundResponseHeaders http.Header
+
+	PointRequest         PointRequest
+	PointRequestHeaders  http.Header
+	PointResponse        PointResponse
+	PointResponseHeaders http.Header
 }

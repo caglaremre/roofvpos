@@ -1,0 +1,67 @@
+<!-- point canvas -->
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="pointoffcanvas">
+  <div class="offcanvas-header pb-0">
+    <h5 class="offcanvas-title ms-auto">point</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body pt-1 container">
+    <form action="/point" method="post">
+      <table class="table align-middle table-borderless table-sm text-start">
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="point-order-id" class="input-group-text">order id</label>
+              <input type="text" class="form-control" id="point-order-id" name="point-order-id"
+                value="{{.saleReq.OrderID}}" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="point-card-no" class="input-group-text">card no</label>
+              <input type="text" class="form-control" id="point-card-no" name="point-card-no" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="point-expiry" class="input-group-text">expiry</label>
+              <input type="text" class="form-control" id="point-expiry" name="point-expiry" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="point-lang" class="input-group-text">lang</label>
+              <input type="text" class="form-control" id="point-lang" name="point-lang" value="tr" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="point-additional-info" class="input-group-text">additional info</label>
+              <input type="text" class="form-control" id="point-additional-info" name="point-additional-info" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="point-invoice-info" class="input-group-text">invoice info</label>
+              <input type="text" class="form-control" id="point-invoice-info" name="point-invoice-info" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="text-center">
+            <input type="submit" class="btn btn-primary" value="submit" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>

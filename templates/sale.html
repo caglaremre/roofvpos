@@ -1,138 +1,163 @@
 <!-- sale canvas -->
 <div class="offcanvas offcanvas-bottom" tabindex="-1" id="saleoffcanvas">
-	<div class="offcanvas-header pb-0">
-		<h5 class="offcanvas-title ms-auto">sale</h5>
-		<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-	</div>
-	<div class="offcanvas-body pt-1 container">
-		<form action="/sale" method="post">
-			<table class="table align-middle table-borderless table-sm text-start">
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-order-id" class="input-group-text">order id</label>
-							<input type="text" class="form-control" id="sale-order-id" name="sale-order-id"
-										 value="{{.saleReq.OrderID}}">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-card-no" class="input-group-text">card number</label>
-							<input type="text" class="form-control" id="sale-card-no" name="sale-card-no"
-										 value="9792100005476586">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-expiry" class="input-group-text">expiry</label>
-							<input type="text" class="form-control" id="sale-expiry" name="sale-expiry" value="2505">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-cvv" class="input-group-text">cvv</label>
-							<input type="text" class="form-control" id="sale-cvv" name="sale-cvv" value="017">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-amount" class="input-group-text">amount</label>
-							<input type="text" class="form-control" id="sale-amount" name="sale-amount" value="10000">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-point" class="input-group-text">point amount</label>
-							<input type="text" class="form-control" id="sale-point" name="sale-point" value="0">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-currency" class="input-group-text">currency</label>
-							<input type="text" class="form-control" id="sale-currency" name="sale-currency" value="949">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-ecommerce-txn-type" class="input-group-text">ecommerce txn
-							type</label>
-							<input type="text" class="form-control" id="sale-ecommerce-txn-type" name="sale-ecommerce-txn-type"
-										 value="0">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-txn-initiation-type" class="input-group-text">txn initiation
-							type</label>
-							<input type="text" class="form-control" id="sale-txn-initiation-type" name="sale-txn-initiation-type"
-										 value="0">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-installment-count" class="input-group-text">installment
-							count</label>
-							<input type="text" class="form-control" id="sale-installment-count" name="sale-installment-count"
-										 value="1">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-cardholder-ip" class="input-group-text">cardholder ip</label>
-							<input type="text" class="form-control" id="sale-cardholder-ip" name="sale-cardholder-ip">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-merchant-ip" class="input-group-text">merchant ip</label>
-							<input type="text" class="form-control" id="sale-merchant-ip" name="sale-merchant-ip">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-submerchant-ip" class="input-group-text">submerchant ip</label>
-							<input type="text" class="form-control" id="sale-submerchant-ip" name="sale-submerchant-ip">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-lang" class="input-group-text">lang</label>
-							<input type="text" class="form-control" id="sale-lang" name="sale-lang" value="tr">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-additional-info" class="input-group-text">additional info</label>
-							<input type="text" class="form-control" id="sale-additional-info" name="sale-additional-info">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="sale-invoice-info" class="input-group-text">invoice info</label>
-							<input type="text" class="form-control" id="sale-invoice-info" name="sale-invoice-info">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" class="text-center">
-						<input type="submit" class="btn btn-primary" value="submit">
-					</td>
-				</tr>
-			</table>
-		</form>
-	</div>
+  <div class="offcanvas-header pb-0">
+    <h5 class="offcanvas-title ms-auto">sale</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body pt-1 container">
+    <input type="checkbox" class="btn-check" id="switchTransactionMode" />
+    <label class="btn btn-danger" id="switchTransactionMode-label" for="switchTransactionMode">pre-sale</label>
+    <form action="/sale" method="post" id="sale-form">
+      <table class="table align-middle table-borderless table-sm text-start">
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-order-id" class="input-group-text">order id</label>
+              <input type="text" class="form-control" id="sale-order-id" name="sale-order-id" value="{{.saleReq.OrderID}}" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-card-no" class="input-group-text">card number</label>
+              <input type="text" class="form-control" id="sale-card-no" name="sale-card-no" value="9792100005476586" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-expiry" class="input-group-text">expiry</label>
+              <input type="text" class="form-control" id="sale-expiry" name="sale-expiry" value="2505" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-cvv" class="input-group-text">cvv</label>
+              <input type="text" class="form-control" id="sale-cvv" name="sale-cvv" value="017" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-amount" class="input-group-text">amount</label>
+              <input type="text" class="form-control" id="sale-amount" name="sale-amount" value="10000" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-point" class="input-group-text">point amount</label>
+              <input type="text" class="form-control" id="sale-point" name="sale-point" value="0" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-currency" class="input-group-text">currency</label>
+              <input type="text" class="form-control" id="sale-currency" name="sale-currency" value="949" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-ecommerce-txn-type" class="input-group-text">ecommerce txn type</label>
+              <input type="text" class="form-control" id="sale-ecommerce-txn-type" name="sale-ecommerce-txn-type" value="0" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-txn-initiation-type" class="input-group-text">txn initiation type</label>
+              <input type="text" class="form-control" id="sale-txn-initiation-type" name="sale-txn-initiation-type" value="0" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-installment-count" class="input-group-text">installment count</label>
+              <input type="text" class="form-control" id="sale-installment-count" name="sale-installment-count" value="1" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-cardholder-ip" class="input-group-text">cardholder ip</label>
+              <input type="text" class="form-control" id="sale-cardholder-ip" name="sale-cardholder-ip" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-merchant-ip" class="input-group-text">merchant ip</label>
+              <input type="text" class="form-control" id="sale-merchant-ip" name="sale-merchant-ip" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-submerchant-ip" class="input-group-text">submerchant ip</label>
+              <input type="text" class="form-control" id="sale-submerchant-ip" name="sale-submerchant-ip" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-lang" class="input-group-text">lang</label>
+              <input type="text" class="form-control" id="sale-lang" name="sale-lang" value="tr" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-additional-info" class="input-group-text">additional info</label>
+              <input type="text" class="form-control" id="sale-additional-info" name="sale-additional-info" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <label for="sale-invoice-info" class="input-group-text">invoice info</label>
+              <input type="text" class="form-control" id="sale-invoice-info" name="sale-invoice-info" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="text-center">
+            <input type="submit" class="btn btn-primary" value="submit" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
 </div>
+<script>
+  const tmswitch = document.getElementById("switchTransactionMode");
+  const tmswitchlabel = document.getElementById("switchTransactionMode-label");
+  tmswitch.addEventListener("change", () => {
+    if (tmswitch.checked) {
+      document.getElementById("sale-form").action = "/pre";
+      tmswitchlabel.classList.remove("btn-danger");
+      tmswitchlabel.classList.add("btn-success");
+    } else {
+      document.getElementById("sale-form").action = "/sale";
+      tmswitchlabel.classList.remove("btn-success");
+      tmswitchlabel.classList.add("btn-danger");
+    }
+  });
+</script>

@@ -1,0 +1,62 @@
+<!-- postsale canvas -->
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="postsaleoffcanvas">
+	<div class="offcanvas-header pb-0">
+		<h5 class="offcanvas-title ms-auto">postsale</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+	</div>
+	<div class="offcanvas-body pt-1 container">
+		<form action="/post" method="post">
+			<table class="table align-middle table-borderless table-sm text-start">
+				<tr>
+					<td>
+						<div class="input-group"><label for="postsale-process-id" class="input-group-text">process id</label>
+							<input type="text" class="form-control" id="postsale-process-id" name="postsale-process-id">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="postsale-order-id" class="input-group-text">order id</label>
+							<input type="text" class="form-control" id="postsale-order-id" name="postsale-order-id">
+						</div>
+					</td>
+				</tr>
+				<tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="postsale-amount" class="input-group-text">amount</label>
+							<input type="text" class="form-control" id="postsale-amount" name="postsale-amount">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="postsale-lang" class="input-group-text">lang</label>
+							<input type="text" class="form-control" id="postsale-lang" name="postsale-lang" value="tr">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="postsale-additional-info" class="input-group-text">additional
+								info</label>
+							<input type="text" class="form-control" id="postsale-additional-info" name="postsale-additional-info">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="postsale-invoice-info" class="input-group-text">invoice info</label>
+							<input type="text" class="form-control" id="postsale-invoice-info" name="postsale-invoice-info">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" class="text-center">
+						<input type="submit" class="btn btn-primary" value="submit">
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>

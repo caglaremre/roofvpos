@@ -47,7 +47,7 @@ func (t *TransactionRepository) GetAllTransactions() []models.Transaction {
 
 func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt.Bucket) {
 
-	transactionTypeList := []string{"sale", "void", "refund"}
+	transactionTypeList := []string{"sale", "presale", "postsale", "void", "refund", "point"}
 	for _, action := range transactionTypeList {
 		actionBucket := orderIdBucket.Bucket([]byte(action))
 		if actionBucket != nil {
@@ -61,10 +61,10 @@ func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt
 			_ = json.Unmarshal(responseBucket.Get([]byte("headers")), &responseHeaders)
 
 			switch action {
-			case "sale":
+			case "sale", "presale":
 				transaction.SaleRequestHeaders = requestHeaders
 				transaction.SaleResponseHeaders = responseHeaders
-				for key, _ := range responseHeaders {
+				for key := range responseHeaders {
 					if !strings.HasPrefix(key, "X") {
 						responseHeaders.Del(key)
 					}
@@ -78,10 +78,27 @@ func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &saleResponseBody)
 				transaction.SaleResponse = saleResponseBody
 
+			case "postsale":
+				transaction.PostSaleRequestHeaders = requestHeaders
+				transaction.PostSaleResponseHeaders = responseHeaders
+				for key := range responseHeaders {
+					if !strings.HasPrefix(key, "X") {
+						responseHeaders.Del(key)
+					}
+				}
+
+				postSaleRequestBody := models.PostSaleRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &postSaleRequestBody)
+				transaction.PostSaleRequest = postSaleRequestBody
+
+				postSaleResponseBody := models.PostSaleResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &postSaleResponseBody)
+				transaction.PostSaleResponse = postSaleResponseBody
+
 			case "void":
 				transaction.VoidRequestHeaders = requestHeaders
 				transaction.VoidResponseHeaders = responseHeaders
-				for key, _ := range responseHeaders {
+				for key := range responseHeaders {
 					if !strings.HasPrefix(key, "X") {
 						responseHeaders.Del(key)
 					}
@@ -98,7 +115,7 @@ func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt
 			case "refund":
 				transaction.RefundRequestHeaders = requestHeaders
 				transaction.RefundResponseHeaders = responseHeaders
-				for key, _ := range responseHeaders {
+				for key := range responseHeaders {
 					if !strings.HasPrefix(key, "X") {
 						responseHeaders.Del(key)
 					}
@@ -111,6 +128,23 @@ func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt
 				RefundResponseBody := models.RefundResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &RefundResponseBody)
 				transaction.RefundResponse = RefundResponseBody
+			case "point":
+				transaction.PointRequestHeaders = requestHeaders
+				transaction.PointResponseHeaders = responseHeaders
+				for key := range responseHeaders {
+					if !strings.HasPrefix(key, "X") {
+						responseHeaders.Del(key)
+					}
+				}
+
+				PointRequestBody := models.PointRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &PointRequestBody)
+				transaction.PointRequest = PointRequestBody
+
+				PointResponseBody := models.PointResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &PointResponseBody)
+				transaction.PointResponse = PointResponseBody
+
 			}
 
 		}
@@ -141,6 +175,16 @@ func (t *TransactionRepository) LogRequest(transactionType, action, orderID stri
 			saleActionBucket, _ := saleBucket.CreateBucketIfNotExists([]byte(action))
 			_ = saleActionBucket.Put([]byte("headers"), headerBytes)
 			_ = saleActionBucket.Put([]byte("body"), request)
+		case "presale":
+			presaleBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte("presale"))
+			presaleActionBucket, _ := presaleBucket.CreateBucketIfNotExists([]byte(action))
+			_ = presaleActionBucket.Put([]byte("headers"), headerBytes)
+			_ = presaleActionBucket.Put([]byte("body"), request)
+		case "postsale":
+			postsaleBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte("postsale"))
+			postsaleActionBucket, _ := postsaleBucket.CreateBucketIfNotExists([]byte(action))
+			_ = postsaleActionBucket.Put([]byte("headers"), headerBytes)
+			_ = postsaleActionBucket.Put([]byte("body"), request)
 		case "refund":
 			refundBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte("refund"))
 			refundActionBucket, _ := refundBucket.CreateBucketIfNotExists([]byte(action))
@@ -151,6 +195,11 @@ func (t *TransactionRepository) LogRequest(transactionType, action, orderID stri
 			voidActionBucket, _ := voidBucket.CreateBucketIfNotExists([]byte(action))
 			_ = voidActionBucket.Put([]byte("headers"), headerBytes)
 			_ = voidActionBucket.Put([]byte("body"), request)
+		case "point":
+			pointBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte("point"))
+			pointActionBucket, _ := pointBucket.CreateBucketIfNotExists([]byte(action))
+			_ = pointActionBucket.Put([]byte("headers"), headerBytes)
+			_ = pointActionBucket.Put([]byte("body"), request)
 		}
 
 		return nil

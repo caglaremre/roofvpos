@@ -27,6 +27,15 @@ func RegisterRoutes(bolt *repository.Bolt, server *gin.Engine) {
 	server.POST("/refund", func(c *gin.Context) {
 		nonsecure.Refund(c, bolt)
 	})
+	server.POST("/pre", func(c *gin.Context) {
+		nonsecure.Presale(c, bolt)
+	})
+	server.POST("/post", func(c *gin.Context) {
+		nonsecure.PostSale(c, bolt)
+	})
+	server.POST("/point", func(c *gin.Context) {
+		nonsecure.Point(c, bolt)
+	})
 }
 
 func home(c *gin.Context, bolt *repository.Bolt) {

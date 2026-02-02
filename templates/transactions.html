@@ -9,6 +9,15 @@
 		<div class="offcanvas offcanvas-bottom" tabindex="-1" id="{{$transaction.OrderID}}">
 			<div class="offcanvas-header pb-0">
 				<h5 class="offcanvas-title ms-auto">{{$transaction.OrderID}} - {{$transaction.LogDate}}</h5>
+				{{if (eq $transaction.SaleResponse.TxnType "PreSale")}}
+					<form name="order-postsale" class="ms-4">
+					<input type="hidden" name="orderID" value="{{$transaction.OrderID}}">
+					<input type="hidden" name="processID" value="{{$transaction.SaleResponse.ProcessID}}">
+					<input type="hidden" name="amount" value="{{$transaction.SaleResponse.Amount}}">
+					<button class="btn btn-primary">postsale</button>
+				</form>
+				{{end}}
+				{{if not .PointRequestHeaders}}
 				<form name="order-void" class="ms-4">
 					<input type="hidden" name="orderID" value="{{$transaction.OrderID}}">
 					<input type="hidden" name="processID" value="{{$transaction.SaleResponse.ProcessID}}">
@@ -17,8 +26,11 @@
 				<form name="order-refund" class="ms-4">
 					<input type="hidden" name="orderID" value="{{$transaction.OrderID}}">
 					<input type="hidden" name="processID" value="{{$transaction.SaleResponse.ProcessID}}">
+					<input type="hidden" name="amount" value="{{$transaction.SaleResponse.Amount}}">
+					<input type="hidden" name="pointAmount" value="{{$transaction.SaleResponse.PointAmount}}">
 					<button class="btn btn-primary">refund</button>
 				</form>
+				{{end}}
 				<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
 			</div>
 			<div class="offcanvas-body pt-1">
@@ -28,7 +40,7 @@
 						<h2 class="accordion-header text-center">
 							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
 											data-bs-target="#collapse-sale-{{$index}}">
-								sale
+								{{$transaction.SaleResponse.TxnType}}
 							</button>
 						</h2>
 						<div id="collapse-sale-{{$index}}" class="accordion-collapse collapse"
@@ -116,6 +128,93 @@
 											<div class="row"><div class="col text-end">invoice info</div><div class="col text-start">{{$transaction.SaleResponse.InvoiceInfo}}</div></div>
 											<div class="row"><div class="col text-end">ecommerce txn type</div><div class="col text-start">{{$transaction.SaleResponse.EcommerceTxnType}}</div></div>
 											<div class="row"><div class="col text-end">txn initiation type</div><div class="col text-start">{{$transaction.SaleResponse.TxnInitiationType}}</div></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{{end}}
+
+					{{if .PostSaleRequestHeaders}}
+					<div class="accordion-item">
+						<h2 class="accordion-header text-center">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapse-postsale-{{$index}}">
+								postsale
+							</button>
+						</h2>
+						<div id="collapse-postsale-{{$index}}" class="accordion-collapse collapse"
+								 data-bs-parent="#accordion{{$index}}">
+							<div class="accordion-body">
+								<div class="container-fluid text-center">
+									<div class="row">
+										<div class="col">
+											postsale request
+										</div>
+										<div class="col">
+											postsale response
+										</div>
+									</div>
+									<div class="row border mt-1">
+										<h5>headers</h5>
+										<div class="col-6">
+											{{range $hkey, $hvalue := $transaction.PostSaleRequestHeaders}}
+											<div class="row">
+												<div class="col text-end">
+													{{$hkey}}
+												</div>
+												<div class="col text-start">
+													{{$hvalue}}
+												</div>
+											</div>
+											{{end}}
+										</div>
+										<div class="col-6">
+											{{range $hkey, $hvalue := $transaction.PostSaleResponseHeaders}}
+											<div class="row">
+												<div class="col	text-end">
+													{{$hkey}}
+												</div>
+												<div class="col text-start">
+													{{$hvalue}}
+												</div>
+											</div>
+											{{end}}
+										</div>
+									</div>
+									<div class="row border mt-1">
+										<h5>body</h5>
+										<div class="col-6">
+											<div class="row"><div class="col text-end">process id</div><div class="col text-start">{{$transaction.PostSaleRequest.ProcessID}}</div></div>
+											<div class="row"><div class="col text-end">order id</div><div class="col text-start">{{$transaction.PostSaleRequest.OrderID}}</div></div>
+											<div class="row"><div class="col text-end">amount</div><div class="col text-start">{{$transaction.PostSaleRequest.Amount}}</div></div>
+											<div class="row"><div class="col text-end">lang</div><div class="col text-start">{{$transaction.PostSaleRequest.Lang}}</div></div>
+											<div class="row"><div class="col text-end">additional info</div><div class="col text-start">{{$transaction.PostSaleRequest.AdditionalInfo}}</div></div>
+											<div class="row"><div class="col text-end">invoice info</div><div class="col text-start">{{$transaction.PostSaleRequest.InvoiceInfo}}</div></div>
+										</div>
+										<div class="col-6">
+											<div class="row"><div class="col text-end">process id</div><div class="col text-start">{{$transaction.PostSaleResponse.ProcessID}}</div></div>
+											<div class="row"><div class="col text-end">order id</div><div class="col text-start">{{$transaction.PostSaleResponse.OrderID}}</div></div>
+											<div class="row"><div class="col text-end">result message</div><div class="col text-start">{{$transaction.PostSaleResponse.ResultMessage}}</div></div>
+											<div class="row"><div class="col text-end">result code</div><div class="col text-start">{{$transaction.PostSaleResponse.ResultCode}}</div></div>
+											<div class="row"><div class="col text-end">proc return code</div><div class="col text-start">{{$transaction.PostSaleResponse.ProcReturnCode}}</div></div>
+											<div class="row"><div class="col text-end">auth code</div><div class="col text-start">{{$transaction.PostSaleResponse.AuthCode}}</div></div>
+											<div class="row"><div class="col text-end">secure type</div><div class="col text-start">{{$transaction.PostSaleResponse.SecureType}}</div></div>
+											<div class="row"><div class="col text-end">txn type</div><div class="col text-start">{{$transaction.PostSaleResponse.TxnType}}</div></div>
+											<div class="row"><div class="col text-end">card mask</div><div class="col text-start">{{$transaction.PostSaleResponse.CardMask}}</div></div>
+											<div class="row"><div class="col text-end">amount</div><div class="col text-start">{{$transaction.PostSaleResponse.Amount}}</div></div>
+											<div class="row"><div class="col text-end">point amount</div><div class="col text-start">{{$transaction.PostSaleResponse.PointAmount}}</div></div>
+											<div class="row"><div class="col text-end">installment count</div><div class="col text-start">{{$transaction.PostSaleResponse.InstallmentCount}}</div></div>
+											<div class="row"><div class="col text-end">merchant id</div><div class="col text-start">{{$transaction.PostSaleResponse.MerchantID}}</div></div>
+											<div class="row"><div class="col text-end">terminal id</div><div class="col text-start">{{$transaction.PostSaleResponse.TerminalID}}</div></div>
+											<div class="row"><div class="col text-end">batch no</div><div class="col text-start">{{$transaction.PostSaleResponse.BatchNo}}</div></div>
+											<div class="row"><div class="col text-end">process date</div><div class="col text-start">{{$transaction.PostSaleResponse.ProcessDate}}</div></div>
+											<div class="row"><div class="col text-end">rrn</div><div class="col text-start">{{$transaction.PostSaleResponse.RRN}}</div></div>
+											<div class="row"><div class="col text-end">additional info</div><div class="col text-start">{{$transaction.PostSaleResponse.AdditionalInfo}}</div></div>
+											<div class="row"><div class="col text-end">invoice info</div><div class="col text-start">{{$transaction.PostSaleResponse.InvoiceInfo}}</div></div>
+											<div class="row"><div class="col text-end">ecommerce txn type</div><div class="col text-start">{{$transaction.PostSaleResponse.EcommerceTxnType}}</div></div>
+											<div class="row"><div class="col text-end">txn initiation type</div><div class="col text-start">{{$transaction.PostSaleResponse.TxnInitiationType}}</div></div>
 										</div>
 									</div>
 								</div>
@@ -262,8 +361,8 @@
 										<div class="col-6">
 											<div class="row"><div class="col text-end">process id</div><div class="col text-start">{{$transaction.RefundRequest.ProcessID}}</div></div>
 											<div class="row"><div class="col text-end">order id</div><div class="col text-start">{{$transaction.RefundRequest.OrderID}}</div></div>
-											<div class="row"><div class="col text-end">lang</div><div class="col text-start">{{$transaction.RefundRequest.Lang}}</div></div>
 											<div class="row"><div class="col text-end">amount</div><div class="col text-start">{{$transaction.RefundRequest.Amount}}</div></div>
+											<div class="row"><div class="col text-end">lang</div><div class="col text-start">{{$transaction.RefundRequest.Lang}}</div></div>
 											<div class="row"><div class="col text-end">point amount</div><div class="col text-start">{{$transaction.RefundRequest.PointAmount}}</div></div>
 											<div class="row"><div class="col text-end">additional info</div><div class="col text-start">{{$transaction.RefundRequest.AdditionalInfo}}</div></div>
 											<div class="row"><div class="col text-end">invoice info</div><div class="col text-start">{{$transaction.RefundRequest.InvoiceInfo}}</div></div>
@@ -290,6 +389,79 @@
 											<div class="row"><div class="col text-end">invoice info</div><div class="col text-start">{{$transaction.RefundResponse.InvoiceInfo}}</div></div>
 											<div class="row"><div class="col text-end">ecommerce txn type</div><div class="col text-start">{{$transaction.RefundResponse.EcommerceTxnType}}</div></div>
 											<div class="row"><div class="col text-end">txn initiation type</div><div class="col text-start">{{$transaction.RefundResponse.TxnInitiationType}}</div></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{{end}}
+
+					{{if .PointRequestHeaders}}
+					<div class="accordion-item">
+						<h2 class="accordion-header text-center">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapse-point-{{$index}}">
+								Point
+							</button>
+						</h2>
+						<div id="collapse-point-{{$index}}" class="accordion-collapse collapse"
+								 data-bs-parent="#accordion{{$index}}">
+							<div class="accordion-body">
+								<div class="container-fluid text-center">
+									<div class="row">
+										<div class="col">
+											point request
+										</div>
+										<div class="col">
+											point response
+										</div>
+									</div>
+									<div class="row border mt-1">
+										<h5>headers</h5>
+										<div class="col-6">
+											{{range $hkey, $hvalue := $transaction.PointRequestHeaders}}
+											<div class="row">
+												<div class="col text-end">
+													{{$hkey}}
+												</div>
+												<div class="col text-start">
+													{{$hvalue}}
+												</div>
+											</div>
+											{{end}}
+										</div>
+										<div class="col-6">
+											{{range $hkey, $hvalue := $transaction.PointResponseHeaders}}
+											<div class="row">
+												<div class="col	text-end">
+													{{$hkey}}
+												</div>
+												<div class="col text-start">
+													{{$hvalue}}
+												</div>
+											</div>
+											{{end}}
+										</div>
+									</div>
+									<div class="row border mt-1">
+										<h5>body</h5>
+										<div class="col-6">
+											<div class="row"><div class="col text-end">order id</div><div class="col text-start">{{$transaction.PointRequest.OrderID}}</div></div>
+											<div class="row"><div class="col text-end">process id</div><div class="col text-start">{{$transaction.PointRequest.CardNo}}</div></div>
+											<div class="row"><div class="col text-end">process id</div><div class="col text-start">{{$transaction.PointRequest.Expiry}}</div></div>
+											<div class="row"><div class="col text-end">lang</div><div class="col text-start">{{$transaction.PointRequest.Lang}}</div></div>
+											<div class="row"><div class="col text-end">additional info</div><div class="col text-start">{{$transaction.PointRequest.AdditionalInfo}}</div></div>
+											<div class="row"><div class="col text-end">invoice info</div><div class="col text-start">{{$transaction.PointRequest.InvoiceInfo}}</div></div>
+										</div>
+										<div class="col-6">
+											<div class="row"><div class="col text-end">result message</div><div class="col text-start">{{$transaction.PointResponse.ResultMessage}}</div></div>
+											<div class="row"><div class="col text-end">result code</div><div class="col text-start">{{$transaction.PointResponse.ResultCode}}</div></div>
+											<div class="row"><div class="col text-end">proc return code</div><div class="col text-start">{{$transaction.PointResponse.ProcReturnCode}}</div></div>
+											<div class="row"><div class="col text-end">available point</div><div class="col text-start">{{$transaction.PointResponse.AvailablePoint}}</div></div>
+											<div class="row"><div class="col text-end">point code</div><div class="col text-start">{{$transaction.PointResponse.PointCode}}</div></div>
+											<div class="row"><div class="col text-end">point multiplier</div><div class="col text-start">{{$transaction.PointResponse.PointMultiplier}}</div></div>
+											<div class="row"><div class="col text-end">available point amount</div><div class="col text-start">{{$transaction.PointResponse.AvailablePointAmount}}</div></div>
 										</div>
 									</div>
 								</div>
