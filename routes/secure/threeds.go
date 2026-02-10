@@ -1,0 +1,137 @@
+package secure
+
+import (
+	"bytes"
+	"encoding/base64"
+	"encoding/json"
+	"io"
+	"log"
+	"net/http"
+	"regexp"
+	"roof/vpos/models"
+	"roof/vpos/repository"
+	"roof/vpos/utils"
+	"time"
+
+	"github.com/gin-gonic/gin"
+)
+
+func ThreeDS(c *gin.Context, bolt *repository.Bolt) {
+	c.HTML(0, "wait.html", nil)
+	baseURL := bolt.ConfigRepo.GetBaseURL()
+	err := c.Request.ParseForm()
+	if err != nil {
+		c.HTML(http.StatusBadRequest, "result.html", gin.H{"state": 0, "result": err.Error()})
+		return
+	}
+
+	ttm := c.Request.Form.Get("threeds-transaction-mode")
+
+	threedsreq := models.ThreeDSRequest{}
+	err = c.Bind(&threedsreq)
+
+	if err != nil {
+		c.HTML(http.StatusBadRequest, "result.html", gin.H{"state": 0, "result": err.Error()})
+		return
+	}
+	if threedsreq.ReturnUrl == "" {
+		threedsreq.ReturnUrl = "http://localhost:8080/return?orderID=" + threedsreq.OrderId
+	}
+	threedsreqJson, _ := json.Marshal(&threedsreq)
+
+	var req *http.Request
+
+	switch ttm {
+	case "sale":
+		req, _ = http.NewRequest("POST", baseURL+"/api/ThreeD/Sale", bytes.NewBuffer(threedsreqJson))
+
+	case "presale":
+		req, _ = http.NewRequest("POST", baseURL+"/api/ThreeD/PreSale", bytes.NewBuffer(threedsreqJson))
+
+	default:
+		c.HTML(http.StatusBadRequest, "result.html", gin.H{"state": 0, "result": "couldn't recognize threeds transaction mode"})
+		return
+	}
+
+	req.Header = utils.CalculateSignature(string(threedsreqJson), bolt)
+
+	err = bolt.TransactionRepo.LogRequest("threeds", "request", threedsreq.OrderId, threedsreqJson, req.Header)
+	if err != nil {
+		log.Printf("could not log the threeds request %s\n", err.Error())
+	}
+
+	if len(req.Header.Get("x_signature")) < 1 {
+		c.HTML(http.StatusBadRequest, "result.html", gin.H{"state": 0, "result": "clientToken or secretKey is empty"})
+		return
+	}
+
+	client := &http.Client{
+		Timeout: time.Minute,
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
+		return
+	}
+
+	defer resp.Body.Close()
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
+		return
+	}
+
+	var response models.Response
+	var threedsresp models.ThreeDSResponse
+	_ = json.Unmarshal(respBody, &response)
+	_ = json.Unmarshal(response.Result, &threedsresp)
+
+	err = bolt.TransactionRepo.LogRequest("threeds", "response", threedsreq.OrderId, response.Result, resp.Header)
+	if err != nil {
+		log.Printf("could not log the threeds request %s\n", err.Error())
+	}
+
+	htmlcontent, _ := base64.StdEncoding.DecodeString(threedsresp.HtmlContent)
+	// do not show the loading gif.
+	re := regexp.MustCompile("<img.*>")
+	redirect := re.ReplaceAll(htmlcontent, []byte(""))
+	c.Data(http.StatusOK, "text/html; charset=utf-8", redirect)
+}
+
+func ThreeDSResult(c *gin.Context, bolt *repository.Bolt) {
+	baseURL := bolt.ConfigRepo.GetBaseURL()
+	token := utils.TransformToken(c.Query("x_body"))
+	orderID := c.Query("orderID")
+	tokenreq := models.TokenRequest{Token: token, Lang: "tr"}
+	tokenreqJson, _ := json.Marshal(tokenreq)
+
+	req, _ := http.NewRequest("POST", baseURL+"/api/Check/ByToken", bytes.NewBuffer(tokenreqJson))
+	req.Header = utils.CalculateSignature(string(tokenreqJson), bolt)
+	bolt.TransactionRepo.LogRequest("token", "request", orderID, tokenreqJson, req.Header)
+
+	client := &http.Client{
+		Timeout: time.Minute,
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
+		return
+	}
+
+	defer resp.Body.Close()
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
+		return
+	}
+	var response models.Response
+	_ = json.Unmarshal(respBody, &response)
+	responseIndent, _ := json.MarshalIndent(response, "", "	")
+
+	err = bolt.TransactionRepo.LogRequest("token", "response", orderID, response.Result, resp.Header)
+	if err != nil {
+		log.Printf("could not log the threeds request %s\n", err.Error())
+	}
+
+	c.HTML(200, "result.html", gin.H{"state": 1, "result": string(responseIndent)})
+}

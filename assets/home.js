@@ -11,6 +11,9 @@ async function getIPAddress() {
 		document.getElementById('sale-cardholder-ip').value = data
 		document.getElementById('sale-merchant-ip').value = data
 		document.getElementById('sale-submerchant-ip').value = data
+		document.getElementById('threeds-cardholder-ip').value = data
+		document.getElementById('threeds-merchant-ip').value = data
+		document.getElementById('threeds-submerchant-ip').value = data
 
 	} catch (error) {
 		console.error("Error fetching IP:", error);

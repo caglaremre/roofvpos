@@ -1,0 +1,116 @@
+<!-- threeds canvas -->
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="threedsoffcanvas">
+	<div class="offcanvas-header pb-0">
+		<h5 class="offcanvas-title ms-auto">threeds</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+	</div>
+	<div class="offcanvas-body pt-1 container">
+		<input type="checkbox" class="btn-check" id="switch-threeds-transaction-mode" />
+		<label class="btn btn-danger" id="switch-threeds-transaction-mode-label" for="switch-threeds-transaction-mode">threeds pre-sale</label>
+		<form action="/threeds" method="post" id="threeds-form">
+			<input type="hidden" name="threeds-transaction-mode" id="threeds-transaction-mode" value="sale">
+			<table class="table align-middle table-borderless table-sm text-start">
+				<tr><td><div class="input-group">
+					<label for="threeds-order-id" class="input-group-text">order id</label>
+					<input type="text" class="form-control" id="threeds-order-id" name="threeds-order-id" value="{{.saleReq.OrderID}}" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-card-no" class="input-group-text">card number</label>
+					<input type="text" class="form-control" id="threeds-card-no" name="threeds-card-no" value="9792100005476586" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-expiry" class="input-group-text">expiry</label>
+					<input type="text" class="form-control" id="threeds-expiry" name="threeds-expiry" value="2505" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-cvv" class="input-group-text">cvv</label>
+					<input type="text" class="form-control" id="threeds-cvv" name="threeds-cvv" value="017" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-amount" class="input-group-text">amount</label>
+					<input type="text" class="form-control" id="threeds-amount" name="threeds-amount" value="10000" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-point" class="input-group-text">point amount</label>
+					<input type="text" class="form-control" id="threeds-point" name="threeds-point" value="0" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-currency" class="input-group-text">currency</label>
+					<input type="text" class="form-control" id="threeds-currency" name="threeds-currency" value="949" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-ecommerce-txn-type" class="input-group-text">request type</label>
+					<input type="text" class="form-control" id="threeds-ecommerce-txn-type" name="threeds-request-type" value="3DS-MODEL" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-txn-initiation-type" class="input-group-text">txn initiation type</label>
+					<input type="text" class="form-control" id="threeds-txn-initiation-type" name="threeds-txn-initiation-type" value="0" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-installment-count" class="input-group-text">installment count</label>
+					<input type="text" class="form-control" id="threeds-installment-count" name="threeds-installment-count" value="1" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-cardholder-ip" class="input-group-text">cardholder ip</label>
+					<input type="text" class="form-control" id="threeds-cardholder-ip" name="threeds-cardholder-ip" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-merchant-ip" class="input-group-text">merchant ip</label>
+					<input type="text" class="form-control" id="threeds-merchant-ip" name="threeds-merchant-ip" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-submerchant-ip" class="input-group-text">submerchant ip</label>
+					<input type="text" class="form-control" id="threeds-submerchant-ip" name="threeds-submerchant-ip" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-lang" class="input-group-text">lang</label>
+					<input type="text" class="form-control" id="threeds-lang" name="threeds-lang" value="tr" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-additional-info" class="input-group-text">additional info</label>
+					<input type="text" class="form-control" id="threeds-additional-info" name="threeds-additional-info" value="" />
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-invoice-info" class="input-group-text">invoice info</label>
+					<input type="text" class="form-control" id="threeds-invoice-info" name="threeds-invoice-info" value=""/>
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-cardholder-name" class="input-group-text">cardholder name</label>
+					<input type="text" class="form-control" id="threeds-cardholder-name" name="threeds-cardholder-name" value=""/>
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-cardholder-email" class="input-group-text">cardholder email</label>
+					<input type="text" class="form-control" id="threeds-cardholder-email" name="threeds-cardholder-email" value=""/>
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-return-url" class="input-group-text">return url</label>
+					<input type="text" class="form-control" id="threeds-return-url" name="threeds-return-url" value=""/>
+				</div></td></tr>
+				<tr><td><div class="input-group">
+					<label for="threeds-callback-url" class="input-group-text">callback url</label>
+					<input type="text" class="form-control" id="threeds-callback-url" name="threeds-callback-url" value=""/>
+				</div></td></tr>
+				<tr>
+					<td colspan="2" class="text-center">
+						<input type="submit" class="btn btn-primary" value="submit" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script>
+	const threedstmswitch = document.getElementById("switch-threeds-transaction-mode");
+	const threedstmswitchlabel = document.getElementById("switch-threeds-transaction-mode-label");
+	threedstmswitch.addEventListener("change", () => {
+		if (threedstmswitch.checked) {
+			document.getElementById("threeds-transaction-mode").value = "presale";
+			threedstmswitchlabel.classList.remove("btn-danger");
+			threedstmswitchlabel.classList.add("btn-success");
+		} else {
+			document.getElementById("threeds-transaction-mode").value = "sale";
+			threedstmswitchlabel.classList.remove("btn-success");
+			threedstmswitchlabel.classList.add("btn-danger");
+		}
+	});
+</script>

@@ -7,7 +7,8 @@
 	<h3>non-secure transactions</h3>
 	<div class="list-group list-group-horizontal">
 		<button type="button" class="list-group-item flex-fill" id="sale-offcanvas-button" data-bs-toggle="offcanvas"
-						data-bs-target="#saleoffcanvas">sale</button>
+						data-bs-target="#saleoffcanvas">sale
+		</button>
 		<button type="button" class="list-group-item flex-fill" id="postsale-offcanvas-button" data-bs-toggle="offcanvas"
 						data-bs-target="#postsaleoffcanvas">postsale
 		</button>
@@ -21,11 +22,18 @@
 						data-bs-target="#pointoffcanvas">point
 		</button>
 	</div>
+	<h3 class="mt-4"> threeds transactions</h3>
+	<div class="list-group list-group-horizontal">
+		<button type="button" class="list-group-item flex-fill" id="threeds-offcanvas-button" data-bs-toggle="offcanvas"
+						data-bs-target="#threedsoffcanvas">3ds
+		</button>
+	</div>
 	{{template "sale.html" .}}
 	{{template "postsale.html"}}
 	{{template "void.html"}}
 	{{template "refund.html"}}
 	{{template "point.html" .}}
+	{{template "threeds.html" .}}
 </div>
 <!-- transaction buttons end -->
 {{template "transactions.html" .}}

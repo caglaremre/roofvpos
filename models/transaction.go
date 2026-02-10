@@ -30,4 +30,14 @@ type Transaction struct {
 	PointRequestHeaders  http.Header
 	PointResponse        PointResponse
 	PointResponseHeaders http.Header
+
+	ThreeDSRequest         ThreeDSRequest
+	ThreeDSRequestHeaders  http.Header
+	ThreeDSResponse        ThreeDSResponse
+	ThreeDSResponseHeaders http.Header
+
+	TokenRequest         TokenRequest
+	TokenRequestHeaders  http.Header
+	TokenResponse        TokenResponse
+	TokenResponseHeaders http.Header
 }

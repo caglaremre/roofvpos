@@ -470,6 +470,193 @@
 					</div>
 					{{end}}
 
+					{{if .ThreeDSRequestHeaders}}
+					<div class="accordion-item">
+						<h2 class="accordion-header text-center">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapse-threeds-{{$index}}">
+								threeds
+							</button>
+						</h2>
+						<div id="collapse-threeds-{{$index}}" class="accordion-collapse collapse"
+								 data-bs-parent="#accordion{{$index}}">
+							<div class="accordion-body">
+								<div class="container-fluid text-center">
+									<div class="row">
+										<div class="col">
+											threeds request
+										</div>
+										<div class="col">
+											threeds response
+										</div>
+									</div>
+									<div class="row border mt-1">
+										<h5>headers</h5>
+										<div class="col-6">
+											{{range $hkey, $hvalue := $transaction.ThreeDSRequestHeaders}}
+											<div class="row">
+												<div class="col text-end">
+													{{$hkey}}
+												</div>
+												<div class="col text-start">
+													{{$hvalue}}
+												</div>
+											</div>
+											{{end}}
+										</div>
+										<div class="col-6">
+											{{range $hkey, $hvalue := $transaction.ThreeDSResponseHeaders}}
+											<div class="row">
+												<div class="col	text-end">
+													{{$hkey}}
+												</div>
+												<div class="col text-start">
+													{{$hvalue}}
+												</div>
+											</div>
+											{{end}}
+										</div>
+									</div>
+									<div class="row border mt-1">
+										<h5>body</h5>
+										<div class="col-6">
+											<div class="row"><div class="col text-end">OrderId</div><div class="col text-start">{{$transaction.ThreeDSRequest.OrderId}}</div></div>
+											<div class="row"><div class="col text-end">CardNo</div><div class="col text-start">{{$transaction.ThreeDSRequest.CardNo}}</div></div>
+											<div class="row"><div class="col text-end">Expiry</div><div class="col text-start">{{$transaction.ThreeDSRequest.Expiry}}</div></div>
+											<div class="row"><div class="col text-end">Cvv2</div><div class="col text-start">{{$transaction.ThreeDSRequest.Cvv2}}</div></div>
+											<div class="row"><div class="col text-end">Amount</div><div class="col text-start">{{$transaction.ThreeDSRequest.Amount}}</div></div>
+											<div class="row"><div class="col text-end">PointAmount</div><div class="col text-start">{{$transaction.ThreeDSRequest.PointAmount}}</div></div>
+											<div class="row"><div class="col text-end">Currency</div><div class="col text-start">{{$transaction.ThreeDSRequest.Currency}}</div></div>
+											<div class="row"><div class="col text-end">InstallmentCount</div><div class="col text-start">{{$transaction.ThreeDSRequest.InstallmentCount}}</div></div>
+											<div class="row"><div class="col text-end">RequestType</div><div class="col text-start">{{$transaction.ThreeDSRequest.RequestType}}</div></div>
+											<div class="row"><div class="col text-end">CardHolderIp</div><div class="col text-start">{{$transaction.ThreeDSRequest.CardHolderIp}}</div></div>
+											<div class="row"><div class="col text-end">MerchantIp</div><div class="col text-start">{{$transaction.ThreeDSRequest.MerchantIp}}</div></div>
+											<div class="row"><div class="col text-end">SubMerchantIp</div><div class="col text-start">{{$transaction.ThreeDSRequest.SubMerchantIp}}</div></div>
+											<div class="row"><div class="col text-end">TxnInitiationType</div><div class="col text-start">{{$transaction.ThreeDSRequest.TxnInitiationType}}</div></div>
+											<div class="row"><div class="col text-end">Lang</div><div class="col text-start">{{$transaction.ThreeDSRequest.Lang}}</div></div>
+											<div class="row"><div class="col text-end">ReturnUrl</div><div class="col text-start">{{$transaction.ThreeDSRequest.ReturnUrl}}</div></div>
+											<div class="row"><div class="col text-end">CallbackUrl</div><div class="col text-start">{{$transaction.ThreeDSRequest.CallbackUrl}}</div></div>
+											<div class="row"><div class="col text-end">CardholderName</div><div class="col text-start">{{$transaction.ThreeDSRequest.CardholderName}}</div></div>
+											<div class="row"><div class="col text-end">CardholderEmail</div><div class="col text-start">{{$transaction.ThreeDSRequest.CardholderEmail}}</div></div>
+											<div class="row"><div class="col text-end">AdditionalInfo</div><div class="col text-start">{{$transaction.ThreeDSRequest.AdditionalInfo}}</div></div>
+											<div class="row"><div class="col text-end">InvoiceInfo</div><div class="col text-start">{{$transaction.ThreeDSRequest.InvoiceInfo}}</div></div>
+										</div>
+										<div class="col-6">
+											<div class="row"><div class="col text-start">ResultCode</div><div class="col text-start">{{$transaction.ThreeDSResponse.ResultCode}}</div></div>
+											<div class="row"><div class="col text-start">ProcReturnCode</div><div class="col text-start">{{$transaction.ThreeDSResponse.ProcReturnCode}}</div></div>
+											<div class="row"><div class="col text-start">ResultMessage</div><div class="col text-start">{{$transaction.ThreeDSResponse.ResultMessage}}</div></div>
+											<div class="row"><div class="col text-start">ReturnUrl</div><div class="col text-start">{{$transaction.ThreeDSResponse.ReturnUrl}}</div></div>
+											<div class="row"><div class="col text-start">ProcessId</div><div class="col text-start">{{$transaction.ThreeDSResponse.ProcessId}}</div></div>
+											<div class="row"><div class="col text-start">Token</div><div class="col text-start">{{$transaction.ThreeDSResponse.Token}}</div></div>
+											<div class="row"><div class="col text-start">HtmlContent</div><div class="col text-start">{{$transaction.ThreeDSResponse.HtmlContent}}</div></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{{end}}
+
+					{{if .TokenRequestHeaders}}
+					<div class="accordion-item">
+						<h2 class="accordion-header text-center">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapse-token-{{$index}}">
+								token
+							</button>
+						</h2>
+						<div id="collapse-token-{{$index}}" class="accordion-collapse collapse"
+								 data-bs-parent="#accordion{{$index}}">
+							<div class="accordion-body">
+								<div class="container-fluid text-center">
+									<div class="row">
+										<div class="col">
+											token request
+										</div>
+										<div class="col">
+											token response
+										</div>
+									</div>
+									<div class="row border mt-1">
+										<h5>headers</h5>
+										<div class="col-6">
+											{{range $hkey, $hvalue := $transaction.TokenRequestHeaders}}
+											<div class="row">
+												<div class="col text-end">
+													{{$hkey}}
+												</div>
+												<div class="col text-start">
+													{{$hvalue}}
+												</div>
+											</div>
+											{{end}}
+										</div>
+										<div class="col-6">
+											{{range $hkey, $hvalue := $transaction.TokenResponseHeaders}}
+											<div class="row">
+												<div class="col	text-end">
+													{{$hkey}}
+												</div>
+												<div class="col text-start">
+													{{$hvalue}}
+												</div>
+											</div>
+											{{end}}
+										</div>
+									</div>
+									<div class="row border mt-1">
+										<h5>body</h5>
+										<div class="col-6">
+											<div class="row"><div class="col text-end">Token</div><div class="col text-start">{{$transaction.TokenRequest.Token}}</div></div>
+											<div class="row"><div class="col text-end">Lang</div><div class="col text-start">{{$transaction.TokenRequest.Lang}}</div></div>
+										</div>
+										<div class="col-6">
+											<div class="row"><div class="col text-start">Eci</div><div class="col text-start">{{$transaction.TokenResponse.Eci}}</div></div>
+											<div class="row"><div class="col text-start">Cavv</div><div class="col text-start">{{$transaction.TokenResponse.Cavv}}</div></div>
+											<div class="row"><div class="col text-start">TxnStatus</div><div class="col text-start">{{$transaction.TokenResponse.TxnStatus}}</div></div>
+											<div class="row"><div class="col text-start">TerminalAuthType</div><div class="col text-start">{{$transaction.TokenResponse.TerminalAuthType}}</div></div>
+											<div class="row"><div class="col text-start">RequestType</div><div class="col text-start">{{$transaction.TokenResponse.RequestType}}</div></div>
+											<div class="row"><div class="col text-start">ReturnUrl</div><div class="col text-start">{{$transaction.TokenResponse.ReturnUrl}}</div></div>
+											<div class="row"><div class="col text-start">PostSaleAmount</div><div class="col text-start">{{$transaction.TokenResponse.PostSaleAmount}}</div></div>
+											<div class="row"><div class="col text-start">AmountDci</div><div class="col text-start">{{$transaction.TokenResponse.AmountDci}}</div></div>
+											<div class="row"><div class="col text-start">BatchStatus</div><div class="col text-start">{{$transaction.TokenResponse.BatchStatus}}</div></div>
+											<div class="row"><div class="col text-start">QrStatus</div><div class="col text-start">{{$transaction.TokenResponse.QrStatus}}</div></div>
+											<div class="row"><div class="col text-start">AdditionalContent</div><div class="col text-start">{{$transaction.TokenResponse.AdditionalContent}}</div></div>
+											<div class="row"><div class="col text-start">ProcessExpireDate</div><div class="col text-start">{{$transaction.TokenResponse.ProcessExpireDate}}</div></div>
+											<div class="row"><div class="col text-start">LinkStatus</div><div class="col text-start">{{$transaction.TokenResponse.LinkStatus}}</div></div>
+											<div class="row"><div class="col text-start">ProcessId</div><div class="col text-start">{{$transaction.TokenResponse.ProcessId}}</div></div>
+											<div class="row"><div class="col text-start">OrderId</div><div class="col text-start">{{$transaction.TokenResponse.OrderId}}</div></div>
+											<div class="row"><div class="col text-start">ResultMessage</div><div class="col text-start">{{$transaction.TokenResponse.ResultMessage}}</div></div>
+											<div class="row"><div class="col text-start">ResultCode</div><div class="col text-start">{{$transaction.TokenResponse.ResultCode}}</div></div>
+											<div class="row"><div class="col text-start">ProcReturnCode</div><div class="col text-start">{{$transaction.TokenResponse.ProcReturnCode}}</div></div>
+											<div class="row"><div class="col text-start">AuthCode</div><div class="col text-start">{{$transaction.TokenResponse.AuthCode}}</div></div>
+											<div class="row"><div class="col text-start">SecureType</div><div class="col text-start">{{$transaction.TokenResponse.SecureType}}</div></div>
+											<div class="row"><div class="col text-start">TxnType</div><div class="col text-start">{{$transaction.TokenResponse.TxnType}}</div></div>
+											<div class="row"><div class="col text-start">CardMask</div><div class="col text-start">{{$transaction.TokenResponse.CardMask}}</div></div>
+											<div class="row"><div class="col text-start">Amount</div><div class="col text-start">{{$transaction.TokenResponse.Amount}}</div></div>
+											<div class="row"><div class="col text-start">PointAmount</div><div class="col text-start">{{$transaction.TokenResponse.PointAmount}}</div></div>
+											<div class="row"><div class="col text-start">PointCode</div><div class="col text-start">{{$transaction.TokenResponse.PointCode}}</div></div>
+											<div class="row"><div class="col text-start">PointMultiplier</div><div class="col text-start">{{$transaction.TokenResponse.PointMultiplier}}</div></div>
+											<div class="row"><div class="col text-start">AvailablePointAmount</div><div class="col text-start">{{$transaction.TokenResponse.AvailablePointAmount}}</div></div>
+											<div class="row"><div class="col text-start">InstallmentCount</div><div class="col text-start">{{$transaction.TokenResponse.InstallmentCount}}</div></div>
+											<div class="row"><div class="col text-start">InstallmentIndex</div><div class="col text-start">{{$transaction.TokenResponse.InstallmentIndex}}</div></div>
+											<div class="row"><div class="col text-start">MerchantId</div><div class="col text-start">{{$transaction.TokenResponse.MerchantId}}</div></div>
+											<div class="row"><div class="col text-start">TerminalId</div><div class="col text-start">{{$transaction.TokenResponse.TerminalId}}</div></div>
+											<div class="row"><div class="col text-start">BatchNo</div><div class="col text-start">{{$transaction.TokenResponse.BatchNo}}</div></div>
+											<div class="row"><div class="col text-start">ProcessDate</div><div class="col text-start">{{$transaction.TokenResponse.ProcessDate}}</div></div>
+											<div class="row"><div class="col text-start">Rrn</div><div class="col text-start">{{$transaction.TokenResponse.Rrn}}</div></div>
+											<div class="row"><div class="col text-start">AdditionalInfo</div><div class="col text-start">{{$transaction.TokenResponse.AdditionalInfo}}</div></div>
+											<div class="row"><div class="col text-start">InvoiceInfo</div><div class="col text-start">{{$transaction.TokenResponse.InvoiceInfo}}</div></div>
+											<div class="row"><div class="col text-start">EcommerceTxnType</div><div class="col text-start">{{$transaction.TokenResponse.EcommerceTxnType}}</div></div>
+											<div class="row"><div class="col text-start">TxnInitiationType</div><div class="col text-start">{{$transaction.TokenResponse.TxnInitiationType}}</div></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{{end}}
+
 				</div>
 			</div>
 		</div>

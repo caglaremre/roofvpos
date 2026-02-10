@@ -5,6 +5,7 @@ import (
 	"roof/vpos/models"
 	"roof/vpos/repository"
 	"roof/vpos/routes/nonsecure"
+	"roof/vpos/routes/secure"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -36,9 +37,16 @@ func RegisterRoutes(bolt *repository.Bolt, server *gin.Engine) {
 	server.POST("/point", func(c *gin.Context) {
 		nonsecure.Point(c, bolt)
 	})
+	server.POST("/threeds", func(c *gin.Context) {
+		secure.ThreeDS(c, bolt)
+	})
+	server.GET("/return", func(c *gin.Context) {
+		secure.ThreeDSResult(c, bolt)
+	})
 }
 
 func home(c *gin.Context, bolt *repository.Bolt) {
+	// TODO return only transactions orderids then fetch when needed
 	clientToken, secretKey := bolt.ConfigRepo.GetClientAndSecretKey()
 	transactions := bolt.TransactionRepo.GetAllTransactions()
 	orderID, _ := uuid.NewUUID()

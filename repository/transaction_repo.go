@@ -29,7 +29,6 @@ func (t *TransactionRepository) GetAllTransactions() []models.Transaction {
 
 			logDateByte := orderIdBucket.Get([]byte("logDate"))
 			transaction.LogDate = string(logDateByte)
-
 			getTransactionDetails(&transaction, orderIdBucket)
 			transactions = append(transactions, transaction)
 		}
@@ -47,11 +46,10 @@ func (t *TransactionRepository) GetAllTransactions() []models.Transaction {
 
 func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt.Bucket) {
 
-	transactionTypeList := []string{"sale", "presale", "postsale", "void", "refund", "point"}
+	transactionTypeList := []string{"sale", "presale", "postsale", "void", "refund", "point", "threeds", "token"}
 	for _, action := range transactionTypeList {
 		actionBucket := orderIdBucket.Bucket([]byte(action))
 		if actionBucket != nil {
-
 			requestBucket := actionBucket.Bucket([]byte("request"))
 			requestHeaders := http.Header{}
 			_ = json.Unmarshal(requestBucket.Get([]byte("headers")), &requestHeaders)
@@ -60,15 +58,16 @@ func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt
 			responseHeaders := http.Header{}
 			_ = json.Unmarshal(responseBucket.Get([]byte("headers")), &responseHeaders)
 
+			for key := range responseHeaders {
+				if !strings.HasPrefix(key, "X") {
+					responseHeaders.Del(key)
+				}
+			}
+
 			switch action {
 			case "sale", "presale":
 				transaction.SaleRequestHeaders = requestHeaders
 				transaction.SaleResponseHeaders = responseHeaders
-				for key := range responseHeaders {
-					if !strings.HasPrefix(key, "X") {
-						responseHeaders.Del(key)
-					}
-				}
 
 				saleRequestBody := models.SaleRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &saleRequestBody)
@@ -81,11 +80,6 @@ func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt
 			case "postsale":
 				transaction.PostSaleRequestHeaders = requestHeaders
 				transaction.PostSaleResponseHeaders = responseHeaders
-				for key := range responseHeaders {
-					if !strings.HasPrefix(key, "X") {
-						responseHeaders.Del(key)
-					}
-				}
 
 				postSaleRequestBody := models.PostSaleRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &postSaleRequestBody)
@@ -98,11 +92,6 @@ func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt
 			case "void":
 				transaction.VoidRequestHeaders = requestHeaders
 				transaction.VoidResponseHeaders = responseHeaders
-				for key := range responseHeaders {
-					if !strings.HasPrefix(key, "X") {
-						responseHeaders.Del(key)
-					}
-				}
 
 				voidRequestBody := models.VoidRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &voidRequestBody)
@@ -115,11 +104,6 @@ func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt
 			case "refund":
 				transaction.RefundRequestHeaders = requestHeaders
 				transaction.RefundResponseHeaders = responseHeaders
-				for key := range responseHeaders {
-					if !strings.HasPrefix(key, "X") {
-						responseHeaders.Del(key)
-					}
-				}
 
 				RefundRequestBody := models.RefundRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &RefundRequestBody)
@@ -131,11 +115,6 @@ func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt
 			case "point":
 				transaction.PointRequestHeaders = requestHeaders
 				transaction.PointResponseHeaders = responseHeaders
-				for key := range responseHeaders {
-					if !strings.HasPrefix(key, "X") {
-						responseHeaders.Del(key)
-					}
-				}
 
 				PointRequestBody := models.PointRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &PointRequestBody)
@@ -145,6 +124,29 @@ func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &PointResponseBody)
 				transaction.PointResponse = PointResponseBody
 
+			case "threeds":
+				transaction.ThreeDSRequestHeaders = requestHeaders
+				transaction.ThreeDSResponseHeaders = responseHeaders
+
+				threedsRequestBody := models.ThreeDSRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &threedsRequestBody)
+				transaction.ThreeDSRequest = threedsRequestBody
+
+				threedsResponseBody := models.ThreeDSResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &threedsResponseBody)
+				transaction.ThreeDSResponse = threedsResponseBody
+
+			case "token":
+				transaction.TokenRequestHeaders = requestHeaders
+				transaction.TokenResponseHeaders = responseHeaders
+
+				tokenRequestBody := models.TokenRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &tokenRequestBody)
+				transaction.TokenRequest = tokenRequestBody
+
+				tokenResponseBody := models.TokenResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &tokenResponseBody)
+				transaction.TokenResponse = tokenResponseBody
 			}
 
 		}
@@ -168,7 +170,7 @@ func (t *TransactionRepository) LogRequest(transactionType, action, orderID stri
 		if err != nil {
 			return err
 		}
-
+		//TODO need to cleans this, we already have the action no need for switch
 		switch transactionType {
 		case "sale":
 			saleBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte("sale"))
@@ -200,6 +202,16 @@ func (t *TransactionRepository) LogRequest(transactionType, action, orderID stri
 			pointActionBucket, _ := pointBucket.CreateBucketIfNotExists([]byte(action))
 			_ = pointActionBucket.Put([]byte("headers"), headerBytes)
 			_ = pointActionBucket.Put([]byte("body"), request)
+		case "threeds":
+			threedsBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte(transactionType))
+			threedsActionBucket, _ := threedsBucket.CreateBucketIfNotExists([]byte(action))
+			_ = threedsActionBucket.Put([]byte("headers"), headerBytes)
+			_ = threedsActionBucket.Put([]byte("body"), request)
+		case "token":
+			tokenBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte(transactionType))
+			tokenActionBucket, _ := tokenBucket.CreateBucketIfNotExists([]byte(action))
+			_ = tokenActionBucket.Put([]byte("headers"), headerBytes)
+			_ = tokenActionBucket.Put([]byte("body"), request)
 		}
 
 		return nil
