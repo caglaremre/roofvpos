@@ -43,6 +43,9 @@ func RegisterRoutes(bolt *repository.Bolt, server *gin.Engine) {
 	server.GET("/return", func(c *gin.Context) {
 		secure.ThreeDSResult(c, bolt)
 	})
+	server.POST("/completepayment", func(c *gin.Context) {
+		secure.CompletePayment(c, bolt)
+	})
 }
 
 func home(c *gin.Context, bolt *repository.Bolt) {

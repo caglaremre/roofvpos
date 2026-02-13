@@ -40,4 +40,9 @@ type Transaction struct {
 	TokenRequestHeaders  http.Header
 	TokenResponse        TokenResponse
 	TokenResponseHeaders http.Header
+
+	CompletePaymentRequest         CompletePaymentRequest
+	CompletePaymentRequestHeaders  http.Header
+	CompletePaymentResponse        CompletePaymentResponse
+	CompletePaymentResponseHeaders http.Header
 }

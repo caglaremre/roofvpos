@@ -44,11 +44,9 @@ func (t *TransactionRepository) GetAllTransactions() []models.Transaction {
 	return transactions
 }
 
-func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt.Bucket) {
-
-	transactionTypeList := []string{"sale", "presale", "postsale", "void", "refund", "point", "threeds", "token"}
-	for _, action := range transactionTypeList {
-		actionBucket := orderIdBucket.Bucket([]byte(action))
+func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.Bucket) {
+	orderBucket.ForEachBucket(func(transactionType []byte) error {
+		actionBucket := orderBucket.Bucket([]byte(transactionType))
 		if actionBucket != nil {
 			requestBucket := actionBucket.Bucket([]byte("request"))
 			requestHeaders := http.Header{}
@@ -64,97 +62,111 @@ func getTransactionDetails(transaction *models.Transaction, orderIdBucket *bbolt
 				}
 			}
 
-			switch action {
+			switch string(transactionType) {
 			case "sale", "presale":
 				transaction.SaleRequestHeaders = requestHeaders
 				transaction.SaleResponseHeaders = responseHeaders
 
-				saleRequestBody := models.SaleRequest{}
-				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &saleRequestBody)
-				transaction.SaleRequest = saleRequestBody
+				requestBody := models.SaleRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
+				transaction.SaleRequest = requestBody
 
-				saleResponseBody := models.SaleResponse{}
-				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &saleResponseBody)
-				transaction.SaleResponse = saleResponseBody
+				responseBody := models.SaleResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
+				transaction.SaleResponse = responseBody
 
 			case "postsale":
 				transaction.PostSaleRequestHeaders = requestHeaders
 				transaction.PostSaleResponseHeaders = responseHeaders
 
-				postSaleRequestBody := models.PostSaleRequest{}
-				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &postSaleRequestBody)
-				transaction.PostSaleRequest = postSaleRequestBody
+				requestBody := models.PostSaleRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
+				transaction.PostSaleRequest = requestBody
 
-				postSaleResponseBody := models.PostSaleResponse{}
-				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &postSaleResponseBody)
-				transaction.PostSaleResponse = postSaleResponseBody
+				responseBody := models.PostSaleResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
+				transaction.PostSaleResponse = responseBody
 
 			case "void":
 				transaction.VoidRequestHeaders = requestHeaders
 				transaction.VoidResponseHeaders = responseHeaders
 
-				voidRequestBody := models.VoidRequest{}
-				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &voidRequestBody)
-				transaction.VoidRequest = voidRequestBody
+				requestBody := models.VoidRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
+				transaction.VoidRequest = requestBody
 
-				voidResponseBody := models.VoidResponse{}
-				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &voidResponseBody)
-				transaction.VoidResponse = voidResponseBody
+				responseBody := models.VoidResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
+				transaction.VoidResponse = responseBody
 
 			case "refund":
 				transaction.RefundRequestHeaders = requestHeaders
 				transaction.RefundResponseHeaders = responseHeaders
 
-				RefundRequestBody := models.RefundRequest{}
-				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &RefundRequestBody)
-				transaction.RefundRequest = RefundRequestBody
+				requestBody := models.RefundRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
+				transaction.RefundRequest = requestBody
 
-				RefundResponseBody := models.RefundResponse{}
-				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &RefundResponseBody)
-				transaction.RefundResponse = RefundResponseBody
+				responseBody := models.RefundResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
+				transaction.RefundResponse = responseBody
 			case "point":
 				transaction.PointRequestHeaders = requestHeaders
 				transaction.PointResponseHeaders = responseHeaders
 
-				PointRequestBody := models.PointRequest{}
-				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &PointRequestBody)
-				transaction.PointRequest = PointRequestBody
+				requestBody := models.PointRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
+				transaction.PointRequest = requestBody
 
-				PointResponseBody := models.PointResponse{}
-				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &PointResponseBody)
-				transaction.PointResponse = PointResponseBody
+				responseBody := models.PointResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
+				transaction.PointResponse = responseBody
 
 			case "threeds":
 				transaction.ThreeDSRequestHeaders = requestHeaders
 				transaction.ThreeDSResponseHeaders = responseHeaders
 
-				threedsRequestBody := models.ThreeDSRequest{}
-				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &threedsRequestBody)
-				transaction.ThreeDSRequest = threedsRequestBody
+				requestBody := models.ThreeDSRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
+				transaction.ThreeDSRequest = requestBody
 
-				threedsResponseBody := models.ThreeDSResponse{}
-				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &threedsResponseBody)
-				transaction.ThreeDSResponse = threedsResponseBody
+				responseBody := models.ThreeDSResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
+				transaction.ThreeDSResponse = responseBody
 
 			case "token":
 				transaction.TokenRequestHeaders = requestHeaders
 				transaction.TokenResponseHeaders = responseHeaders
 
-				tokenRequestBody := models.TokenRequest{}
-				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &tokenRequestBody)
-				transaction.TokenRequest = tokenRequestBody
+				requestBody := models.TokenRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
+				transaction.TokenRequest = requestBody
 
-				tokenResponseBody := models.TokenResponse{}
-				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &tokenResponseBody)
-				transaction.TokenResponse = tokenResponseBody
+				responseBody := models.TokenResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
+				transaction.TokenResponse = responseBody
+
+			case "completepayment":
+				transaction.CompletePaymentRequestHeaders = requestHeaders
+				transaction.CompletePaymentResponseHeaders = responseHeaders
+
+				requestBody := models.CompletePaymentRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
+				transaction.CompletePaymentRequest = requestBody
+
+				responseBody := models.CompletePaymentResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
+				transaction.CompletePaymentResponse = responseBody
+
 			}
 
 		}
 
-	}
+		return nil
+	})
 }
 
-func (t *TransactionRepository) LogRequest(transactionType, action, orderID string, request []byte, headers http.Header) error {
+func (t *TransactionRepository) LogRequest(transactionType, action, orderID string, body []byte, headers http.Header) error {
 	err := t.DB.Update(func(tx *bbolt.Tx) error {
 		transactionsBucket := tx.Bucket([]byte("transactions"))
 
@@ -170,50 +182,11 @@ func (t *TransactionRepository) LogRequest(transactionType, action, orderID stri
 		if err != nil {
 			return err
 		}
-		//TODO need to cleans this, we already have the action no need for switch
-		switch transactionType {
-		case "sale":
-			saleBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte("sale"))
-			saleActionBucket, _ := saleBucket.CreateBucketIfNotExists([]byte(action))
-			_ = saleActionBucket.Put([]byte("headers"), headerBytes)
-			_ = saleActionBucket.Put([]byte("body"), request)
-		case "presale":
-			presaleBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte("presale"))
-			presaleActionBucket, _ := presaleBucket.CreateBucketIfNotExists([]byte(action))
-			_ = presaleActionBucket.Put([]byte("headers"), headerBytes)
-			_ = presaleActionBucket.Put([]byte("body"), request)
-		case "postsale":
-			postsaleBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte("postsale"))
-			postsaleActionBucket, _ := postsaleBucket.CreateBucketIfNotExists([]byte(action))
-			_ = postsaleActionBucket.Put([]byte("headers"), headerBytes)
-			_ = postsaleActionBucket.Put([]byte("body"), request)
-		case "refund":
-			refundBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte("refund"))
-			refundActionBucket, _ := refundBucket.CreateBucketIfNotExists([]byte(action))
-			_ = refundActionBucket.Put([]byte("headers"), headerBytes)
-			_ = refundActionBucket.Put([]byte("body"), request)
-		case "void":
-			voidBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte("void"))
-			voidActionBucket, _ := voidBucket.CreateBucketIfNotExists([]byte(action))
-			_ = voidActionBucket.Put([]byte("headers"), headerBytes)
-			_ = voidActionBucket.Put([]byte("body"), request)
-		case "point":
-			pointBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte("point"))
-			pointActionBucket, _ := pointBucket.CreateBucketIfNotExists([]byte(action))
-			_ = pointActionBucket.Put([]byte("headers"), headerBytes)
-			_ = pointActionBucket.Put([]byte("body"), request)
-		case "threeds":
-			threedsBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte(transactionType))
-			threedsActionBucket, _ := threedsBucket.CreateBucketIfNotExists([]byte(action))
-			_ = threedsActionBucket.Put([]byte("headers"), headerBytes)
-			_ = threedsActionBucket.Put([]byte("body"), request)
-		case "token":
-			tokenBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte(transactionType))
-			tokenActionBucket, _ := tokenBucket.CreateBucketIfNotExists([]byte(action))
-			_ = tokenActionBucket.Put([]byte("headers"), headerBytes)
-			_ = tokenActionBucket.Put([]byte("body"), request)
-		}
 
+		transactionTypeBucket, _ := orderIDBucket.CreateBucketIfNotExists([]byte(transactionType))
+		actionBucket, _ := transactionTypeBucket.CreateBucketIfNotExists([]byte(action))
+		_ = actionBucket.Put([]byte("headers"), headerBytes)
+		_ = actionBucket.Put([]byte("body"), body)
 		return nil
 	})
 	return err

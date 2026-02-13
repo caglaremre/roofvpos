@@ -1,0 +1,53 @@
+<!-- complete payment canvas -->
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="completepaymentoffcanvas">
+	<div class="offcanvas-header pb-0">
+		<h5 class="offcanvas-title ms-auto">complete payment</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+	</div>
+	<div class="offcanvas-body pt-1 container">
+		<form action="/completepayment" method="post">
+			<table class="table align-middle table-borderless table-sm text-start">
+				<tr>
+					<td>
+						<div class="input-group"><label for="completepayment-process-id" class="input-group-text">process id</label>
+							<input type="text" class="form-control" id="completepayment-process-id" name="completepayment-process-id">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="completepayment-order-id" class="input-group-text">order id</label>
+							<input type="text" class="form-control" id="completepayment-order-id" name="completepayment-order-id">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="completepayment-lang" class="input-group-text">lang</label>
+							<input type="text" class="form-control" id="completepayment-lang" name="completepayment-lang" value="tr">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="completepayment-additional-info" class="input-group-text">additional info</label>
+							<input type="text" class="form-control" id="completepayment-additional-info" name="completepayment-additional-info">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="completepayment-invoice-info" class="input-group-text">invoice info</label>
+							<input type="text" class="form-control" id="completepayment-invoice-info" name="completepayment-invoice-info">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" class="text-center">
+						<input type="submit" class="btn btn-primary" value="submit">
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>

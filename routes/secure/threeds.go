@@ -107,7 +107,10 @@ func ThreeDSResult(c *gin.Context, bolt *repository.Bolt) {
 
 	req, _ := http.NewRequest("POST", baseURL+"/api/Check/ByToken", bytes.NewBuffer(tokenreqJson))
 	req.Header = utils.CalculateSignature(string(tokenreqJson), bolt)
-	bolt.TransactionRepo.LogRequest("token", "request", orderID, tokenreqJson, req.Header)
+	err := bolt.TransactionRepo.LogRequest("token", "request", orderID, tokenreqJson, req.Header)
+	if err != nil {
+		log.Printf("could not log the token request %s\n", err.Error())
+	}
 
 	client := &http.Client{
 		Timeout: time.Minute,
@@ -130,8 +133,59 @@ func ThreeDSResult(c *gin.Context, bolt *repository.Bolt) {
 
 	err = bolt.TransactionRepo.LogRequest("token", "response", orderID, response.Result, resp.Header)
 	if err != nil {
-		log.Printf("could not log the threeds request %s\n", err.Error())
+		log.Printf("could not log the token response %s\n", err.Error())
 	}
 
-	c.HTML(200, "result.html", gin.H{"state": 1, "result": string(responseIndent)})
+	c.HTML(200, "result.html", gin.H{"state": response.State, "result": string(responseIndent)})
+}
+
+func CompletePayment(c *gin.Context, bolt *repository.Bolt) {
+	baseURL := bolt.ConfigRepo.GetBaseURL()
+	err := c.Request.ParseForm()
+	if err != nil {
+		c.HTML(http.StatusBadRequest, "result.html", gin.H{"state": 0, "result": err.Error()})
+		return
+	}
+
+	var request models.CompletePaymentRequest
+	err = c.Bind(&request)
+	if err != nil {
+		c.HTML(http.StatusBadRequest, "result.html", gin.H{"state": 0, "result": err.Error()})
+		return
+	}
+
+	requestBody, _ := json.Marshal(&request)
+
+	var httpRequest *http.Request
+
+	httpRequest, _ = http.NewRequest("POST", baseURL+"/api/ThreeD/Complete3DSPayment", bytes.NewBuffer(requestBody))
+	httpRequest.Header = utils.CalculateSignature(string(requestBody), bolt)
+
+	err = bolt.TransactionRepo.LogRequest("completepayment", "request", request.OrderID, requestBody, httpRequest.Header)
+	if err != nil {
+		log.Printf("could not log the complete payment request %s\n", err.Error())
+	}
+
+	client := http.Client{
+		Timeout: time.Minute,
+	}
+
+	httpResponse, err := client.Do(httpRequest)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
+		return
+	}
+	defer httpResponse.Body.Close()
+
+	responseBody, _ := io.ReadAll(httpResponse.Body)
+	var response models.Response
+	_ = json.Unmarshal(responseBody, &response)
+	responseIndent, _ := json.MarshalIndent(response, "", "	")
+	err = bolt.TransactionRepo.LogRequest("completepayment", "response", request.OrderID, response.Result, httpResponse.Header)
+	if err != nil {
+		log.Printf("could not log the complete payment response %s\n", err.Error())
+	}
+
+	c.HTML(200, "result.html", gin.H{"state": response.State, "result": string(responseIndent)})
+
 }
