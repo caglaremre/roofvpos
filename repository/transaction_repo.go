@@ -158,6 +158,18 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
 				transaction.CompletePaymentResponse = responseBody
 
+			case "threedshosting":
+				transaction.ThreeDSHostingRequestHeaders = requestHeaders
+				transaction.ThreeDSHostingResponseHeaders = responseHeaders
+
+				requestBody := models.ThreeDSHostingRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
+				transaction.ThreeDSHostingRequest = requestBody
+
+				responseBody := models.ThreeDSHostingResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
+				transaction.ThreeDSHostingResponse = responseBody
+
 			}
 
 		}

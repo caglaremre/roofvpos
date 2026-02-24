@@ -45,4 +45,9 @@ type Transaction struct {
 	CompletePaymentRequestHeaders  http.Header
 	CompletePaymentResponse        CompletePaymentResponse
 	CompletePaymentResponseHeaders http.Header
+
+	ThreeDSHostingRequest         ThreeDSHostingRequest
+	ThreeDSHostingRequestHeaders  http.Header
+	ThreeDSHostingResponse        ThreeDSHostingResponse
+	ThreeDSHostingResponseHeaders http.Header
 }

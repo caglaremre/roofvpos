@@ -46,6 +46,9 @@ func RegisterRoutes(bolt *repository.Bolt, server *gin.Engine) {
 	server.POST("/completepayment", func(c *gin.Context) {
 		secure.CompletePayment(c, bolt)
 	})
+	server.POST("/threedshosting", func(c *gin.Context) {
+		secure.ThreedsHosting(c, bolt)
+	})
 }
 
 func home(c *gin.Context, bolt *repository.Bolt) {

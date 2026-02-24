@@ -557,6 +557,82 @@
 					</div>
 					{{end}}
 
+										{{if .ThreeDSHostingRequestHeaders}}
+					<div class="accordion-item">
+						<h2 class="accordion-header text-center">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapse-threedshosting-{{$index}}">
+								threeds hosting
+							</button>
+						</h2>
+						<div id="collapse-threedshosting-{{$index}}" class="accordion-collapse collapse"
+								 data-bs-parent="#accordion{{$index}}">
+							<div class="accordion-body">
+								<div class="container-fluid text-center">
+									<div class="row">
+										<div class="col">
+											threeds hosting request
+										</div>
+										<div class="col">
+											threeds hosting response
+										</div>
+									</div>
+									<div class="row border mt-1">
+										<h5>headers</h5>
+										<div class="col-6">
+											{{range $hkey, $hvalue := $transaction.ThreeDSHostingRequestHeaders}}
+											<div class="row">
+												<div class="col text-end">
+													{{$hkey}}
+												</div>
+												<div class="col text-start">
+													{{$hvalue}}
+												</div>
+											</div>
+											{{end}}
+										</div>
+										<div class="col-6">
+											{{range $hkey, $hvalue := $transaction.ThreeDSHostingResponseHeaders}}
+											<div class="row">
+												<div class="col	text-end">
+													{{$hkey}}
+												</div>
+												<div class="col text-start">
+													{{$hvalue}}
+												</div>
+											</div>
+											{{end}}
+										</div>
+									</div>
+									<div class="row border mt-1">
+										<h5>body</h5>
+										<div class="col-6">
+											<div class="row"><div class="col text-end">order id</div><div class="col text-start">{{$transaction.ThreeDSHostingRequest.OrderId}}</div></div>
+											<div class="row"><div class="col text-end">amount</div><div class="col text-start">{{$transaction.ThreeDSHostingRequest.Amount}}</div></div>
+											<div class="row"><div class="col text-end">currency</div><div class="col text-start">{{$transaction.ThreeDSHostingRequest.Currency}}</div></div>
+											<div class="row"><div class="col text-end">installment count</div><div class="col text-start">{{$transaction.ThreeDSHostingRequest.InstallmentCount}}</div></div>
+											<div class="row"><div class="col text-end">request type</div><div class="col text-start">{{$transaction.ThreeDSHostingRequest.RequestType}}</div></div>
+											<div class="row"><div class="col text-end">order type</div><div class="col text-start">{{$transaction.ThreeDSHostingRequest.OrderType}}</div></div>
+											<div class="row"><div class="col text-end">txn type</div><div class="col text-start">{{$transaction.ThreeDSHostingRequest.TxnType}}</div></div>
+											<div class="row"><div class="col text-end">lang</div><div class="col text-start">{{$transaction.ThreeDSHostingRequest.Lang}}</div></div>
+											<div class="row"><div class="col text-end">return url</div><div class="col text-start">{{$transaction.ThreeDSHostingRequest.ReturnUrl}}</div></div>
+											<div class="row"><div class="col text-end">callback url</div><div class="col text-start">{{$transaction.ThreeDSHostingRequest.CallbackUrl}}</div></div>
+											<div class="row"><div class="col text-end">additional info</div><div class="col text-start">{{$transaction.ThreeDSHostingRequest.AdditionalInfo}}</div></div>
+											<div class="row"><div class="col text-end">invoice info</div><div class="col text-start">{{$transaction.ThreeDSHostingRequest.InvoiceInfo}}</div></div>
+										</div>
+										<div class="col-6">
+											<div class="row"><div class="col text-end">result code</div><div class="col text-start">{{$transaction.ThreeDSHostingResponse.ResultCode}}</div></div>
+											<div class="row"><div class="col text-end">result message</div><div class="col text-start">{{$transaction.ThreeDSHostingResponse.ResultMessage}}</div></div>
+											<div class="row"><div class="col text-end">link</div><div class="col text-start">{{$transaction.ThreeDSHostingResponse.Link}}</div></div>
+											<div class="row"><div class="col text-end">process id</div><div class="col text-start">{{$transaction.ThreeDSHostingResponse.ProcessId}}</div></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{{end}}
+
 					{{if .TokenRequestHeaders}}
 					<div class="accordion-item">
 						<h2 class="accordion-header text-center">
