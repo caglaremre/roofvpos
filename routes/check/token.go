@@ -3,7 +3,6 @@ package check
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"io"
 	"log"
 	"net/http"
@@ -47,9 +46,10 @@ func CheckToken(bolt *repository.Bolt, tokenreq models.TokenRequest) (models.Res
 	var req *http.Request
 
 	req, _ = http.NewRequest("POST", baseURL+"/api/Check/ByToken", bytes.NewBuffer(tokenreqjson))
-	req.Header = utils.CalculateSignature(string(tokenreqjson), bolt)
-	if len(req.Header.Get("x_signature")) < 1 {
-		return response, errors.New("clientToken or secretKey is empty")
+	var err error
+	req.Header, err = utils.CalculateSignature(string(tokenreqjson), bolt)
+	if err != nil {
+		return response, err
 	}
 
 	client := &http.Client{

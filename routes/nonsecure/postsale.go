@@ -18,23 +18,23 @@ func PostSale(c *gin.Context, bolt *repository.Bolt) {
 	baseURL := bolt.ConfigRepo.GetBaseURL()
 	err := c.Request.ParseForm()
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
 	}
 
 	postSaleReq := models.PostSaleRequest{}
 	err = c.Bind(&postSaleReq)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
+		return
 	}
 
 	postSaleReqJson, _ := json.Marshal(&postSaleReq)
 
 	req, _ := http.NewRequest("POST", baseURL+"/api/Payment/PostSale", bytes.NewBuffer(postSaleReqJson))
 
-	req.Header = utils.CalculateSignature(string(postSaleReqJson), bolt)
-	if len(req.Header.Get("x_signature")) < 1 {
-		c.JSON(http.StatusNotAcceptable, gin.H{"error": "clientToken or secretKey is empty"})
-		return
+	req.Header, err = utils.CalculateSignature(string(postSaleReqJson), bolt)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
 	}
 
 	err = bolt.TransactionRepo.LogRequest("postsale", "request", postSaleReq.OrderID, postSaleReqJson, req.Header)

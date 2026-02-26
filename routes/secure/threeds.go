@@ -54,7 +54,10 @@ func ThreeDS(c *gin.Context, bolt *repository.Bolt) {
 		return
 	}
 
-	req.Header = utils.CalculateSignature(string(threedsreqJson), bolt)
+	req.Header, err = utils.CalculateSignature(string(threedsreqJson), bolt)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
+	}
 
 	err = bolt.TransactionRepo.LogRequest("threeds", "request", threedsreq.OrderId, threedsreqJson, req.Header)
 	if err != nil {
@@ -132,7 +135,11 @@ func CompletePayment(c *gin.Context, bolt *repository.Bolt) {
 	var httpRequest *http.Request
 
 	httpRequest, _ = http.NewRequest("POST", baseURL+"/api/ThreeD/Complete3DSPayment", bytes.NewBuffer(requestBody))
-	httpRequest.Header = utils.CalculateSignature(string(requestBody), bolt)
+	httpRequest.Header, err = utils.CalculateSignature(string(requestBody), bolt)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
+		return
+	}
 
 	err = bolt.TransactionRepo.LogRequest("completepayment", "request", request.OrderID, requestBody, httpRequest.Header)
 	if err != nil {

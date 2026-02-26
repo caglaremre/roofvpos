@@ -3,6 +3,7 @@ package utils
 import (
 	"crypto/sha256"
 	"encoding/base64"
+	"errors"
 	"log"
 	"net/http"
 	"roof/vpos/repository"
@@ -11,7 +12,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func CalculateSignature(body string, bolt *repository.Bolt) http.Header {
+func CalculateSignature(body string, bolt *repository.Bolt) (http.Header, error) {
 	nonce, err := uuid.NewV7()
 	if err != nil {
 		log.Panicf("Couldn't create uuid: %s", err)
@@ -19,7 +20,7 @@ func CalculateSignature(body string, bolt *repository.Bolt) http.Header {
 
 	clientToken, secretKey := bolt.ConfigRepo.GetClientAndSecretKey()
 	if clientToken == "" || secretKey == "" {
-		return http.Header{}
+		return http.Header{}, errors.New("client token or secret key is empty")
 	}
 
 	clientTokenDigest := sha256.Sum256([]byte(clientToken))
@@ -38,6 +39,6 @@ func CalculateSignature(body string, bolt *repository.Bolt) http.Header {
 	headers.Add("x_timestamp", timestamp)
 	headers.Add("x_signature", signatureTextDigestEncoded)
 	headers.Add("x_scenario", "mock")
-	return headers
+	return headers, nil
 
 }

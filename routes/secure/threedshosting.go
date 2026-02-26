@@ -37,8 +37,11 @@ func ThreedsHosting(c *gin.Context, bolt *repository.Bolt) {
 
 	req, _ = http.NewRequest("POST", baseURL+"/api/Order/CreateOrder3D", bytes.NewBuffer([]byte(threedshostingreq.ToJson(false))))
 
-	req.Header = utils.CalculateSignature(threedshostingreq.ToJson(false), bolt)
-
+	req.Header, err = utils.CalculateSignature(threedshostingreq.ToJson(false), bolt)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
+		return
+	}
 	err = bolt.TransactionRepo.LogRequest("threedshosting", "request", threedshostingreq.OrderId, []byte(threedshostingreq.ToJson(false)), req.Header)
 	if err != nil {
 		log.Printf("could not log the threeds request %s\n", err.Error())

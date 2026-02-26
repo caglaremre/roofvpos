@@ -31,9 +31,9 @@ func Refund(c *gin.Context, bolt *repository.Bolt) {
 
 	req, _ := http.NewRequest("POST", baseURL+"/api/Payment/Refund", bytes.NewBuffer(refundReqJson))
 
-	req.Header = utils.CalculateSignature(string(refundReqJson), bolt)
-	if len(req.Header.Get("x_signature")) < 1 {
-		c.JSON(http.StatusNotAcceptable, gin.H{"error": "clientToken or secretKey is empty"})
+	req.Header, err = utils.CalculateSignature(string(refundReqJson), bolt)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
 		return
 	}
 
