@@ -170,6 +170,17 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
 				transaction.ThreeDSHostingResponse = responseBody
 
+			case "checkorder":
+				transaction.CheckOrderRequestHeaders = requestHeaders
+				transaction.CheckOrderResponseHeaders = responseHeaders
+
+				requestBody := models.CheckOrderRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
+				transaction.CheckOrderRequest = requestBody
+
+				responseBody := models.CheckOrderResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
+				transaction.CheckOrderResponse = responseBody
 			}
 
 		}

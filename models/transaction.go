@@ -50,4 +50,9 @@ type Transaction struct {
 	ThreeDSHostingRequestHeaders  http.Header
 	ThreeDSHostingResponse        ThreeDSHostingResponse
 	ThreeDSHostingResponseHeaders http.Header
+
+	CheckOrderRequest         CheckOrderRequest
+	CheckOrderRequestHeaders  http.Header
+	CheckOrderResponse        CheckOrderResponse
+	CheckOrderResponseHeaders http.Header
 }
