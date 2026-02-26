@@ -10,6 +10,7 @@ import (
 	"regexp"
 	"roof/vpos/models"
 	"roof/vpos/repository"
+	"roof/vpos/routes/check"
 	"roof/vpos/utils"
 	"time"
 
@@ -99,43 +100,15 @@ func ThreeDS(c *gin.Context, bolt *repository.Bolt) {
 }
 
 func ThreeDSResult(c *gin.Context, bolt *repository.Bolt) {
-	baseURL := bolt.ConfigRepo.GetBaseURL()
 	token := utils.TransformToken(c.Query("x_body"))
-	orderID := c.Query("orderID")
 	tokenreq := models.TokenRequest{Token: token, Lang: "tr"}
-	tokenreqJson, _ := json.Marshal(tokenreq)
 
-	req, _ := http.NewRequest("POST", baseURL+"/api/Check/ByToken", bytes.NewBuffer(tokenreqJson))
-	req.Header = utils.CalculateSignature(string(tokenreqJson), bolt)
-	err := bolt.TransactionRepo.LogRequest("token", "request", orderID, tokenreqJson, req.Header)
-	if err != nil {
-		log.Printf("could not log the token request %s\n", err.Error())
-	}
-
-	client := &http.Client{
-		Timeout: time.Minute,
-	}
-	resp, err := client.Do(req)
+	response, err := check.CheckToken(bolt, tokenreq)
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
 		return
 	}
-
-	defer resp.Body.Close()
-	respBody, err := io.ReadAll(resp.Body)
-	if err != nil {
-		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
-		return
-	}
-	var response models.Response
-	_ = json.Unmarshal(respBody, &response)
 	responseIndent, _ := json.MarshalIndent(response, "", "	")
-
-	err = bolt.TransactionRepo.LogRequest("token", "response", orderID, response.Result, resp.Header)
-	if err != nil {
-		log.Printf("could not log the token response %s\n", err.Error())
-	}
-
 	c.HTML(200, "result.html", gin.H{"state": response.State, "result": string(responseIndent)})
 }
 

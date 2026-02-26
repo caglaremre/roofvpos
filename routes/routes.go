@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"roof/vpos/models"
 	"roof/vpos/repository"
+	"roof/vpos/routes/check"
 	"roof/vpos/routes/nonsecure"
 	"roof/vpos/routes/secure"
 
@@ -48,6 +49,9 @@ func RegisterRoutes(bolt *repository.Bolt, server *gin.Engine) {
 	})
 	server.POST("/threedshosting", func(c *gin.Context) {
 		secure.ThreedsHosting(c, bolt)
+	})
+	server.POST("/checktoken", func(c *gin.Context) {
+		check.Token(c, bolt)
 	})
 }
 

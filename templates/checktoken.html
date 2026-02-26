@@ -1,0 +1,32 @@
+<!-- check token canvas -->
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="checktokenoffcanvas">
+	<div class="offcanvas-header pb-0">
+		<h5 class="offcanvas-title ms-auto">check token</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+	</div>
+	<div class="offcanvas-body pt-1 container">
+		<form action="/checktoken" method="post">
+			<table class="table align-middle table-borderless table-sm text-start">
+				<tr>
+					<td>
+						<div class="input-group"><label for="checktoken-token" class="input-group-text">token</label>
+							<input type="text" class="form-control" id="checktoken-token" name="checktoken-token">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="checktoken-lang" class="input-group-text">lang</label>
+							<input type="text" class="form-control" id="checktoken-lang" name="checktoken-lang" value="tr">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" class="text-center">
+						<input type="submit" class="btn btn-primary" value="submit">
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>

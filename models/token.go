@@ -3,8 +3,8 @@ package models
 import "time"
 
 type TokenRequest struct {
-	Token string `json:"token"`
-	Lang  string `json:"lang"`
+	Token string `json:"token" form:"checktoken-token"`
+	Lang  string `json:"lang" form:"checktoken-lang"`
 }
 
 type TokenResponse struct {
