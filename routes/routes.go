@@ -59,6 +59,9 @@ func RegisterRoutes(bolt *repository.Bolt, server *gin.Engine) {
 	server.POST("/checkprocess", func(c *gin.Context) {
 		check.ProcessId(c, bolt)
 	})
+	server.POST("/listorder", func(c *gin.Context) {
+		check.ListOrderId(c, bolt)
+	})
 }
 
 func home(c *gin.Context, bolt *repository.Bolt) {

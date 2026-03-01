@@ -6,19 +6,19 @@
 <div class="row mt-4 mb-5" id="transaction">
 	<h3>non-secure transactions</h3>
 	<div class="list-group list-group-horizontal">
-		<button type="button" class="list-group-item flex-fill" id="sale-offcanvas-button" data-bs-toggle="offcanvas"
+		<button type="button" class="list-group-item flex-fill col-2" id="sale-offcanvas-button" data-bs-toggle="offcanvas"
 						data-bs-target="#saleoffcanvas">sale
 		</button>
-		<button type="button" class="list-group-item flex-fill" id="postsale-offcanvas-button" data-bs-toggle="offcanvas"
+		<button type="button" class="list-group-item flex-fill col-2" id="postsale-offcanvas-button" data-bs-toggle="offcanvas"
 						data-bs-target="#postsaleoffcanvas">postsale
 		</button>
-		<button type="button" class="list-group-item flex-fill" id="void-offcanvas-button" data-bs-toggle="offcanvas"
+		<button type="button" class="list-group-item flex-fill col-2" id="void-offcanvas-button" data-bs-toggle="offcanvas"
 						data-bs-target="#voidoffcanvas">void
 		</button>
-		<button type="button" class="list-group-item flex-fill" id="refund-offcanvas-button" data-bs-toggle="offcanvas"
+		<button type="button" class="list-group-item flex-fill col-2" id="refund-offcanvas-button" data-bs-toggle="offcanvas"
 						data-bs-target="#refundoffcanvas">refund
 		</button>
-		<button type="button" class="list-group-item flex-fill" id="point-offcanvas-button" data-bs-toggle="offcanvas"
+		<button type="button" class="list-group-item flex-fill col-2" id="point-offcanvas-button" data-bs-toggle="offcanvas"
 						data-bs-target="#pointoffcanvas">point
 		</button>
 	</div>
@@ -36,14 +36,17 @@
 	</div>
 	<h3 class="mt-4">checking</h3>
 	<div class="list-group list-group-horizontal">
-		<button type="button" class="list-group-item flex-fill" id="checktoken-offcanvas-button" data-bs-toggle="offcanvas"
+		<button type="button" class="list-group-item flex-fill col-3" id="checktoken-offcanvas-button" data-bs-toggle="offcanvas"
 						data-bs-target="#checktokenoffcanvas">check token
 		</button>
-		<button type="button" class="list-group-item flex-fill" id="checkorder-offcanvas-button" data-bs-toggle="offcanvas"
+		<button type="button" class="list-group-item flex-fill col-3" id="checkorder-offcanvas-button" data-bs-toggle="offcanvas"
 						data-bs-target="#checkorderoffcanvas">check order
 		</button>
-		<button type="button" class="list-group-item flex-fill" id="checkorder-offcanvas-button" data-bs-toggle="offcanvas"
+		<button type="button" class="list-group-item flex-fill col-3" id="checkorder-offcanvas-button" data-bs-toggle="offcanvas"
 						data-bs-target="#checkprocessoffcanvas">check process
+		</button>
+		<button type="button" class="list-group-item flex-fill col-3" id="listorder-offcanvas-button" data-bs-toggle="offcanvas"
+						data-bs-target="#listorderoffcanvas">list order
 		</button>
 	</div>
 	{{template "sale.html" .}}
@@ -57,6 +60,7 @@
 	{{template "checktoken.html"}}
 	{{template "checkorder.html"}}
 	{{template "checkprocess.html"}}
+	{{template "listorder.html"}}
 </div>
 <!-- transaction buttons end -->
 {{template "transactions.html" .}}
