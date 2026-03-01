@@ -18,13 +18,16 @@ func (cf *ConfigRepository) GetClientAndSecretKey() (string, string) {
 	return clientToken, secretKey
 }
 
-func (cf *ConfigRepository) UpdateClientAndSecretKey(clientToken, secretKey string) error {
+func (cf *ConfigRepository) UpdateConfig(clientToken, secretKey, baseUrl string) error {
 	err := cf.DB.Update(func(tx *bbolt.Tx) error {
 		b := tx.Bucket([]byte("config"))
 		err := b.Put([]byte("client_token"), []byte(clientToken))
 		_ = check(err)
 
 		err = b.Put([]byte("secret_key"), []byte(secretKey))
+		_ = check(err)
+
+		err = b.Put([]byte("base_url"), []byte(baseUrl))
 		_ = check(err)
 		return nil
 	})

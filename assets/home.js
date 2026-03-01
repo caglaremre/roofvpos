@@ -25,11 +25,12 @@ getIPAddress();
 async function updateConfig() {
 	const clientToken = document.getElementById('clientToken').value
 	const secretKey = document.getElementById('secretKey').value
+	const baseUrl = document.getElementById('baseUrl').value
 
 	const response = await fetch('http://localhost:8080/config', {
 		method: 'POST',
 		headers: {'content-type': 'application/json'},
-		body: JSON.stringify({clientToken: clientToken, secretKey: secretKey}),
+		body: JSON.stringify({clientToken: clientToken, secretKey: secretKey, baseUrl: baseUrl}),
 	})
 	if (response.ok) {
 		const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast_success)

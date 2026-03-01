@@ -35,7 +35,7 @@
 				<input type="text" class="form-control" placeholder="enter client token" id="clientToken"
 							 name="clientToken" value="{{.clientToken}}" tabindex="1">
 			</td>
-			<td rowspan="2">
+			<td rowspan="3">
 				<button class="btn btn-primary" id="configUpdate">update</button>
 			</td>
 		</tr>
@@ -43,6 +43,11 @@
 			<td><label for="secretKey">secret key</label></td>
 			<td><input type="text" class="form-control" placeholder="enter secret key" id="secretKey"
 								 name="secretKey" value="{{.secretKey}}" tabindex="2"></td>
+		</tr>
+		<tr>
+			<td><label for="baseUrl">base url</label></td>
+			<td><input type="text" class="form-control" placeholder="enter base url" id="baseUrl"
+								 name="baseUrl" value="{{.baseUrl}}" tabindex="2"></td>
 		</tr>
 	</table>
 </div>

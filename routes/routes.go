@@ -64,6 +64,7 @@ func RegisterRoutes(bolt *repository.Bolt, server *gin.Engine) {
 func home(c *gin.Context, bolt *repository.Bolt) {
 	// TODO return only transactions orderids then fetch when needed
 	clientToken, secretKey := bolt.ConfigRepo.GetClientAndSecretKey()
+	baseURL := bolt.ConfigRepo.GetBaseURL()
 	transactions := bolt.TransactionRepo.GetAllTransactions()
 	orderID, _ := uuid.NewUUID()
 	saleReq := models.SaleRequest{OrderID: orderID.String()}
@@ -72,6 +73,7 @@ func home(c *gin.Context, bolt *repository.Bolt) {
 		"secretKey":    secretKey,
 		"transactions": transactions,
 		"saleReq":      saleReq,
+		"baseUrl":      baseURL,
 	})
 }
 
@@ -85,11 +87,11 @@ func configUpdate(c *gin.Context, bolt *repository.Bolt) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if data["clientToken"] == "" || data["secretKey"] == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "clientToken or secretKey is empty"})
+	if data["clientToken"] == "" || data["secretKey"] == "" || data["baseUrl"] == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "clientToken, secretKey or baseUrl is empty"})
 		return
 	}
-	err := bolt.ConfigRepo.UpdateClientAndSecretKey(data["clientToken"], data["secretKey"])
+	err := bolt.ConfigRepo.UpdateConfig(data["clientToken"], data["secretKey"], data["baseUrl"])
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
