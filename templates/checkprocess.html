@@ -1,0 +1,32 @@
+<!-- check order canvas -->
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="checkprocessoffcanvas">
+	<div class="offcanvas-header pb-0">
+		<h5 class="offcanvas-title ms-auto">check order</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+	</div>
+	<div class="offcanvas-body pt-1 container">
+		<form action="/checkprocess" method="post">
+			<table class="table align-middle table-borderless table-sm text-start">
+				<tr>
+					<td>
+						<div class="input-group"><label for="checkprocess-processid" class="input-group-text">process id</label>
+							<input type="text" class="form-control" id="checkprocess-processid" name="checkprocess-processid">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group"><label for="checkprocess-lang" class="input-group-text">lang</label>
+							<input type="text" class="form-control" id="checkprocess-lang" name="checkprocess-lang" value="tr">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" class="text-center">
+						<input type="submit" class="btn btn-primary" value="submit">
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>

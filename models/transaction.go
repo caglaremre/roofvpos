@@ -55,4 +55,9 @@ type Transaction struct {
 	CheckOrderRequestHeaders  http.Header
 	CheckOrderResponse        CheckOrderResponse
 	CheckOrderResponseHeaders http.Header
+
+	CheckProcessRequest         CheckProcessRequest
+	CheckProcessRequestHeaders  http.Header
+	CheckProcessResponse        CheckProcessResponse
+	CheckProcessResponseHeaders http.Header
 }

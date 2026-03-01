@@ -924,6 +924,106 @@
 					</div>
 					{{end}}
 
+					{{if .CheckProcessRequestHeaders}}
+					<div class="accordion-item">
+						<h2 class="accordion-header text-center">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapse-checkprocess-{{$index}}">
+								check process
+							</button>
+						</h2>
+						<div id="collapse-checkprocess-{{$index}}" class="accordion-collapse collapse"
+								 data-bs-parent="#accordion{{$index}}">
+							<div class="accordion-body">
+								<div class="container-fluid text-center">
+									<div class="row">
+										<div class="col">
+											check process request
+										</div>
+										<div class="col">
+											check process response
+										</div>
+									</div>
+									<div class="row border mt-1">
+										<h5>headers</h5>
+										<div class="col-6">
+											{{range $hkey, $hvalue := $transaction.CheckProcessRequestHeaders}}
+											<div class="row">
+												<div class="col text-end">
+													{{$hkey}}
+												</div>
+												<div class="col text-start">
+													{{$hvalue}}
+												</div>
+											</div>
+											{{end}}
+										</div>
+										<div class="col-6">
+											{{range $hkey, $hvalue := $transaction.CheckProcessResponseHeaders}}
+											<div class="row">
+												<div class="col	text-end">
+													{{$hkey}}
+												</div>
+												<div class="col text-start">
+													{{$hvalue}}
+												</div>
+											</div>
+											{{end}}
+										</div>
+									</div>
+									<div class="row border mt-1">
+										<h5>body</h5>
+										<div class="col-6">
+											<div class="row"><div class="col text-end">process id</div><div class="col text-start">{{$transaction.CheckProcessRequest.ProcessId}}</div></div>
+											<div class="row"><div class="col text-end">lang</div><div class="col text-start">{{$transaction.CheckProcessRequest.Lang}}</div></div>
+										</div>
+										<div class="col-6">
+											<div class="row"><div class="col text-end">eci</div><div class="col text-start">{{$transaction.CheckProcessResponse.Eci}}</div></div>
+											<div class="row"><div class="col text-end">cavv</div><div class="col text-start">{{$transaction.CheckProcessResponse.Cavv}}</div></div>
+											<div class="row"><div class="col text-end">txn status</div><div class="col text-start">{{$transaction.CheckProcessResponse.TxnStatus}}</div></div>
+											<div class="row"><div class="col text-end">terminal auth type</div><div class="col text-start">{{$transaction.CheckProcessResponse.TerminalAuthType}}</div></div>
+											<div class="row"><div class="col text-end">request type</div><div class="col text-start">{{$transaction.CheckProcessResponse.RequestType}}</div></div>
+											<div class="row"><div class="col text-end">return url</div><div class="col text-start">{{$transaction.CheckProcessResponse.ReturnUrl}}</div></div>
+											<div class="row"><div class="col text-end">post sale amount</div><div class="col text-start">{{$transaction.CheckProcessResponse.PostSaleAmount}}</div></div>
+											<div class="row"><div class="col text-end">amount dci</div><div class="col text-start">{{$transaction.CheckProcessResponse.AmountDci}}</div></div>
+											<div class="row"><div class="col text-end">batch status</div><div class="col text-start">{{$transaction.CheckProcessResponse.BatchStatus}}</div></div>
+											<div class="row"><div class="col text-end">qr status</div><div class="col text-start">{{$transaction.CheckProcessResponse.QrStatus}}</div></div>
+											<div class="row"><div class="col text-end">additional content</div><div class="col text-start">{{$transaction.CheckProcessResponse.AdditionalContent}}</div></div>
+											<div class="row"><div class="col text-end">process expire date</div><div class="col text-start">{{$transaction.CheckProcessResponse.ProcessExpireDate}}</div></div>
+											<div class="row"><div class="col text-end">link status</div><div class="col text-start">{{$transaction.CheckProcessResponse.LinkStatus}}</div></div>
+											<div class="row"><div class="col text-end">process id</div><div class="col text-start">{{$transaction.CheckProcessResponse.ProcessId}}</div></div>
+											<div class="row"><div class="col text-end">order id</div><div class="col text-start">{{$transaction.CheckProcessResponse.OrderId}}</div></div>
+											<div class="row"><div class="col text-end">result message</div><div class="col text-start">{{$transaction.CheckProcessResponse.ResultMessage}}</div></div>
+											<div class="row"><div class="col text-end">result code</div><div class="col text-start">{{$transaction.CheckProcessResponse.ResultCode}}</div></div>
+											<div class="row"><div class="col text-end">proc return code</div><div class="col text-start">{{$transaction.CheckProcessResponse.ProcReturnCode}}</div></div>
+											<div class="row"><div class="col text-end">auth code</div><div class="col text-start">{{$transaction.CheckProcessResponse.AuthCode}}</div></div>
+											<div class="row"><div class="col text-end">secure type</div><div class="col text-start">{{$transaction.CheckProcessResponse.SecureType}}</div></div>
+											<div class="row"><div class="col text-end">txn type</div><div class="col text-start">{{$transaction.CheckProcessResponse.TxnType}}</div></div>
+											<div class="row"><div class="col text-end">card mask</div><div class="col text-start">{{$transaction.CheckProcessResponse.CardMask}}</div></div>
+											<div class="row"><div class="col text-end">amount</div><div class="col text-start">{{$transaction.CheckProcessResponse.Amount}}</div></div>
+											<div class="row"><div class="col text-end">point amount</div><div class="col text-start">{{$transaction.CheckProcessResponse.PointAmount}}</div></div>
+											<div class="row"><div class="col text-end">point code</div><div class="col text-start">{{$transaction.CheckProcessResponse.PointCode}}</div></div>
+											<div class="row"><div class="col text-end">point multiplier</div><div class="col text-start">{{$transaction.CheckProcessResponse.PointMultiplier}}</div></div>
+											<div class="row"><div class="col text-end">available point amount</div><div class="col text-start">{{$transaction.CheckProcessResponse.AvailablePointAmount}}</div></div>
+											<div class="row"><div class="col text-end">installment count</div><div class="col text-start">{{$transaction.CheckProcessResponse.InstallmentCount}}</div></div>
+											<div class="row"><div class="col text-end">installment index</div><div class="col text-start">{{$transaction.CheckProcessResponse.InstallmentIndex}}</div></div>
+											<div class="row"><div class="col text-end">merchant id</div><div class="col text-start">{{$transaction.CheckProcessResponse.MerchantId}}</div></div>
+											<div class="row"><div class="col text-end">terminal id</div><div class="col text-start">{{$transaction.CheckProcessResponse.TerminalId}}</div></div>
+											<div class="row"><div class="col text-end">batch no</div><div class="col text-start">{{$transaction.CheckProcessResponse.BatchNo}}</div></div>
+											<div class="row"><div class="col text-end">process date</div><div class="col text-start">{{$transaction.CheckProcessResponse.ProcessDate}}</div></div>
+											<div class="row"><div class="col text-end">rrn</div><div class="col text-start">{{$transaction.CheckProcessResponse.Rrn}}</div></div>
+											<div class="row"><div class="col text-end">additional info</div><div class="col text-start">{{$transaction.CheckProcessResponse.AdditionalInfo}}</div></div>
+											<div class="row"><div class="col text-end">invoice info</div><div class="col text-start">{{$transaction.CheckProcessResponse.InvoiceInfo}}</div></div>
+											<div class="row"><div class="col text-end">ecommerce txn type</div><div class="col text-start">{{$transaction.CheckProcessResponse.EcommerceTxnType}}</div></div>
+											<div class="row"><div class="col text-end">txn initiation type</div><div class="col text-start">{{$transaction.CheckProcessResponse.TxnInitiationType}}</div></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{{end}}
+
 				</div>
 			</div>
 		</div>

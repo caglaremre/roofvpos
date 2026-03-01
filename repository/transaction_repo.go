@@ -181,6 +181,18 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 				responseBody := models.CheckOrderResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
 				transaction.CheckOrderResponse = responseBody
+
+			case "checkprocess":
+				transaction.CheckProcessRequestHeaders = requestHeaders
+				transaction.CheckProcessResponseHeaders = responseHeaders
+
+				requestBody := models.CheckProcessRequest{}
+				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
+				transaction.CheckProcessRequest = requestBody
+
+				responseBody := models.CheckProcessResponse{}
+				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
+				transaction.CheckProcessResponse = responseBody
 			}
 
 		}
