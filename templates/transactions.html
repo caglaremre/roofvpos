@@ -623,7 +623,7 @@
 										<div class="col-6">
 											<div class="row"><div class="col text-end">result code</div><div class="col text-start">{{$transaction.ThreeDSHostingResponse.ResultCode}}</div></div>
 											<div class="row"><div class="col text-end">result message</div><div class="col text-start">{{$transaction.ThreeDSHostingResponse.ResultMessage}}</div></div>
-											<div class="row"><div class="col text-end">link</div><div class="col text-start">{{$transaction.ThreeDSHostingResponse.Link}}</div></div>
+											<div class="row"><div class="col text-end">link</div><div class="col text-start"><a href="{{$transaction.ThreeDSHostingResponse.Link}}">{{$transaction.ThreeDSHostingResponse.Link}}</a></div></div>
 											<div class="row"><div class="col text-end">process id</div><div class="col text-start">{{$transaction.ThreeDSHostingResponse.ProcessId}}</div></div>
 										</div>
 									</div>
