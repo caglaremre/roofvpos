@@ -9,7 +9,14 @@
 		<label class="btn btn-danger" id="switch-threedshosting-transaction-type-label" for="switch-threedshosting-transaction-type">threeds pre-sale</label>
 		<form action="/threedshosting" method="post" id="threedshosting-form">
 			<input type="hidden" name="threedshosting-transaction-type" id="threedshosting-transaction-type" value="Sale">
-			<input type="hidden" name="threedshosting-order-type" value="H">
+			<div class="form-check form-check-inline" style="font-size: xx-large !important;">
+				<input class="form-check-input" type="radio" name="threedshosting-order-type" id="inlineRadio1" value="H" checked>
+				<label class="form-check-label" for="inlineRadio1">hosting</label>
+			</div>
+			<div class="form-check form-check-inline" style="font-size: xx-large !important;">
+				<input class="form-check-input" type="radio" name="threedshosting-order-type" id="inlineRadio2" value="L">
+				<label class="form-check-label" for="inlineRadio2">link</label>
+			</div>
 			<table class="table align-middle table-borderless table-sm text-start">
 				<tr><td><div class="input-group">
 					<label for="threedshosting-order-id" class="input-group-text">order id</label>
