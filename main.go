@@ -6,6 +6,7 @@ import (
 	"io/fs"
 	"log"
 	"net/http"
+	"os"
 	"roof/vpos/repository"
 	"roof/vpos/routes"
 
@@ -35,7 +36,7 @@ func main() {
 	tmpl := template.Must(template.ParseFS(templateFS, "templates/*"))
 	router.SetHTMLTemplate(tmpl)
 
-	if gin.Mode() == "release" {
+	if len(os.Args) > 1 && os.Args[1] == "e" {
 		staticFS, _ := fs.Sub(staticFS, "assets")
 		router.StaticFS("/assets", http.FS(staticFS))
 		router.GET("/favicon.ico", func(c *gin.Context) {
