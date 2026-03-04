@@ -15,9 +15,7 @@ import (
 )
 
 func ThreedsHosting(c *gin.Context, bolt *repository.Bolt) {
-	//c.HTML(0, "wait.html", nil)
 	baseURL := bolt.ConfigRepo.GetBaseURL()
-	log.Println(baseURL)
 	err := c.Request.ParseForm()
 	if err != nil {
 		c.HTML(http.StatusBadRequest, "result.html", gin.H{"state": 0, "result": err.Error()})
