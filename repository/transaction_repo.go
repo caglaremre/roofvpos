@@ -29,6 +29,10 @@ func (t *TransactionRepository) GetAllTransactions() []models.Transaction {
 
 			logDateByte := orderIdBucket.Get([]byte("logDate"))
 			transaction.LogDate = string(logDateByte)
+
+			lastDateByte := orderIdBucket.Get([]byte("lastUpdate"))
+			transaction.LastUpdate = string(lastDateByte)
+
 			getTransactionDetails(&transaction, orderIdBucket)
 			transactions = append(transactions, transaction)
 		}
@@ -208,7 +212,14 @@ func (t *TransactionRepository) LogRequest(transactionType, action, orderID stri
 		orderIDBucket, _ := transactionsBucket.CreateBucketIfNotExists([]byte(orderID))
 
 		logDate := time.Now().Format(time.RFC3339)
-		err := orderIDBucket.Put([]byte("logDate"), []byte(logDate))
+		check := orderIDBucket.Get([]byte("logDate"))
+		if check == nil {
+			err := orderIDBucket.Put([]byte("logDate"), []byte(logDate))
+			if err != nil {
+				return err
+			}
+		}
+		err := orderIDBucket.Put([]byte("lastUpdate"), []byte(logDate))
 		if err != nil {
 			return err
 		}

@@ -1,10 +1,13 @@
 package models
 
-import "net/http"
+import (
+	"net/http"
+)
 
 type Transaction struct {
-	OrderID string
-	LogDate string
+	OrderID    string
+	LogDate    string
+	LastUpdate string
 
 	SaleRequest         SaleRequest
 	SaleRequestHeaders  http.Header
