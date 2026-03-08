@@ -66,12 +66,12 @@ func CheckToken(bolt *repository.Bolt, tokenreq models.TokenRequest) (models.Res
 	_ = json.Unmarshal(respBody, &response)
 	_ = json.Unmarshal(response.Result, &tokenresp)
 
-	err = bolt.TransactionRepo.LogRequest("token", "request", tokenresp.OrderId, tokenreqjson, req.Header)
+	err = bolt.TransactionRepo.Log("token", "request", tokenresp.OrderId, tokenreqjson, req.Header)
 	if err != nil {
 		log.Printf("could not log the token request %s\n", err.Error())
 	}
 
-	err = bolt.TransactionRepo.LogRequest("token", "response", tokenresp.OrderId, response.Result, resp.Header)
+	err = bolt.TransactionRepo.Log("token", "response", tokenresp.OrderId, response.Result, resp.Header)
 	if err != nil {
 		log.Printf("could not log the token response %s\n", err.Error())
 	}

@@ -59,7 +59,7 @@ func ThreeDS(c *gin.Context, bolt *repository.Bolt) {
 		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
 	}
 
-	err = bolt.TransactionRepo.LogRequest("threeds", "request", threedsreq.OrderId, threedsreqJson, req.Header)
+	err = bolt.TransactionRepo.Log("threeds", "request", threedsreq.OrderId, threedsreqJson, req.Header)
 	if err != nil {
 		log.Printf("could not log the threeds request %s\n", err.Error())
 	}
@@ -90,7 +90,7 @@ func ThreeDS(c *gin.Context, bolt *repository.Bolt) {
 	_ = json.Unmarshal(respBody, &response)
 	_ = json.Unmarshal(response.Result, &threedsresp)
 
-	err = bolt.TransactionRepo.LogRequest("threeds", "response", threedsreq.OrderId, response.Result, resp.Header)
+	err = bolt.TransactionRepo.Log("threeds", "response", threedsreq.OrderId, response.Result, resp.Header)
 	if err != nil {
 		log.Printf("could not log the threeds request %s\n", err.Error())
 	}
@@ -141,7 +141,7 @@ func CompletePayment(c *gin.Context, bolt *repository.Bolt) {
 		return
 	}
 
-	err = bolt.TransactionRepo.LogRequest("completepayment", "request", request.OrderID, requestBody, httpRequest.Header)
+	err = bolt.TransactionRepo.Log("completepayment", "request", request.OrderID, requestBody, httpRequest.Header)
 	if err != nil {
 		log.Printf("could not log the complete payment request %s\n", err.Error())
 	}
@@ -161,7 +161,7 @@ func CompletePayment(c *gin.Context, bolt *repository.Bolt) {
 	var response models.Response
 	_ = json.Unmarshal(responseBody, &response)
 	responseIndent, _ := json.MarshalIndent(response, "", "	")
-	err = bolt.TransactionRepo.LogRequest("completepayment", "response", request.OrderID, response.Result, httpResponse.Header)
+	err = bolt.TransactionRepo.Log("completepayment", "response", request.OrderID, response.Result, httpResponse.Header)
 	if err != nil {
 		log.Printf("could not log the complete payment response %s\n", err.Error())
 	}

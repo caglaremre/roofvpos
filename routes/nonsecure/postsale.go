@@ -37,7 +37,7 @@ func PostSale(c *gin.Context, bolt *repository.Bolt) {
 		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
 	}
 
-	err = bolt.TransactionRepo.LogRequest("postsale", "request", postSaleReq.OrderID, postSaleReqJson, req.Header)
+	err = bolt.TransactionRepo.Log("postsale", "request", postSaleReq.OrderID, postSaleReqJson, req.Header)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -62,7 +62,7 @@ func PostSale(c *gin.Context, bolt *repository.Bolt) {
 	}
 	var response models.Response
 	_ = json.Unmarshal(resBody, &response)
-	err = bolt.TransactionRepo.LogRequest("postsale", "response", postSaleReq.OrderID, response.Result, resp.Header)
+	err = bolt.TransactionRepo.Log("postsale", "response", postSaleReq.OrderID, response.Result, resp.Header)
 	result, _ := json.MarshalIndent(response, "", "  ")
 	c.HTML(http.StatusOK, "result.html", gin.H{"state": response.State, "result": string(result)})
 }

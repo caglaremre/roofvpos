@@ -52,12 +52,12 @@ func ProcessId(c *gin.Context, bolt *repository.Bolt) {
 	_ = json.Unmarshal(resBody, &response)
 	_ = json.Unmarshal(response.Result, &processresp)
 
-	err = bolt.TransactionRepo.LogRequest("checkprocess", "request", processresp.OrderId, processbody, req.Header)
+	err = bolt.TransactionRepo.Log("checkprocess", "request", processresp.OrderId, processbody, req.Header)
 	if err != nil {
 		log.Printf("Could not log the checkprocess request %s\n", err.Error())
 	}
 
-	err = bolt.TransactionRepo.LogRequest("checkprocess", "response", processresp.OrderId, response.Result, res.Header)
+	err = bolt.TransactionRepo.Log("checkprocess", "response", processresp.OrderId, response.Result, res.Header)
 	if err != nil {
 		log.Printf("Could not log the checkprocess request %s\n", err.Error())
 	}

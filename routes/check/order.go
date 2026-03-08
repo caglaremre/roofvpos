@@ -36,7 +36,7 @@ func OrderId(c *gin.Context, bolt *repository.Bolt) {
 		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
 		return
 	}
-	err = bolt.TransactionRepo.LogRequest("checkorder", "request", orderreq.OrderId, orderreqbody, req.Header)
+	err = bolt.TransactionRepo.Log("checkorder", "request", orderreq.OrderId, orderreqbody, req.Header)
 	if err != nil {
 		log.Printf("Could not log the checkorder request %s\n", err.Error())
 	}
@@ -52,7 +52,7 @@ func OrderId(c *gin.Context, bolt *repository.Bolt) {
 	resBody, _ := io.ReadAll(res.Body)
 	var response models.Response
 	_ = json.Unmarshal(resBody, &response)
-	err = bolt.TransactionRepo.LogRequest("checkorder", "response", orderreq.OrderId, response.Result, res.Header)
+	err = bolt.TransactionRepo.Log("checkorder", "response", orderreq.OrderId, response.Result, res.Header)
 	if err != nil {
 		log.Printf("Could not log the checkorder request %s\n", err.Error())
 	}
@@ -80,7 +80,7 @@ func ListOrderId(c *gin.Context, bolt *repository.Bolt) {
 		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
 		return
 	}
-	err = bolt.TransactionRepo.LogRequest("listorder", "request", orderreq.OrderId, orderreqbody, req.Header)
+	err = bolt.TransactionRepo.Log("listorder", "request", orderreq.OrderId, orderreqbody, req.Header)
 	if err != nil {
 		log.Printf("Could not log the listorder request %s\n", err.Error())
 	}
@@ -96,7 +96,7 @@ func ListOrderId(c *gin.Context, bolt *repository.Bolt) {
 	resBody, _ := io.ReadAll(res.Body)
 	var response models.Response
 	_ = json.Unmarshal(resBody, &response)
-	err = bolt.TransactionRepo.LogRequest("listorder", "response", orderreq.OrderId, response.Result, res.Header)
+	err = bolt.TransactionRepo.Log("listorder", "response", orderreq.OrderId, response.Result, res.Header)
 	if err != nil {
 		log.Printf("Could not log the listorder request %s\n", err.Error())
 	}

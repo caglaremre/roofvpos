@@ -40,7 +40,7 @@ func ThreedsHosting(c *gin.Context, bolt *repository.Bolt) {
 		c.HTML(http.StatusInternalServerError, "result.html", gin.H{"state": 0, "result": err.Error()})
 		return
 	}
-	err = bolt.TransactionRepo.LogRequest("threedshosting", "request", threedshostingreq.OrderId, []byte(threedshostingreq.ToJson(false)), req.Header)
+	err = bolt.TransactionRepo.Log("threedshosting", "request", threedshostingreq.OrderId, []byte(threedshostingreq.ToJson(false)), req.Header)
 	if err != nil {
 		log.Printf("could not log the threeds request %s\n", err.Error())
 	}
@@ -72,7 +72,7 @@ func ThreedsHosting(c *gin.Context, bolt *repository.Bolt) {
 	_ = json.Unmarshal(response.Result, &threedshostingresp)
 	responseIndent, _ := json.MarshalIndent(response, "", "	")
 
-	err = bolt.TransactionRepo.LogRequest("threedshosting", "response", threedshostingreq.OrderId, response.Result, resp.Header)
+	err = bolt.TransactionRepo.Log("threedshosting", "response", threedshostingreq.OrderId, response.Result, resp.Header)
 	if err != nil {
 		log.Printf("could not log the threeds request %s\n", err.Error())
 	}

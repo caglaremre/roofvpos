@@ -205,7 +205,7 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 	})
 }
 
-func (t *TransactionRepository) LogRequest(transactionType, action, orderID string, body []byte, headers http.Header) error {
+func (t *TransactionRepository) Log(transactionType, action, orderID string, body []byte, headers http.Header) error {
 	err := t.DB.Update(func(tx *bbolt.Tx) error {
 		transactionsBucket := tx.Bucket([]byte("transactions"))
 

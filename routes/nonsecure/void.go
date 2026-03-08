@@ -38,7 +38,7 @@ func Void(c *gin.Context, bolt *repository.Bolt) {
 		return
 	}
 
-	err = bolt.TransactionRepo.LogRequest("void", "request", voidReq.OrderID, voidReqJson, req.Header)
+	err = bolt.TransactionRepo.Log("void", "request", voidReq.OrderID, voidReqJson, req.Header)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -63,7 +63,7 @@ func Void(c *gin.Context, bolt *repository.Bolt) {
 	}
 	var response models.Response
 	_ = json.Unmarshal(resBody, &response)
-	err = bolt.TransactionRepo.LogRequest("void", "response", voidReq.OrderID, response.Result, resp.Header)
+	err = bolt.TransactionRepo.Log("void", "response", voidReq.OrderID, response.Result, resp.Header)
 	result, _ := json.MarshalIndent(response, "", "  ")
 	c.HTML(http.StatusOK, "result.html", gin.H{"state": response.State, "result": string(result)})
 }
