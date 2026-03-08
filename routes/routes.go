@@ -62,13 +62,16 @@ func RegisterRoutes(bolt *repository.Bolt, server *gin.Engine) {
 	server.POST("/listorder", func(c *gin.Context) {
 		check.ListOrderId(c, bolt)
 	})
+	server.GET("/transaction/:orderid", func(c *gin.Context) {
+		getTransactionDetail(c, bolt)
+	})
 }
 
 func home(c *gin.Context, bolt *repository.Bolt) {
 	// TODO return only transactions orderids then fetch when needed
 	clientToken, secretKey := bolt.ConfigRepo.GetClientAndSecretKey()
 	baseURL := bolt.ConfigRepo.GetBaseURL()
-	transactions := bolt.TransactionRepo.GetAllTransactions()
+	transactions := bolt.TransactionRepo.GetAllTransactionsIds()
 	orderID, _ := uuid.NewUUID()
 	saleReq := models.SaleRequest{OrderID: orderID.String()}
 	c.HTML(http.StatusOK, "home.html", gin.H{
@@ -100,4 +103,11 @@ func configUpdate(c *gin.Context, bolt *repository.Bolt) {
 		return
 	}
 	c.Status(http.StatusOK)
+}
+
+func getTransactionDetail(c *gin.Context, bolt *repository.Bolt) {
+	var transaction models.Transaction
+	transaction.OrderID = c.Param("orderid")
+	bolt.TransactionRepo.GetTransactionDetail(&transaction)
+	c.HTML(http.StatusOK, "transaction.html", gin.H{"transaction": transaction})
 }

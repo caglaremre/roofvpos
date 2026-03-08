@@ -16,6 +16,36 @@ type TransactionRepository struct {
 	DB *bbolt.DB
 }
 
+func (t *TransactionRepository) GetAllTransactionsIds() []models.Transaction {
+	var transactions []models.Transaction
+	err := t.DB.View(func(tx *bbolt.Tx) error {
+		transactionsBucket := tx.Bucket([]byte("transactions"))
+		transactionsCursor := transactionsBucket.Cursor()
+		for orderId, _ := transactionsCursor.First(); orderId != nil; orderId, _ = transactionsCursor.Next() {
+			var transaction models.Transaction
+
+			orderIdBucket := transactionsBucket.Bucket(orderId)
+			transaction.OrderID = string(orderId)
+
+			logDateByte := orderIdBucket.Get([]byte("logDate"))
+			transaction.LogDate = string(logDateByte)
+
+			lastDateByte := orderIdBucket.Get([]byte("lastUpdate"))
+			transaction.LastUpdate = string(lastDateByte)
+			transactions = append(transactions, transaction)
+		}
+
+		return nil
+	})
+	if err != nil {
+		panic(err)
+	}
+	slices.SortFunc(transactions, func(a, b models.Transaction) int {
+		return cmp.Compare(b.LogDate, a.LogDate)
+	})
+	return transactions
+}
+
 func (t *TransactionRepository) GetAllTransactions() []models.Transaction {
 	var transactions []models.Transaction
 	err := t.DB.View(func(tx *bbolt.Tx) error {
@@ -46,6 +76,15 @@ func (t *TransactionRepository) GetAllTransactions() []models.Transaction {
 		return cmp.Compare(b.LogDate, a.LogDate)
 	})
 	return transactions
+}
+
+func (t *TransactionRepository) GetTransactionDetail(transaction *models.Transaction) {
+	t.DB.View(func(tx *bbolt.Tx) error {
+		transactionsBucket := tx.Bucket([]byte("transactions"))
+		orderBucket := transactionsBucket.Bucket([]byte(transaction.OrderID))
+		getTransactionDetails(transaction, orderBucket)
+		return nil
+	})
 }
 
 func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.Bucket) {

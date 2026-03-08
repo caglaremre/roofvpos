@@ -88,3 +88,16 @@ document.getElementById('transaction-list').addEventListener('submit', async fun
 		document.getElementById('postsale-offcanvas-button').click()
 	}
 })
+
+document.getElementById('transaction-list').addEventListener('click', async function (e) {
+  const btn = e.target.closest('.list-group-item')
+  if (btn) {
+    const info = btn.textContent.trim().split("|")
+    const offcanvasElement = document.getElementById('dynamicOffcanvas')
+    const title = offcanvasElement.querySelector('#offcanvasTitle')
+    const body = offcanvasElement.querySelector('#offcanvasContent')
+    title.textContent = `${info[0]} - ${info[1]}`
+    body.innerHTML = `<iframe width="100%" style="height:82vh" src="http://localhost:8080/transaction/${info[0]}">`
+  }
+
+})
