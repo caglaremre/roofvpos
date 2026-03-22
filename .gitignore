@@ -38,3 +38,5 @@ http/
 # bbolt file
 *.db
 .DS_Store
+# Added by goreleaser init:
+dist/
