@@ -29,8 +29,8 @@ async function updateConfig() {
 
 	const response = await fetch('http://localhost:8080/config', {
 		method: 'POST',
-		headers: {'content-type': 'application/json'},
-		body: JSON.stringify({clientToken: clientToken, secretKey: secretKey, baseUrl: baseUrl}),
+		headers: { 'content-type': 'application/json' },
+		body: JSON.stringify({ clientToken: clientToken, secretKey: secretKey, baseUrl: baseUrl }),
 	})
 	if (response.ok) {
 		const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast_success)
@@ -90,14 +90,17 @@ document.getElementById('transaction-list').addEventListener('submit', async fun
 })
 
 document.getElementById('transaction-list').addEventListener('click', async function (e) {
-  const btn = e.target.closest('.list-group-item')
-  if (btn) {
-    const info = btn.textContent.trim().split("|")
-    const offcanvasElement = document.getElementById('dynamicOffcanvas')
-    const title = offcanvasElement.querySelector('#offcanvasTitle')
-    const body = offcanvasElement.querySelector('#offcanvasContent')
-    title.textContent = `${info[0]} - ${info[1]}`
-    body.innerHTML = `<iframe width="100%" style="height:82vh" src="http://localhost:8080/transaction/${info[0]}">`
-  }
-
+	const btn = e.target.closest('button')
+	if (btn) {
+		const offcanvasElement = document.getElementById('dynamicOffcanvas')
+		const title = offcanvasElement.querySelector('#offcanvasTitle')
+		const body = offcanvasElement.querySelector('#offcanvasContent')
+		const orderid = btn.getAttribute('order-id')
+		const response = await fetch(`http://localhost:8080/transaction/${orderid}`, {
+			method: 'GET',
+		})
+		const html = await response.text()
+		title.textContent = orderid
+		body.innerHTML = html
+	}
 })

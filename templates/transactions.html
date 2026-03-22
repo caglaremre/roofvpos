@@ -1,13 +1,58 @@
 <!-- transactions list start -->
-<div class="row" id="transaction-list">
+</div>
+<div class="container-fluid text-center" id="transaction-list">
 	<h3>transaction list</h3>
-	<div class="list-group">
-		{{range $index, $transaction := .transactions}}
-		<button type="button" class="list-group-item" data-bs-toggle="offcanvas"
-			data-bs-target="#dynamicOffcanvas">{{$transaction.OrderID}} | {{$transaction.LogDate}}
-		</button>
-		{{end}}
-	</div>
+	<table class="table table-sm table-hover table-bordered">
+		<thead class="sticky-top table-light">
+			<tr>
+				<th class="sticky-top">order id</th>
+				<th class="sticky-top">created</th>
+				<th class="sticky-top">last update</th>
+				<th class="sticky-top">sale</th>
+				<th class="sticky-top">presale</th>
+				<th class="sticky-top">postsale</th>
+				<th class="sticky-top">void</th>
+				<th class="sticky-top">refund</th>
+				<th class="sticky-top">point inquery</th>
+				<th class="sticky-top">threeds</th>
+				<th class="sticky-top">threeds hosting</th>
+				<th class="sticky-top">complete payment</th>
+				<th class="sticky-top">token</th>
+				<th class="sticky-top">logs</th>
+			</tr>
+		</thead>
+		<tbody class="table-group-divider font-monospace align-middle">
+			{{range $index, $transaction := .transactions}}
+			<tr>
+				<td>{{$transaction.OrderID}}</td>
+				<td>{{$transaction.LogDate}}</td>
+				<td>{{$transaction.LastUpdate}}</td>
+				<td>{{if eq $transaction.SaleResponse.TxnType "Sale"}}<img style="height: 1.5rem;" src="/assets/checkmark.svg">
+					{{end}}</td>
+				<td>{{if eq $transaction.SaleResponse.TxnType "PreSale"}}<img style="height: 1.5rem;"
+						src="/assets/checkmark.svg"> {{end}}</td>
+				<td>{{if $transaction.PostSaleRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg"> {{end}}
+				</td>
+				<td>{{if $transaction.VoidRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg"> {{end}}</td>
+				<td>{{if $transaction.RefundRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg"> {{end}}
+				</td>
+				<td>{{if $transaction.PointRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg"> {{end}}
+				</td>
+				<td>{{if $transaction.ThreeDSRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg"> {{end}}
+				</td>
+				<td>{{if $transaction.ThreeDSHostingRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg">
+					{{end}}</td>
+				<td>{{if $transaction.CompletePaymentRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg">
+					{{end}}</td>
+				<td>{{if $transaction.TokenRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg"> {{end}}
+				</td>
+				<td><button type="button" class="btn p-0" data-bs-toggle="offcanvas" data-bs-target="#dynamicOffcanvas"
+						order-id="{{$transaction.OrderID}}"><img style="height: 1.5rem;" src="/assets/right_arrow.svg"></button>
+				</td>
+			</tr>
+			{{end}}
+		</tbody>
+	</table>
 </div>
 <div class="offcanvas offcanvas-bottom" tabindex="-1" id="dynamicOffcanvas">
 	<div class="offcanvas-header pb-0">
@@ -20,4 +65,5 @@
 		</div>
 	</div>
 </div>
-<!-- transactions list end -->
+<div>
+	<!-- transactions list end -->

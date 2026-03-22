@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"go.etcd.io/bbolt"
+	"go.etcd.io/bbolt/errors"
 )
 
 type TransactionRepository struct {
@@ -78,13 +79,20 @@ func (t *TransactionRepository) GetAllTransactions() []models.Transaction {
 	return transactions
 }
 
-func (t *TransactionRepository) GetTransactionDetail(transaction *models.Transaction) {
-	t.DB.View(func(tx *bbolt.Tx) error {
+func (t *TransactionRepository) GetTransactionDetail(transaction *models.Transaction) error {
+	err := t.DB.View(func(tx *bbolt.Tx) error {
 		transactionsBucket := tx.Bucket([]byte("transactions"))
 		orderBucket := transactionsBucket.Bucket([]byte(transaction.OrderID))
+		if orderBucket == nil {
+			return errors.ErrBucketNotFound
+		}
 		getTransactionDetails(transaction, orderBucket)
 		return nil
 	})
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.Bucket) {
@@ -257,10 +265,11 @@ func (t *TransactionRepository) Log(transactionType, action, orderID string, bod
 			if err != nil {
 				return err
 			}
-		}
-		err := orderIDBucket.Put([]byte("lastUpdate"), []byte(logDate))
-		if err != nil {
-			return err
+		} else {
+			err := orderIDBucket.Put([]byte("lastUpdate"), []byte(logDate))
+			if err != nil {
+				return err
+			}
 		}
 
 		headerBytes, err := json.Marshal(headers)

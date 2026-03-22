@@ -71,7 +71,7 @@ func home(c *gin.Context, bolt *repository.Bolt) {
 	// TODO return only transactions orderids then fetch when needed
 	clientToken, secretKey := bolt.ConfigRepo.GetClientAndSecretKey()
 	baseURL := bolt.ConfigRepo.GetBaseURL()
-	transactions := bolt.TransactionRepo.GetAllTransactionsIds()
+	transactions := bolt.TransactionRepo.GetAllTransactions()
 	orderID, _ := uuid.NewUUID()
 	saleReq := models.SaleRequest{OrderID: orderID.String()}
 	c.HTML(http.StatusOK, "home.html", gin.H{
@@ -108,6 +108,10 @@ func configUpdate(c *gin.Context, bolt *repository.Bolt) {
 func getTransactionDetail(c *gin.Context, bolt *repository.Bolt) {
 	var transaction models.Transaction
 	transaction.OrderID = c.Param("orderid")
-	bolt.TransactionRepo.GetTransactionDetail(&transaction)
+	err := bolt.TransactionRepo.GetTransactionDetail(&transaction)
+	if err != nil {
+		noRoute(c)
+		return
+	}
 	c.HTML(http.StatusOK, "transaction.html", gin.H{"transaction": transaction})
 }
