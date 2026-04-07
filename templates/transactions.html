@@ -1,69 +1,114 @@
-<!-- transactions list start -->
-</div>
-<div class="container-fluid text-center" id="transaction-list">
-	<h3>transaction list</h3>
-	<table class="table table-sm table-hover table-bordered">
-		<thead class="sticky-top table-light">
+<div class="relative items-center mt-5 font-mono">
+	<p class="text-3xl text-center">transactions</p>
+	<table class="table table-xs table-zebra table-pin-rows" id="transaction-list">
+		<thead>
 			<tr>
-				<th class="sticky-top">order id</th>
-				<th class="sticky-top">created</th>
-				<th class="sticky-top">last update</th>
-				<th class="sticky-top">sale</th>
-				<th class="sticky-top">presale</th>
-				<th class="sticky-top">postsale</th>
-				<th class="sticky-top">void</th>
-				<th class="sticky-top">refund</th>
-				<th class="sticky-top">point inquery</th>
-				<th class="sticky-top">threeds</th>
-				<th class="sticky-top">threeds hosting</th>
-				<th class="sticky-top">complete payment</th>
-				<th class="sticky-top">token</th>
-				<th class="sticky-top">logs</th>
+				<th>order id</th>
+				<th>created</th>
+				<th>last update</th>
+				<th>sale</th>
+				<th>presale</th>
+				<th>postsale</th>
+				<th>void</th>
+				<th>refund</th>
+				<th>point inquery</th>
+				<th>threeds</th>
+				<th>threeds hosting</th>
+				<th>complete payment</th>
+				<th>token</th>
+				<th>logs</th>
 			</tr>
 		</thead>
-		<tbody class="table-group-divider font-monospace align-middle">
+		<tbody>
 			{{range $index, $transaction := .transactions}}
 			<tr>
 				<td>{{$transaction.OrderID}}</td>
 				<td>{{$transaction.LogDate}}</td>
 				<td>{{$transaction.LastUpdate}}</td>
-				<td>{{if eq $transaction.SaleResponse.TxnType "Sale"}}<img style="height: 1.5rem;" src="/assets/checkmark.svg">
-					{{end}}</td>
-				<td>{{if eq $transaction.SaleResponse.TxnType "PreSale"}}<img style="height: 1.5rem;"
-						src="/assets/checkmark.svg"> {{end}}</td>
-				<td>{{if $transaction.PostSaleRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg"> {{end}}
+				<td class="items-center">{{if eq $transaction.SaleResponse.TxnType "Sale"}}
+					<svg class="fill-(--color-primary) w-8 h-8">
+						<use href="#icon-checkmark"></use>
+					</svg> {{end}}
 				</td>
-				<td>{{if $transaction.VoidRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg"> {{end}}</td>
-				<td>{{if $transaction.RefundRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg"> {{end}}
+				<td class="items-center">{{if eq $transaction.SaleResponse.TxnType "PreSale"}}
+					<svg class="fill-(--color-primary) w-8 h-8">
+						<use href="#icon-checkmark"></use>
+					</svg> {{end}}
 				</td>
-				<td>{{if $transaction.PointRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg"> {{end}}
+				<td class="items-center">{{if $transaction.PostSaleRequestHeaders}}
+					<svg class="fill-(--color-primary) w-8 h-8">
+						<use href="#icon-checkmark"></use>
+					</svg> {{end}}
 				</td>
-				<td>{{if $transaction.ThreeDSRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg"> {{end}}
+				<td class="items-center">{{if $transaction.VoidRequestHeaders}}
+					<svg class="fill-(--color-primary) w-8 h-8">
+						<use href="#icon-checkmark"></use>
+					</svg> {{end}}
 				</td>
-				<td>{{if $transaction.ThreeDSHostingRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg">
-					{{end}}</td>
-				<td>{{if $transaction.CompletePaymentRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg">
-					{{end}}</td>
-				<td>{{if $transaction.TokenRequestHeaders}}<img style="height: 1.5rem;" src="/assets/checkmark.svg"> {{end}}
+				<td class="items-center">{{if $transaction.RefundRequestHeaders}}
+					<svg class="fill-(--color-primary) w-8 h-8">
+						<use href="#icon-checkmark"></use>
+					</svg> {{end}}
 				</td>
-				<td><button type="button" class="btn p-0" data-bs-toggle="offcanvas" data-bs-target="#dynamicOffcanvas"
-						order-id="{{$transaction.OrderID}}"><img style="height: 1.5rem;" src="/assets/right_arrow.svg"></button>
+				<td class="items-center">{{if $transaction.PointRequestHeaders}}
+					<svg class="fill-(--color-primary) w-8 h-8">
+						<use href="#icon-checkmark"></use>
+					</svg> {{end}}
+				</td>
+				<td class="items-center">{{if $transaction.ThreeDSRequestHeaders}}
+					<svg class="fill-(--color-primary) w-8 h-8">
+						<use href="#icon-checkmark"></use>
+					</svg> {{end}}
+				</td>
+				<td class="items-center">{{if $transaction.ThreeDSHostingRequestHeaders}}
+					<svg class="fill-(--color-primary) w-8 h-8">
+						<use href="#icon-checkmark"></use>
+					</svg> {{end}}
+				</td>
+				<td class="items-center">{{if $transaction.CompletePaymentRequestHeaders}}
+					<svg class="fill-(--color-primary) w-8 h-8">
+						<use href="#icon-checkmark"></use>
+					</svg> {{end}}
+				</td>
+				<td class="items-center">{{if $transaction.TokenRequestHeaders}}
+					<svg class="fill-(--color-primary) w-8 h-8">
+						<use href="#icon-checkmark"></use>
+					</svg> {{end}}
+				</td>
+				<td>
+					<button type="button" class="btn btn-ghost p-0" order-id="{{$transaction.OrderID}}">
+						<svg class="stroke-(--color-primary) w-8 h-8">
+							<use href="#icon-right-arrow"></use>
+						</svg></button>
 				</td>
 			</tr>
 			{{end}}
 		</tbody>
 	</table>
 </div>
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="dynamicOffcanvas">
-	<div class="offcanvas-header pb-0">
-		<h5 class="offcanvas-title ms-auto" id="offcanvasTitle">sale</h5>
-		<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+
+<!-- modal start -->
+<dialog id="transaction-modal" class="modal">
+	<div class="modal-box border border-primary min-h-11/12 min-w-11/12 max-h-11/12 max-w-11/12">
+		<form method="dialog">
+			<button class="btn btn-primary btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+		</form>
+		<p class="text-bold text-3xl text-center" id="transaction-modal-title"></p>
+		<div id="transaction-model-content"></div>
 	</div>
-	<div class="offcanvas-body pt-1">
-		<div id="offcanvasContent">
-			<p>Loading...</p>
-		</div>
-	</div>
-</div>
-<div>
-	<!-- transactions list end -->
+</dialog>
+<!-- modal end -->
+
+<svg style="display: none;">
+	<symbol id="icon-checkmark" viewBox="0 0 32 32">
+		<path
+			d="M26.207 9.293a1 1 0 010 1.414l-1.625 1.625a1 1 0 01-1.414-1.414l1.625-1.625a1 1 0 011.414 0zm-4.875 4.875a1 1 0 010 1.414l-3.25 3.25a1 1 0 01-1.414-1.414l3.25-3.25a1 1 0 011.414 0zm-15.54 2.125a1 1 0 011.415 0l1.5 1.5a1 1 0 11-1.414 1.414l-1.5-1.5a1 1 0 010-1.414zm9.04 4.375a1 1 0 010 1.414l-1.625 1.625a1 1 0 01-1.414 0l-1.5-1.5a1 1 0 111.414-1.414l.793.793.918-.918a1 1 0 011.414 0z">
+		</path>
+	</symbol>
+</svg>
+
+<svg style="display: none;">
+	<symbol id="icon-right-arrow" viewbox="0 0 24 24">
+		<path d="M4 12H6.5M20 12L14 6M20 12L14 18M20 12H9.5"></path>
+	</symbol>
+</svg>

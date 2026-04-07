@@ -1,20 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-theme="light">
+
 <head>
-	<meta charset="UTF-8">
-	<title>Home</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-				integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-					integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-					crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism-tomorrow.min.css"
-				integrity="sha256-GxX+KXGZigSK67YPJvbu12EiBx257zuZWr0AMiT1Kpg=" crossorigin="anonymous">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Daisyui</title>
+	<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+	<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+	<script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 	<script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.js"
-					integrity="sha256-uAFFHZtMvxhXcVqX7K5ELibBEbq24Z/uDoPf2nDMKQA=" crossorigin="anonymous"></script>
+		integrity="sha256-uAFFHZtMvxhXcVqX7K5ELibBEbq24Z/uDoPf2nDMKQA=" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-json.js"
-					integrity="sha256-g1xEhXw/KV8sW9cDFgBuRVd52nYoew4U2Tu8mV9ljks=" crossorigin="anonymous"></script>
+		integrity="sha256-g1xEhXw/KV8sW9cDFgBuRVd52nYoew4U2Tu8mV9ljks=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="/assets/custom.css">
+	<script async crossorigin="anonymous">
+		var selectedTheme = localStorage.getItem("theme");
+		if (selectedTheme) {
+			document.documentElement.setAttribute("data-theme", selectedTheme);
+		}
+	</script>
 </head>
-<body data-bs-theme="dark">
-<div class="container text-center mt-4" id="body">
+
+<body>
+	<div class="flex flex-wrap justify-center">
+		<div class="join join-horizontal">
+			<button class="btn btn-dash join-item" data-set-theme="light">light</button>
+			<button class="btn btn-dash join-item" data-set-theme="dark">dark</button>
+			<button class="btn btn-dash join-item" data-set-theme="cupcake">cupcake</button>
+			<button class="btn btn-dash join-item" data-set-theme="synthwave">synthwave</button>
+			<button class="btn btn-dash join-item" data-set-theme="cyberpunk">cyberpunk</button>
+			<button class="btn btn-dash join-item" data-set-theme="halloween">halloween</button>
+			<button class="btn btn-dash join-item" data-set-theme="forest">forest</button>
+			<button class="btn btn-dash join-item" data-set-theme="aqua">aqua</button>
+			<button class="btn btn-dash join-item" data-set-theme="lofi">lofi</button>
+			<button class="btn btn-dash join-item" data-set-theme="luxury">luxury</button>
+			<button class="btn btn-dash join-item" data-set-theme="acid">acid</button>
+			<button class="btn btn-dash join-item" data-set-theme="night">night</button>
+			<button class="btn btn-dash join-item" data-set-theme="coffee">coffee</button>
+			<button class="btn btn-dash join-item" data-set-theme="dim">dim</button>
+			<button class="btn btn-dash join-item" data-set-theme="sunset">sunset</button>
+			<button class="btn btn-dash join-item" data-set-theme="silk">silk</button>
+		</div>
+	</div>

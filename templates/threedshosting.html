@@ -1,84 +1,144 @@
-<!-- threeds canvas -->
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="threedshostingoffcanvas">
-	<div class="offcanvas-header pb-0">
-		<h5 class="offcanvas-title ms-auto">threeds hosting</h5>
-		<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-	</div>
-	<div class="offcanvas-body pt-1 container">
-		<input type="checkbox" class="btn-check" id="switch-threedshosting-transaction-type" />
-		<label class="btn btn-danger" id="switch-threedshosting-transaction-type-label" for="switch-threedshosting-transaction-type">threeds pre-sale</label>
-		<form action="/threedshosting" method="post" id="threedshosting-form">
-			<input type="hidden" name="threedshosting-transaction-type" id="threedshosting-transaction-type" value="Sale">
-			<div class="form-check form-check-inline" style="font-size: xx-large !important;">
-				<input class="form-check-input" type="radio" name="threedshosting-order-type" id="inlineRadio1" value="H" checked>
-				<label class="form-check-label" for="inlineRadio1">hosting</label>
-			</div>
-			<div class="form-check form-check-inline" style="font-size: xx-large !important;">
-				<input class="form-check-input" type="radio" name="threedshosting-order-type" id="inlineRadio2" value="L">
-				<label class="form-check-label" for="inlineRadio2">link</label>
-			</div>
-			<table class="table align-middle table-borderless table-sm text-start">
-				<tr><td><div class="input-group">
-					<label for="threedshosting-order-id" class="input-group-text">order id</label>
-					<input type="text" class="form-control" id="threedshosting-order-id" name="threedshosting-order-id" value="{{.saleReq.OrderID}}" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threedshosting-amount" class="input-group-text">amount</label>
-					<input type="text" class="form-control" id="threedshosting-amount" name="threedshosting-amount" value="10000" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threedshosting-currency" class="input-group-text">currency</label>
-					<input type="text" class="form-control" id="threedshosting-currency" name="threedshosting-currency" value="949" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threedshosting-ecommerce-txn-type" class="input-group-text">request type</label>
-					<input type="text" class="form-control" id="threedshosting-ecommerce-txn-type" name="threedshosting-request-type" value="3DS-MODEL" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threedshosting-installment-count" class="input-group-text">installment count</label>
-					<input type="text" class="form-control" id="threedshosting-installment-count" name="threedshosting-installment-count" value="1" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threedshosting-lang" class="input-group-text">lang</label>
-					<input type="text" class="form-control" id="threedshosting-lang" name="threedshosting-lang" value="tr" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threedshosting-additional-info" class="input-group-text">additional info</label>
-					<input type="text" class="form-control" id="threedshosting-additional-info" name="threedshosting-additional-info" value="" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threedshosting-invoice-info" class="input-group-text">invoice info</label>
-					<input type="text" class="form-control" id="threedshosting-invoice-info" name="threedshosting-invoice-info" value=""/>
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threedshosting-return-url" class="input-group-text">return url</label>
-					<input type="text" class="form-control" id="threedshosting-return-url" name="threedshosting-return-url" value=""/>
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threedshosting-callback-url" class="input-group-text">callback url</label>
-					<input type="text" class="form-control" id="threedshosting-callback-url" name="threedshosting-callback-url" value=""/>
-				</div></td></tr>
-				<tr>
-					<td colspan="2" class="text-center">
-						<input type="submit" class="btn btn-primary" value="submit" />
-					</td>
-				</tr>
-			</table>
+<dialog id="threeds_hosting_modal" class="modal">
+	<div class="modal-box border border-primary min-w-2/4">
+		<form method="dialog">
+			<button class="btn btn-primary btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 		</form>
+		<p class="text-bold text-3xl text-center" id="modal-title">threeds hosting</p>
+		<div id="model-content">
+			<div class="flex flex-row items-center justify-center gap-2">
+				<label class="toggle text-base-content">
+					<input type="checkbox" id="switch-threedshosting-transaction-type" autocomplete="off" />
+					<svg aria-label="disabled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+						stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M18 6 6 18" />
+						<path d="m6 6 12 12" />
+					</svg>
+					<svg aria-label="enabled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+						<g stroke-linejoin="round" stroke-linecap="round" stroke-width="4" fill="none" stroke="currentColor">
+							<path d="M20 6 9 17l-5-5"></path>
+						</g>
+					</svg>
+				</label>
+				<p id="switch-threedshosting-transaction-type-label" class="text-error text-2xl">pre-sale</p>
+			</div>
+			<form action="/threedshosting" method="post" id="threedshosting-form">
+				<input type="hidden" name="threedshosting-transaction-type" id="threedshosting-transaction-type" value="Sale">
+				<table class="table table-xs">
+					<tr>
+						<td class="flex justify-center gap-2">
+							<label class="text-bold text-primary text-xl">hosting</label>
+							<input type="radio" class="radio radio-primary" name="threedshosting-order-type" value="H" checked
+								autocomplete="off">
+							<input type="radio" class="radio radio-primary" name="threedshosting-order-type" value="L"
+								autocomplete="off">
+							<label class="text-bold text-primary text-xl">link</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">order id</span>
+								<input type="text" id="threedshosting-order-id" name="threedshosting-order-id"
+									value="{{.saleReq.OrderID}}" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">amount</span>
+								<input type="text" id="threedshosting-amount" name="threedshosting-amount" value="10000" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">currency</span>
+								<input type="text" id="threedshosting-currency" name="threedshosting-currency" value="949" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">request type</span>
+								<input type="text" id="threedshosting-ecommerce-txn-type" name="threedshosting-request-type"
+									value="3DS-MODEL" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">installment count</span>
+								<input type="text" id="threedshosting-installment-count" name="threedshosting-installment-count"
+									value="1" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">lang</span>
+								<input type="text" id="threedshosting-lang" name="threedshosting-lang" value="tr" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">additional info</span>
+								<input type="text" id="threedshosting-additional-info" name="threedshosting-additional-info" value="" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">invoice info</span>
+								<input type="text" id="threedshosting-invoice-info" name="threedshosting-invoice-info" value="" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">return url</span>
+								<input type="text" id="threedshosting-return-url" name="threedshosting-return-url" value="" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">callback url</span>
+								<input type="text" id="threedshosting-callback-url" name="threedshosting-callback-url" value="" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center">
+							<input type="submit" class="btn btn-primary" value="submit" />
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
 	</div>
-</div>
+</dialog>
 <script>
 	const threedshostingtmswitch = document.getElementById("switch-threedshosting-transaction-type");
 	const threedshostingtmswitchlabel = document.getElementById("switch-threedshosting-transaction-type-label");
 	threedshostingtmswitch.addEventListener("change", () => {
 		if (threedshostingtmswitch.checked) {
 			document.getElementById("threedshosting-transaction-type").value = "PreSale";
-			threedshostingtmswitchlabel.classList.remove("btn-danger");
-			threedshostingtmswitchlabel.classList.add("btn-success");
+			threedshostingtmswitchlabel.classList.remove("text-error");
+			threedshostingtmswitchlabel.classList.add("text-success");
 		} else {
 			document.getElementById("threedshosting-transaction-type").value = "Sale";
-			threedshostingtmswitchlabel.classList.remove("btn-success");
-			threedshostingtmswitchlabel.classList.add("btn-danger");
+			threedshostingtmswitchlabel.classList.remove("text-success");
+			threedshostingtmswitchlabel.classList.add("text-error");
 		}
 	});
 </script>

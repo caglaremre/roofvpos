@@ -60,8 +60,8 @@ func main() {
 		context.Writer.Header().Add("Access-Control-Allow-Headers", "Content-Type")
 		context.Next()
 	})
-	log.Printf("######################################\n")
-	log.Println("#📡 Server starting on localhost:8080#")
-	log.Printf("######################################")
+	log.Printf("################################################\n")
+	log.Printf("# 📡 Server starting on http://localhost:8080  #\n")
+	log.Printf("###############################################\n")
 	log.Fatal(router.Run("localhost:8080"))
 }

@@ -1,116 +1,211 @@
-<!-- threeds canvas -->
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="threedsoffcanvas">
-	<div class="offcanvas-header pb-0">
-		<h5 class="offcanvas-title ms-auto">threeds</h5>
-		<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-	</div>
-	<div class="offcanvas-body pt-1 container">
-		<input type="checkbox" class="btn-check" id="switch-threeds-transaction-mode" />
-		<label class="btn btn-danger" id="switch-threeds-transaction-mode-label" for="switch-threeds-transaction-mode">threeds pre-sale</label>
-		<form action="/threeds" method="post" id="threeds-form">
-			<input type="hidden" name="threeds-transaction-mode" id="threeds-transaction-mode" value="sale">
-			<table class="table align-middle table-borderless table-sm text-start">
-				<tr><td><div class="input-group">
-					<label for="threeds-order-id" class="input-group-text">order id</label>
-					<input type="text" class="form-control" id="threeds-order-id" name="threeds-order-id" value="{{.saleReq.OrderID}}" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-card-no" class="input-group-text">card number</label>
-					<input type="text" class="form-control" id="threeds-card-no" name="threeds-card-no" value="9792100005476586" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-expiry" class="input-group-text">expiry</label>
-					<input type="text" class="form-control" id="threeds-expiry" name="threeds-expiry" value="2505" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-cvv" class="input-group-text">cvv</label>
-					<input type="text" class="form-control" id="threeds-cvv" name="threeds-cvv" value="017" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-amount" class="input-group-text">amount</label>
-					<input type="text" class="form-control" id="threeds-amount" name="threeds-amount" value="10000" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-point" class="input-group-text">point amount</label>
-					<input type="text" class="form-control" id="threeds-point" name="threeds-point" value="0" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-currency" class="input-group-text">currency</label>
-					<input type="text" class="form-control" id="threeds-currency" name="threeds-currency" value="949" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-ecommerce-txn-type" class="input-group-text">request type</label>
-					<input type="text" class="form-control" id="threeds-ecommerce-txn-type" name="threeds-request-type" value="3DS-MODEL" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-txn-initiation-type" class="input-group-text">txn initiation type</label>
-					<input type="text" class="form-control" id="threeds-txn-initiation-type" name="threeds-txn-initiation-type" value="0" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-installment-count" class="input-group-text">installment count</label>
-					<input type="text" class="form-control" id="threeds-installment-count" name="threeds-installment-count" value="1" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-cardholder-ip" class="input-group-text">cardholder ip</label>
-					<input type="text" class="form-control" id="threeds-cardholder-ip" name="threeds-cardholder-ip" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-merchant-ip" class="input-group-text">merchant ip</label>
-					<input type="text" class="form-control" id="threeds-merchant-ip" name="threeds-merchant-ip" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-submerchant-ip" class="input-group-text">submerchant ip</label>
-					<input type="text" class="form-control" id="threeds-submerchant-ip" name="threeds-submerchant-ip" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-lang" class="input-group-text">lang</label>
-					<input type="text" class="form-control" id="threeds-lang" name="threeds-lang" value="tr" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-additional-info" class="input-group-text">additional info</label>
-					<input type="text" class="form-control" id="threeds-additional-info" name="threeds-additional-info" value="" />
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-invoice-info" class="input-group-text">invoice info</label>
-					<input type="text" class="form-control" id="threeds-invoice-info" name="threeds-invoice-info" value=""/>
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-cardholder-name" class="input-group-text">cardholder name</label>
-					<input type="text" class="form-control" id="threeds-cardholder-name" name="threeds-cardholder-name" value=""/>
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-cardholder-email" class="input-group-text">cardholder email</label>
-					<input type="text" class="form-control" id="threeds-cardholder-email" name="threeds-cardholder-email" value=""/>
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-return-url" class="input-group-text">return url</label>
-					<input type="text" class="form-control" id="threeds-return-url" name="threeds-return-url" value=""/>
-				</div></td></tr>
-				<tr><td><div class="input-group">
-					<label for="threeds-callback-url" class="input-group-text">callback url</label>
-					<input type="text" class="form-control" id="threeds-callback-url" name="threeds-callback-url" value=""/>
-				</div></td></tr>
-				<tr>
-					<td colspan="2" class="text-center">
-						<input type="submit" class="btn btn-primary" value="submit" />
-					</td>
-				</tr>
-			</table>
+<dialog id="threeds_modal" class="modal">
+	<div class="modal-box border border-primary min-w-2/4">
+		<form method="dialog">
+			<p class="text-bold text-3xl text-center" id="modal-title">threeds</p>
+			<button class="btn btn-primary btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 		</form>
+		<div id="model-content">
+			<div class="flex flex-row items-center justify-center gap-2">
+				<label class="toggle text-base-content">
+					<input type="checkbox" id="switch-threeds-transaction-mode" autocomplete="off" />
+					<svg aria-label="disabled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+						stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M18 6 6 18" />
+						<path d="m6 6 12 12" />
+					</svg>
+					<svg aria-label="enabled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+						<g stroke-linejoin="round" stroke-linecap="round" stroke-width="4" fill="none" stroke="currentColor">
+							<path d="M20 6 9 17l-5-5"></path>
+						</g>
+					</svg>
+				</label>
+				<p id="switch-threeds-transaction-mode-label" class="text-error text-2xl">pre-sale</p>
+			</div>
+			<form action="/threeds" method="post" id="threeds-form">
+				<input type="hidden" name="threeds-transaction-mode" id="threeds-transaction-mode" value="sale">
+				<table class="table table-xs">
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">order id</span>
+								<input type="text" id="threeds-order-id" name="threeds-order-id" value="{{.saleReq.OrderID}}" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">card number</span>
+								<input type="text" id="threeds-card-no" name="threeds-card-no" value="9792100005476586" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">expiry</span>
+								<input type="text" id="threeds-expiry" name="threeds-expiry" value="2505" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">cvv</span>
+								<input type="text" id="threeds-cvv" name="threeds-cvv" value="017" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">amount</span>
+								<input type="text" id="threeds-amount" name="threeds-amount" value="10000" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">point amount</span>
+								<input type="text" id="threeds-point" name="threeds-point" value="0" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">currency</span>
+								<input type="text" id="threeds-currency" name="threeds-currency" value="949" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">request type</span>
+								<input type="text" id="threeds-ecommerce-txn-type" name="threeds-request-type" value="3DS-MODEL" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">txn initiation type</span>
+								<input type="text" id="threeds-txn-initiation-type" name="threeds-txn-initiation-type" value="0" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">installment count</span>
+								<input type="text" id="threeds-installment-count" name="threeds-installment-count" value="1" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">cardholder ip</span>
+								<input type="text" id="threeds-cardholder-ip" name="threeds-cardholder-ip" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">merchant ip</span>
+								<input type="text" id="threeds-merchant-ip" name="threeds-merchant-ip" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">submerchant ip</span>
+								<input type="text" id="threeds-submerchant-ip" name="threeds-submerchant-ip" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">lang</span>
+								<input type="text" id="threeds-lang" name="threeds-lang" value="tr" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">additional info</span>
+								<input type="text" id="threeds-additional-info" name="threeds-additional-info" value="" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">invoice info</span>
+								<input type="text" id="threeds-invoice-info" name="threeds-invoice-info" value="" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">cardholder name</span>
+								<input type="text" id="threeds-cardholder-name" name="threeds-cardholder-name" value="" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">cardholder email</span>
+								<input type="text" id="threeds-cardholder-email" name="threeds-cardholder-email" value="" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">return url</span>
+								<input type="text" id="threeds-return-url" name="threeds-return-url" value="" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">callback url</span>
+								<input type="text" id="threeds-callback-url" name="threeds-callback-url" value="" />
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center border-none">
+							<input type="submit" class="btn btn-primary" value="submit" />
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
 	</div>
-</div>
+</dialog>
 <script>
 	const threedstmswitch = document.getElementById("switch-threeds-transaction-mode");
 	const threedstmswitchlabel = document.getElementById("switch-threeds-transaction-mode-label");
 	threedstmswitch.addEventListener("change", () => {
 		if (threedstmswitch.checked) {
 			document.getElementById("threeds-transaction-mode").value = "presale";
-			threedstmswitchlabel.classList.remove("btn-danger");
-			threedstmswitchlabel.classList.add("btn-success");
+			threedstmswitchlabel.classList.remove("text-error");
+			threedstmswitchlabel.classList.add("text-success");
 		} else {
 			document.getElementById("threeds-transaction-mode").value = "sale";
-			threedstmswitchlabel.classList.remove("btn-success");
-			threedstmswitchlabel.classList.add("btn-danger");
+			threedstmswitchlabel.classList.remove("text-success");
+			threedstmswitchlabel.classList.add("text-error");
 		}
 	});
 </script>

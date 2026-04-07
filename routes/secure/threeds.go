@@ -18,7 +18,6 @@ import (
 )
 
 func ThreeDS(c *gin.Context, bolt *repository.Bolt) {
-	c.HTML(0, "wait.html", nil)
 	baseURL := bolt.ConfigRepo.GetBaseURL()
 	err := c.Request.ParseForm()
 	if err != nil {

@@ -1,53 +1,60 @@
-<!-- void canvas -->
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="voidoffcanvas">
-	<div class="offcanvas-header pb-0">
-		<h5 class="offcanvas-title ms-auto">void</h5>
-		<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-	</div>
-	<div class="offcanvas-body pt-1 container">
-		<form action="/void" method="post">
-			<table class="table align-middle table-borderless table-sm text-start">
-				<tr>
-					<td>
-						<div class="input-group"><label for="void-process-id" class="input-group-text">process id</label>
-							<input type="text" class="form-control" id="void-process-id" name="void-process-id">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="void-order-id" class="input-group-text">order id</label>
-							<input type="text" class="form-control" id="void-order-id" name="void-order-id">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="void-lang" class="input-group-text">lang</label>
-							<input type="text" class="form-control" id="void-lang" name="void-lang" value="tr">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="void-additional-info" class="input-group-text">additional info</label>
-							<input type="text" class="form-control" id="void-additional-info" name="void-additional-info">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group"><label for="void-invoice-info" class="input-group-text">invoice info</label>
-							<input type="text" class="form-control" id="void-invoice-info" name="void-invoice-info">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" class="text-center">
-						<input type="submit" class="btn btn-primary" value="submit">
-					</td>
-				</tr>
-			</table>
+<dialog id="void_modal" class="modal">
+	<div class="modal-box border border-primary min-w-2/4">
+		<form method="dialog">
+			<button class="btn btn-primary btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 		</form>
+		<p class="text-bold text-3xl text-center" id="modal-title">void</p>
+		<div id="model-content">
+			<form action="/void" method="post">
+				<table class="table table-xs">
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">process id</span>
+								<input type="text" id="void-process-id" name="void-process-id">
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">order id</span>
+								<input type="text" id="void-order-id" name="void-order-id">
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">lang</span>
+								<input type="text" id="void-lang" name="void-lang" value="tr">
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">additional
+									info</span>
+								<input type="text" id="void-additional-info" name="void-additional-info">
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="input input-primary input-sm w-full">
+								<span class="label text-primary w-1/4">invoice info</span>
+								<input type="text" id="void-invoice-info" name="void-invoice-info">
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center">
+							<input type="submit" class="btn btn-primary" value="submit">
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
 	</div>
-</div>
+</dialog>
