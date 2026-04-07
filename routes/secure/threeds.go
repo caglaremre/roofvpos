@@ -94,6 +94,12 @@ func ThreeDS(c *gin.Context, bolt *repository.Bolt) {
 		log.Printf("could not log the threeds request %s\n", err.Error())
 	}
 
+	if response.State == 0 {
+		responseIndent, _ := json.MarshalIndent(response, "", "	")
+		c.HTML(http.StatusOK, "result.html", gin.H{"state": response.State, "result": string(responseIndent)})
+		return
+	}
+
 	htmlcontent, _ := base64.StdEncoding.DecodeString(threedsresp.HtmlContent)
 	// do not show the loading gif.
 	re := regexp.MustCompile("<img.*>")
