@@ -1,30 +1,23 @@
 {{template "header.html" }}
-<div class="container mt-5">
-	<h3 id="timer-text">Time Remaining: 10s</h3>
-	<div class="progress" id="pause-btn" style="height: 3vw;">
-		<div
-				id="reverse-bar"
-				class="progress-bar progress-bar-striped progress-bar-animated"
-				role="progressbar"
-				style="width: 100%;"
-				aria-valuenow="100"
-				aria-valuemin="0"
-				aria-valuemax="100">
-		</div>
+<div class="flex flex-col justify-center text-center items-center gap-2">
+	<span class="text-bold text-6xl pt-10" id="timer-text"></span>
 
-	</div>
-	<div class="mt-3">
+	<progress class="progress progress-primary h-12" id="progressbar" value="100" max="100"></progress>
+
+	<div>
 		{{if (gt .state 0 )}}
-	<div class="alert alert-success h1" role="alert">
-		success
-	</div>
+		<div class="alert alert-success">
+			<span class="text-3xl text-center">success</span>
+		</div>
 		{{else}}
-	<div class="alert alert-danger h1" role="alert">
-		fail
-	</div>
+		<div class="alert alert-error text-3xl text-center">
+			fail
+		</div>
 		{{end}}
 	</div>
-	<pre><code class="language-json">{{.result}}</code></pre>
+	<div class="mockup-code text-justify">
+		<pre><code class="language-json">{{.result}}</code></pre>
+	</div>
 </div>
 <script>
 	let timer;
@@ -32,7 +25,7 @@
 	let isPaused = false;
 	const totalSeconds = 5.0;
 
-	const progressBar = document.getElementById('reverse-bar');
+	const progressBar = document.getElementById('progressbar');
 	const timerText = document.getElementById('timer-text');
 	const pauseBtn = document.getElementById('pause-btn');
 
@@ -49,7 +42,6 @@
 					clearInterval(timer);
 					progressBar.style.width = '0%';
 					timerText.innerText = "goodbye!";
-					progressBar.classList.remove('progress-bar-animated');
 					window.location.replace("/")
 				} else {
 					progressBar.style.width = percentage + '%';
@@ -60,7 +52,7 @@
 	}
 
 	// Toggle Pause/Resume
-	pauseBtn.addEventListener('click', () => {
+	progressBar.addEventListener('click', () => {
 		isPaused = !isPaused;
 		if (isPaused) {
 			progressBar.classList.remove('progress-bar-animated'); // Stop visual pulse

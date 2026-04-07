@@ -1,55 +1,27 @@
-body {
-	--bs-border-color: royalblue !important;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+:root {
+	font-family: "Montserrat", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
 
-.offcanvas {
-	--bs-offcanvas-height: 90vh;
-	font-size: small !important;
+.modal-box {
+	scrollbar-width: none;
 }
 
-.btn-primary {
-	--bs-btn-bg: var(--bs-body-bg);
-	--bs-btn-border-color: royalblue;
-	--bs-btn-hover-bg: royalblue;
-	--bs-btn-hover-border-color: royalblue;
-	--bs-btn-focus-shadow-rgb: royalblue;
-	--bs-btn-active-bg: royalblue;
-	--bs-btn-active-border-color: royalblue;
+::-webkit-scrollbar {
+	display: none;
 }
 
-.accordion-button:focus{
-	box-shadow: none !important;
+thead tr th {
+	border-bottom: var(--border) solid color-mix(in oklch, var(--color-base-content) 50%, #0000);
 }
 
-.progress {
-	--bs-progress-bar-bg: royalblue;
-}
-
-input {
-	--bs-border-color: grey !important;
-}
-
-.input-group-text {
-	flex: 0 0 20%;
-}
-
-h1, h2, h3, h4, h5, h6 {
-	--bs-text-opacity: .5 !important;
-	color: royalblue !important;
-}
-
-.list-group-item:hover {
-	/*color: black !important;*/
-	background-color: royalblue !important;
-}
-
-/*bootstrap last item radius fix*/
-.list-group-item:last-of-type {
-	border-bottom-left-radius: inherit;
-	border-bottom-right-radius: inherit;
-}
-
-pre[class*="language-" ],
+pre[class*="language-"],
 code[class*="language-"] {
 	white-space: pre-wrap !important;
 	overflow: auto;

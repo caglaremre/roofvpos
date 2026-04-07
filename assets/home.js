@@ -1,7 +1,40 @@
-const toast_success = document.getElementById('toast_success')
-const toast_failure = document.getElementById('toast_failure')
-const configButton = document.getElementById('configUpdate');
-configButton.addEventListener('click', updateConfig)
+config_button = document.getElementById('config-update')
+config_button.addEventListener('click', updateConfig)
+
+async function updateConfig() {
+	const clientToken = document.getElementById('config-client-token').value
+	const secretKey = document.getElementById('config-secret-key').value
+	const baseUrl = document.getElementById('config-base-url').value
+
+	const response = await fetch('http://localhost:8080/config', {
+		method: 'POST',
+		headers: { 'content-type': 'application/json' },
+		body: JSON.stringify({ clientToken: clientToken, secretKey: secretKey, baseUrl: baseUrl }),
+	})
+	if (response.ok) {
+		toast(true)
+	} else {
+		const data = await response.json();
+		toast(false, data.error)
+	}
+
+}
+
+function toast(state, message) {
+	let alert
+	if (state) {
+		alert = document.querySelector('.alert-success')
+	} else {
+		alert = document.querySelector('.alert-error')
+		document.getElementById('toast_failure_message').innerText = message
+	}
+	console.log(alert)
+	alert.classList.remove('hidden')
+	setTimeout(() => {
+		alert.classList.add('hidden')
+		config_button.classList.remove('btn-disabled')
+	}, 3000);
+}
 
 async function getIPAddress() {
 	try {
@@ -19,88 +52,21 @@ async function getIPAddress() {
 		console.error("Error fetching IP:", error);
 	}
 }
-
 getIPAddress();
-
-async function updateConfig() {
-	const clientToken = document.getElementById('clientToken').value
-	const secretKey = document.getElementById('secretKey').value
-	const baseUrl = document.getElementById('baseUrl').value
-
-	const response = await fetch('http://localhost:8080/config', {
-		method: 'POST',
-		headers: { 'content-type': 'application/json' },
-		body: JSON.stringify({ clientToken: clientToken, secretKey: secretKey, baseUrl: baseUrl }),
-	})
-	if (response.ok) {
-		const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast_success)
-		toastBootstrap.show()
-	} else {
-		const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast_failure)
-		const data = await response.json();
-		document.getElementById('toast_failure_message').innerText = data.error
-		toastBootstrap.show()
-	}
-
-}
-
-document.getElementById('transaction-list').addEventListener('submit', async function (e) {
-	if (e.target.name === 'order-void') {
-		e.preventDefault();
-		const form = e.target
-		const orderID = form.querySelector('input[name="orderID"]').value;
-		const processID = form.querySelector('input[name="processID"]').value;
-		console.log("passing values to void canvas:", orderID, "Process:", processID);
-		document.getElementById('void-order-id').value = orderID;
-		document.getElementById('void-process-id').value = processID;
-		document.getElementById('void-offcanvas-button').click()
-	}
-})
-
-document.getElementById('transaction-list').addEventListener('submit', async function (e) {
-	if (e.target.name === 'order-refund') {
-		e.preventDefault();
-		const form = e.target
-		const orderID = form.querySelector('input[name="orderID"]').value;
-		const processID = form.querySelector('input[name="processID"]').value;
-		const amount = form.querySelector('input[name="amount"]').value;
-		const pointAmount = form.querySelector('input[name="pointAmount"]').value;
-		console.log("passing values to refund canvas:", orderID, "Process:", processID, "Amount", amount, "PointAmount", pointAmount);
-		document.getElementById('refund-order-id').value = orderID;
-		document.getElementById('refund-process-id').value = processID;
-		document.getElementById('refund-amount').value = amount;
-		document.getElementById('refund-point-amount').value = pointAmount;
-		document.getElementById('refund-offcanvas-button').click()
-	}
-})
-
-document.getElementById('transaction-list').addEventListener('submit', async function (e) {
-	if (e.target.name === 'order-postsale') {
-		e.preventDefault();
-		const form = e.target
-		const orderID = form.querySelector('input[name="orderID"]').value;
-		const processID = form.querySelector('input[name="processID"]').value;
-		const amount = form.querySelector('input[name="amount"]').value;
-		console.log("passing values to postsale canvas:", orderID, "Process:", processID, "Amount", amount);
-		document.getElementById('postsale-order-id').value = orderID;
-		document.getElementById('postsale-process-id').value = processID;
-		document.getElementById('postsale-amount').value = amount;
-		document.getElementById('postsale-offcanvas-button').click()
-	}
-})
 
 document.getElementById('transaction-list').addEventListener('click', async function (e) {
 	const btn = e.target.closest('button')
 	if (btn) {
-		const offcanvasElement = document.getElementById('dynamicOffcanvas')
-		const title = offcanvasElement.querySelector('#offcanvasTitle')
-		const body = offcanvasElement.querySelector('#offcanvasContent')
+		const modal = document.getElementById('transaction-modal')
+		const body = document.getElementById('transaction-model-content')
+		const title = document.getElementById('transaction-modal-title')
 		const orderid = btn.getAttribute('order-id')
 		const response = await fetch(`http://localhost:8080/transaction/${orderid}`, {
 			method: 'GET',
 		})
 		const html = await response.text()
-		title.textContent = orderid
+		title.innerText = orderid
 		body.innerHTML = html
+		modal.showModal()
 	}
 })

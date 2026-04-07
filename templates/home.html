@@ -1,68 +1,57 @@
 {{template "header.html"}}
-<a href="https://docs-vpos.halkode.com.tr/" class="link-underline-light">official documentation</a>
-
 {{template "config.html" .}}
 <!-- transaction buttons start -->
-<div class="row mt-4 mb-5" id="transaction">
-	<h3>non-secure transactions</h3>
-	<div class="list-group list-group-horizontal">
-		<button type="button" class="list-group-item flex-fill col-2" id="sale-offcanvas-button" data-bs-toggle="offcanvas"
-						data-bs-target="#saleoffcanvas">sale
-		</button>
-		<button type="button" class="list-group-item flex-fill col-2" id="postsale-offcanvas-button" data-bs-toggle="offcanvas"
-						data-bs-target="#postsaleoffcanvas">postsale
-		</button>
-		<button type="button" class="list-group-item flex-fill col-2" id="void-offcanvas-button" data-bs-toggle="offcanvas"
-						data-bs-target="#voidoffcanvas">void
-		</button>
-		<button type="button" class="list-group-item flex-fill col-2" id="refund-offcanvas-button" data-bs-toggle="offcanvas"
-						data-bs-target="#refundoffcanvas">refund
-		</button>
-		<button type="button" class="list-group-item flex-fill col-2" id="point-offcanvas-button" data-bs-toggle="offcanvas"
-						data-bs-target="#pointoffcanvas">point inquiry
-		</button>
+<div class="flex flex-col items-center gap-2" id="transaction-buttons">
+	<p class="text-3xl">non-secure transactions</p>
+	<div class="join">
+		<button type="button" class="btn btn-primary join-item" onclick="sale_modal.showModal()" id="sale">sale</button>
+		<button type="button" class="btn btn-primary join-item" onclick="postsale_modal.showModal()"
+			id="postsale">postsale</button>
+		<button type="button" class="btn btn-primary join-item" onclick="void_modal.showModal()"
+			id="void-button">void</button>
+		<button type="button" class="btn btn-primary join-item" onclick="refund_modal.showModal()"
+			id="refund-button">refund</button>
+		<button type="button" class="btn btn-primary join-item" onclick="point_modal.showModal()" id="point-button">
+			point inquiry</button>
 	</div>
-	<h3 class="mt-4"> threeds transactions</h3>
-	<div class="list-group list-group-horizontal">
-		<button type="button" class="list-group-item flex-fill col-4" id="threeds-offcanvas-button" data-bs-toggle="offcanvas"
-						data-bs-target="#threedsoffcanvas">3ds
-		</button>
-		<button type="button" class="list-group-item flex-fill col-4" id="threedshosting-offcanvas-button" data-bs-toggle="offcanvas"
-						data-bs-target="#threedshostingoffcanvas">3ds hosting
-		</button>
-		<button type="button" class="list-group-item flex-fill col-4" id="completepayment-offcanvas-button" data-bs-toggle="offcanvas"
-						data-bs-target="#completepaymentoffcanvas">complete payment
-		</button>
+</div>
+<div class="flex flex-col items-center mt-5 gap-2">
+	<p class="text-3xl">threed secure transactions</p>
+	<div class="join">
+		<button type="button" class="btn btn-primary join-item" onclick="threeds_modal.showModal()"
+			id="threeds-button">threeds</button>
+		<button type="button" class="btn btn-primary join-item" onclick="threeds_hosting_modal.showModal()"
+			id="threeds-hosting-button">threeds hosting</button>
+		<button type="button" class="btn btn-primary join-item" onclick="complete_payment_modal.showModal()"
+			id="complete-payment-button">complete payment</button>
 	</div>
-	<h3 class="mt-4">checking</h3>
-	<div class="list-group list-group-horizontal">
-		<button type="button" class="list-group-item flex-fill col-3" id="checktoken-offcanvas-button" data-bs-toggle="offcanvas"
-						data-bs-target="#checktokenoffcanvas">check token
-		</button>
-		<button type="button" class="list-group-item flex-fill col-3" id="checkorder-offcanvas-button" data-bs-toggle="offcanvas"
-						data-bs-target="#checkorderoffcanvas">check order
-		</button>
-		<button type="button" class="list-group-item flex-fill col-3" id="checkorder-offcanvas-button" data-bs-toggle="offcanvas"
-						data-bs-target="#checkprocessoffcanvas">check process
-		</button>
-		<button type="button" class="list-group-item flex-fill col-3" id="listorder-offcanvas-button" data-bs-toggle="offcanvas"
-						data-bs-target="#listorderoffcanvas">list order
-		</button>
+</div>
+<div class="flex flex-col items-center mt-5 gap-2">
+	<p class="text-3xl">checking</p>
+	<div class="join">
+		<button type="button" class="btn btn-primary join-item" onclick="check_token_modal.showModal()"
+			id="check-token-button">check token</button>
+		<button type="button" class="btn btn-primary join-item" onclick="check_order_modal.showModal()"
+			id="check-order-button">check order</button>
+		<button type="button" class="btn btn-primary join-item" onclick="check_process_modal.showModal()"
+			id="check-process-button">check process</button>
+		<button type="button" class="btn btn-primary join-item" onclick="list_order_modal.showModal()"
+			id="list-order-button">list order</button>
 	</div>
-	{{template "sale.html" .}}
-	{{template "postsale.html"}}
-	{{template "void.html"}}
-	{{template "refund.html"}}
-	{{template "point.html" .}}
-	{{template "threeds.html" .}}
-	{{template "threedshosting.html" .}}
-	{{template "completepayment.html"}}
-	{{template "checktoken.html"}}
-	{{template "checkorder.html"}}
-	{{template "checkprocess.html"}}
-	{{template "listorder.html"}}
 </div>
 <!-- transaction buttons end -->
+{{template "sale.html" .}}
+{{template "postsale.html" .}}
+{{template "void.html"}}
+{{template "refund.html"}}
+{{template "point.html" .}}
+{{template "threeds.html" .}}
+{{template "threedshosting.html" .}}
+{{template "completepayment.html"}}
+{{template "checktoken.html"}}
+{{template "checkorder.html"}}
+{{template "checkprocess.html"}}
+{{template "listorder.html"}}
 {{template "transactions.html" .}}
 <script src="/assets/home.js"></script>
 {{template "footer.html"}}

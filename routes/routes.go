@@ -1,7 +1,9 @@
 package routes
 
 import (
+	"encoding/json"
 	"net/http"
+
 	"roof/vpos/models"
 	"roof/vpos/repository"
 	"roof/vpos/routes/check"
@@ -68,7 +70,6 @@ func RegisterRoutes(bolt *repository.Bolt, server *gin.Engine) {
 }
 
 func home(c *gin.Context, bolt *repository.Bolt) {
-	// TODO return only transactions orderids then fetch when needed
 	clientToken, secretKey := bolt.ConfigRepo.GetClientAndSecretKey()
 	baseURL := bolt.ConfigRepo.GetBaseURL()
 	transactions := bolt.TransactionRepo.GetAllTransactions()
@@ -107,11 +108,14 @@ func configUpdate(c *gin.Context, bolt *repository.Bolt) {
 
 func getTransactionDetail(c *gin.Context, bolt *repository.Bolt) {
 	var transaction models.Transaction
+	var res map[string]interface{}
 	transaction.OrderID = c.Param("orderid")
 	err := bolt.TransactionRepo.GetTransactionDetail(&transaction)
 	if err != nil {
 		noRoute(c)
 		return
 	}
-	c.HTML(http.StatusOK, "transaction.html", gin.H{"transaction": transaction})
+	tjson, _ := json.Marshal(transaction)
+	_ = json.Unmarshal(tjson, &res)
+	c.HTML(http.StatusOK, "transaction.html", gin.H{"transaction": res})
 }
