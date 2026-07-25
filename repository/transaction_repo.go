@@ -62,6 +62,9 @@ func (t *TransactionRepository) GetAllTransactions() []models.Transaction {
 			transaction.LogDate = string(logDateByte)
 
 			lastDateByte := orderIdBucket.Get([]byte("lastUpdate"))
+			if lastDateByte == nil {
+				lastDateByte = logDateByte
+			}
 			transaction.LastUpdate = string(lastDateByte)
 
 			getTransactionDetails(&transaction, orderIdBucket)
@@ -105,11 +108,13 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 
 			responseBucket := actionBucket.Bucket([]byte("response"))
 			responseHeaders := http.Header{}
-			_ = json.Unmarshal(responseBucket.Get([]byte("headers")), &responseHeaders)
+			if responseBucket != nil {
+				_ = json.Unmarshal(responseBucket.Get([]byte("headers")), &responseHeaders)
 
-			for key := range responseHeaders {
-				if !strings.HasPrefix(key, "X") {
-					responseHeaders.Del(key)
+				for key := range responseHeaders {
+					if !strings.HasPrefix(key, "X") {
+						responseHeaders.Del(key)
+					}
 				}
 			}
 
@@ -120,11 +125,15 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 
 				requestBody := models.SaleRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
-				transaction.SaleRequest = requestBody
+				transaction.SaleRequest = &requestBody
 
 				responseBody := models.SaleResponse{}
+
+				if responseBucket != nil {
+					_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
+				}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
-				transaction.SaleResponse = responseBody
+				transaction.SaleResponse = &responseBody
 
 			case "postsale":
 				transaction.PostSaleRequestHeaders = requestHeaders
@@ -132,11 +141,11 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 
 				requestBody := models.PostSaleRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
-				transaction.PostSaleRequest = requestBody
+				transaction.PostSaleRequest = &requestBody
 
 				responseBody := models.PostSaleResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
-				transaction.PostSaleResponse = responseBody
+				transaction.PostSaleResponse = &responseBody
 
 			case "void":
 				transaction.VoidRequestHeaders = requestHeaders
@@ -144,11 +153,11 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 
 				requestBody := models.VoidRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
-				transaction.VoidRequest = requestBody
+				transaction.VoidRequest = &requestBody
 
 				responseBody := models.VoidResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
-				transaction.VoidResponse = responseBody
+				transaction.VoidResponse = &responseBody
 
 			case "refund":
 				transaction.RefundRequestHeaders = requestHeaders
@@ -156,22 +165,22 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 
 				requestBody := models.RefundRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
-				transaction.RefundRequest = requestBody
+				transaction.RefundRequest = &requestBody
 
 				responseBody := models.RefundResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
-				transaction.RefundResponse = responseBody
+				transaction.RefundResponse = &responseBody
 			case "point":
 				transaction.PointRequestHeaders = requestHeaders
 				transaction.PointResponseHeaders = responseHeaders
 
 				requestBody := models.PointRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
-				transaction.PointRequest = requestBody
+				transaction.PointRequest = &requestBody
 
 				responseBody := models.PointResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
-				transaction.PointResponse = responseBody
+				transaction.PointResponse = &responseBody
 
 			case "threeds":
 				transaction.ThreeDSRequestHeaders = requestHeaders
@@ -179,11 +188,11 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 
 				requestBody := models.ThreeDSRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
-				transaction.ThreeDSRequest = requestBody
+				transaction.ThreeDSRequest = &requestBody
 
 				responseBody := models.ThreeDSResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
-				transaction.ThreeDSResponse = responseBody
+				transaction.ThreeDSResponse = &responseBody
 
 			case "token":
 				transaction.TokenRequestHeaders = requestHeaders
@@ -191,11 +200,11 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 
 				requestBody := models.TokenRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
-				transaction.TokenRequest = requestBody
+				transaction.TokenRequest = &requestBody
 
 				responseBody := models.TokenResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
-				transaction.TokenResponse = responseBody
+				transaction.TokenResponse = &responseBody
 
 			case "completepayment":
 				transaction.CompletePaymentRequestHeaders = requestHeaders
@@ -203,11 +212,11 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 
 				requestBody := models.CompletePaymentRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
-				transaction.CompletePaymentRequest = requestBody
+				transaction.CompletePaymentRequest = &requestBody
 
 				responseBody := models.CompletePaymentResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
-				transaction.CompletePaymentResponse = responseBody
+				transaction.CompletePaymentResponse = &responseBody
 
 			case "threedshosting":
 				transaction.ThreeDSHostingRequestHeaders = requestHeaders
@@ -215,11 +224,11 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 
 				requestBody := models.ThreeDSHostingRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
-				transaction.ThreeDSHostingRequest = requestBody
+				transaction.ThreeDSHostingRequest = &requestBody
 
 				responseBody := models.ThreeDSHostingResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
-				transaction.ThreeDSHostingResponse = responseBody
+				transaction.ThreeDSHostingResponse = &responseBody
 
 			case "checkorder":
 				transaction.CheckOrderRequestHeaders = requestHeaders
@@ -227,11 +236,11 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 
 				requestBody := models.CheckOrderRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
-				transaction.CheckOrderRequest = requestBody
+				transaction.CheckOrderRequest = &requestBody
 
 				responseBody := models.CheckOrderResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
-				transaction.CheckOrderResponse = responseBody
+				transaction.CheckOrderResponse = &responseBody
 
 			case "checkprocess":
 				transaction.CheckProcessRequestHeaders = requestHeaders
@@ -239,11 +248,11 @@ func getTransactionDetails(transaction *models.Transaction, orderBucket *bbolt.B
 
 				requestBody := models.CheckProcessRequest{}
 				_ = json.Unmarshal(requestBucket.Get([]byte("body")), &requestBody)
-				transaction.CheckProcessRequest = requestBody
+				transaction.CheckProcessRequest = &requestBody
 
 				responseBody := models.CheckProcessResponse{}
 				_ = json.Unmarshal(responseBucket.Get([]byte("body")), &responseBody)
-				transaction.CheckProcessResponse = responseBody
+				transaction.CheckProcessResponse = &responseBody
 			}
 
 		}

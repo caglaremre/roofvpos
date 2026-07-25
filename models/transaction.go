@@ -9,58 +9,58 @@ type Transaction struct {
 	LogDate    string
 	LastUpdate string
 
-	SaleRequest         SaleRequest
+	SaleRequest         *SaleRequest
 	SaleRequestHeaders  http.Header
-	SaleResponse        SaleResponse
+	SaleResponse        *SaleResponse
 	SaleResponseHeaders http.Header
 
-	PostSaleRequest         PostSaleRequest
+	PostSaleRequest         *PostSaleRequest
 	PostSaleRequestHeaders  http.Header
-	PostSaleResponse        PostSaleResponse
+	PostSaleResponse        *PostSaleResponse
 	PostSaleResponseHeaders http.Header
 
-	VoidRequest         VoidRequest
+	VoidRequest         *VoidRequest
 	VoidRequestHeaders  http.Header
-	VoidResponse        VoidResponse
+	VoidResponse        *VoidResponse
 	VoidResponseHeaders http.Header
 
-	RefundRequest         RefundRequest
+	RefundRequest         *RefundRequest
 	RefundRequestHeaders  http.Header
-	RefundResponse        RefundResponse
+	RefundResponse        *RefundResponse
 	RefundResponseHeaders http.Header
 
-	PointRequest         PointRequest
+	PointRequest         *PointRequest
 	PointRequestHeaders  http.Header
-	PointResponse        PointResponse
+	PointResponse        *PointResponse
 	PointResponseHeaders http.Header
 
-	ThreeDSRequest         ThreeDSRequest
+	ThreeDSRequest         *ThreeDSRequest
 	ThreeDSRequestHeaders  http.Header
-	ThreeDSResponse        ThreeDSResponse
+	ThreeDSResponse        *ThreeDSResponse
 	ThreeDSResponseHeaders http.Header
 
-	TokenRequest         TokenRequest
+	TokenRequest         *TokenRequest
 	TokenRequestHeaders  http.Header
-	TokenResponse        TokenResponse
+	TokenResponse        *TokenResponse
 	TokenResponseHeaders http.Header
 
-	CompletePaymentRequest         CompletePaymentRequest
+	CompletePaymentRequest         *CompletePaymentRequest
 	CompletePaymentRequestHeaders  http.Header
-	CompletePaymentResponse        CompletePaymentResponse
+	CompletePaymentResponse        *CompletePaymentResponse
 	CompletePaymentResponseHeaders http.Header
 
-	ThreeDSHostingRequest         ThreeDSHostingRequest
+	ThreeDSHostingRequest         *ThreeDSHostingRequest
 	ThreeDSHostingRequestHeaders  http.Header
-	ThreeDSHostingResponse        ThreeDSHostingResponse
+	ThreeDSHostingResponse        *ThreeDSHostingResponse
 	ThreeDSHostingResponseHeaders http.Header
 
-	CheckOrderRequest         CheckOrderRequest
+	CheckOrderRequest         *CheckOrderRequest
 	CheckOrderRequestHeaders  http.Header
-	CheckOrderResponse        CheckOrderResponse
+	CheckOrderResponse        *CheckOrderResponse
 	CheckOrderResponseHeaders http.Header
 
-	CheckProcessRequest         CheckProcessRequest
+	CheckProcessRequest         *CheckProcessRequest
 	CheckProcessRequestHeaders  http.Header
-	CheckProcessResponse        CheckProcessResponse
+	CheckProcessResponse        *CheckProcessResponse
 	CheckProcessResponseHeaders http.Header
 }
