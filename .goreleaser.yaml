@@ -38,6 +38,8 @@ archives:
     format_overrides:
       - goos: windows
         formats: [zip]
+    files:
+      - vpos.bat
 
 changelog:
   sort: asc
@@ -47,8 +49,5 @@ changelog:
       - "^test:"
 
 release:
-  footer: >-
-
-    ---
-
-    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
+  footer: |
+      `to start the application, simple run vpos.bat file`
