@@ -53,13 +53,15 @@ func main() {
 		router.Static("/assets", "./assets")
 		router.LoadHTMLGlob("templates/*")
 	}
-	routes.RegisterRoutes(bolt, router)
 
 	router.Use(func(context *gin.Context) {
 		context.Writer.Header().Add("Access-Control-Allow-Origin", "*")
 		context.Writer.Header().Add("Access-Control-Allow-Headers", "Content-Type")
 		context.Next()
 	})
+
+	routes.RegisterRoutes(bolt, router)
+
 	log.Printf("################################################\n")
 	log.Printf("# 📡 Server starting on http://localhost:8080  #\n")
 	log.Printf("###############################################\n")
