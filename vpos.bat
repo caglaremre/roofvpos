@@ -1,2 +1,2 @@
 @echo off
-./roofvpos.exe e
+roofvpos.exe e
